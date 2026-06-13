@@ -246,8 +246,8 @@
                     itemDiv.className = 'bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8 flex flex-col sm:flex-row gap-6 md:gap-8 mb-6 transition-all duration-300';
                     itemDiv.id = `product-${item.sku}`;
                     itemDiv.innerHTML = `
-                        <div class="w-full sm:w-1/3 bg-surface-soft rounded-xl p-4 aspect-square flex items-center justify-center">
-                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain mix-blend-multiply">
+                        <div class="w-full sm:w-1/3 bg-[#f7f7f7] rounded-xl p-4 aspect-square flex items-center justify-center overflow-hidden">
+                            <img src="${item.image}" alt="${item.name}" class="max-w-full max-h-full object-contain mix-blend-multiply">
                         </div>
                         <div class="w-full sm:w-2/3 flex flex-col justify-between">
                             <div>
