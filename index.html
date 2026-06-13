@@ -175,10 +175,10 @@
     </nav>
 
     <!-- Główny Katalog z Sidebar'em -->
-    <main class="w-full px-4 lg:px-8 pt-2 lg:pt-8 pb-24 flex-1">
+    <main class="w-full px-4 lg:px-8 pt-0 lg:pt-6 pb-24 flex-1">
         
         <!-- Układ dwukolumnowy -->
-        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 mt-1 lg:mt-4">
+        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 mt-0.5 lg:mt-4">
                <!-- Sidebar (Lewa kolumna) - ukryty na mobile, pionowy panel na desktopie -->
             <aside class="hidden lg:block lg:w-[280px] lg:flex-shrink-0">
                 
@@ -194,7 +194,7 @@
             
             <section class="flex-1">
                 <!-- Pasek Sortowania i Filtrów (Poziomy) -->
-                <div class="flex flex-col mb-6 pb-5 border-b border-hairline-soft">
+                <div class="flex flex-col mb-8 pb-6 border-b border-hairline-soft">
                     
                     <!-- Main Bar Row (Horizontal align) -->
                     <div class="flex items-end justify-between gap-3 w-full">
@@ -215,13 +215,13 @@
                         </div>
 
                         <!-- Right Side: Filters toggle button (Mobile) / Sort select (Desktop) -->
-                        <div class="flex flex-col gap-1 items-end flex-1 max-w-[48%] lg:max-w-none lg:flex-row lg:items-center">
+                        <div class="flex flex-col gap-1 items-stretch flex-1 max-w-[48%] lg:max-w-none lg:flex-row lg:items-center">
                             <!-- Label (Tylko Mobile) -->
-                            <span class="text-[11px] text-slate font-bold uppercase tracking-wider block lg:hidden pr-1">Filtry</span>
+                            <span class="text-[11px] text-slate font-bold uppercase tracking-wider block lg:hidden text-right pr-1">Filtry</span>
                             <!-- Przycisk Filtrowania (Tylko Mobile) -->
-                            <button id="mobile-filters-toggle" class="flex lg:hidden w-full items-center justify-center gap-1.5 bg-canvas text-ink text-[13px] font-bold rounded-full px-3.5 py-2.5 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer focus:outline-none">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                                Filtry i sortowanie
+                            <button id="mobile-filters-toggle" class="flex lg:hidden w-full items-center justify-between gap-1.5 bg-canvas text-ink text-[13px] font-bold rounded-full pl-4 pr-3.5 py-2.5 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer focus:outline-none">
+                                <span class="truncate">Filtry i sortowanie</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                             </button>
 
                             <!-- Sortowanie (Tylko Desktop) -->
@@ -292,6 +292,7 @@
                                 <option value="price-desc">Ceny: od najwyższej</option>
                             </select>
                         </div>
+                    </div>
                 </div>
 
                 <!-- Grid Produktów -->
@@ -645,7 +646,7 @@
                 }
 
                 card.innerHTML = `
-                    <div class="aspect-square bg-surface-soft rounded-xl p-3 flex items-center justify-center mb-3 relative">
+                    <div class="aspect-square bg-[#f7f7f7] rounded-xl p-3 flex items-center justify-center mb-3 relative">
                         <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="w-full h-full flex items-center justify-center">
                             <img src="${p.image}" alt="${p.name}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
                         </a>
