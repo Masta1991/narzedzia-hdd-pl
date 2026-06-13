@@ -23,7 +23,12 @@ Wprowadziliśmy automatyczny podział opinii i cech wyróżniających ofertę w 
 ### 5. Zabezpieczenie hasłem przed premierą ([auth-gate.js](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/auth-gate.js))
 Wdrożyliśmy blokadę wstępu na hasło: **`hdd2026`** (zapamiętywaną w przeglądarce).
 
+### 6. Poprawki mobilne i dopasowanie tła (Czerwiec 2026)
+- **Dopasowanie tła zdjęć**: Zmieniliśmy tło kontenerów na zdjęcia z `bg-surface-soft` (`#f1f4f7`) na `bg-[#f7f7f7]` zarówno na stronie głównej ([index.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/index.html)), jak i karcie produktu ([pdp.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/pdp.html)). Dzięki temu tło zdjęć JPG i PNG o neutralnym odcieniu `#f7f7f7` idealnie komponuje się z kontenerami, eliminując widoczne szare prostokątne ramki.
+- **Wyjustowanie przycisku filtrów**: Przycisk mobilny "Filtry i sortowanie" został zmieniony z wyśrodkowanego na układ symetryczny/justowany (`justify-between px-4 w-full`), gdzie nazwa jest po lewej stronie, a ikona filtra po prawej. Wyglądem pasuje teraz idealnie do rozwijanej listy kategorii po lewej stronie. Napis "Filtry" nad nim jest poprawnie wyrównany do prawej strony.
+- **Uporządkowanie struktury i linia oddzielająca**: Naprawiliśmy brakujący znacznik zamykający `</div>` sekcji filtrów, co powodowało ukrywanie linii oddzielającej. Sekcja kategorii i filtrów jest teraz odsunięta wyżej pod sam nagłówek, a pod nią znajduje się wyraźna linia oddzielająca (`border-b border-hairline-soft pb-6 mb-8`) od sekcji z kafelkami produktów.
+
 ## Jak przetestować?
-1. Otwórz stronę wdrożoną online na Netlify na komputerze oraz na telefonie.
-2. Zobacz, jak na telefonie panel zakupu (Tytuł, cena, przycisk koszyka) pojawia się intuicyjnie zaraz pod głównym zdjęciem produktu, natomiast opis i specyfikacja są niżej.
-3. Wypróbuj dodawanie produktów do koszyka na urządzeniu mobilnym.
+1. Otwórz stronę wdrożoną online na Netlify na telefonie.
+2. Zwróć uwagę na idealne dopasowanie tła kafelków ze zdjęciami oraz poprawną linię oddzielającą filtry od kafelków.
+3. Sprawdź prawy przycisk "Filtry i sortowanie", który ma teraz ikonę z prawej strony i jest spójny z polem kategorii.
