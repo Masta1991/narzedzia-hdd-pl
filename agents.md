@@ -38,3 +38,13 @@ Wszystkie zdjęcia pobierane/importowane z innych sklepów (np. mp-technik) musz
 1. **Odbicie lustrzane w poziomie** (Horizontal Flip).
 2. **Korekcja jasności** (delikatne ściemnienie/rozjaśnienie o ok. 3-5%).
 3. **Konwersja kolorów**: Obsługa formatów przezroczystości (RGBA) i palet kolorów (P, CMYK) z poprawną konwersją do RGB przed zapisem.
+
+---
+
+## 6. Polityka Commitów i Wdrażania (Git & Netlify)
+Aby oszczędzać darmowe minuty kompilacji na Netlify (które uruchamia wdrożenie przy każdym `git push` do gałęzi `main`):
+- **Brak automatycznego `git push`**: Agent nie może samodzielnie wykonywać polecenia `git push` przy drobnych poprawkach, chyba że użytkownik wyraźnie o to poprosi.
+- **Lokalne commity**: Zmiany należy zapisywać lokalnie (`git add` i `git commit`).
+- **Grupowanie zmian**: Kod na serwer zdalny (GitHub) powinien być wysyłany w większych, skumulowanych paczkach po zakończeniu określonego etapu prac.
+- **Omijanie wdrożenia (Skip CI)**: Jeśli musimy wysłać kod na GitHub, ale **nie chcemy** uruchamiać wdrożenia na Netlify, w opisie commita należy bezwzględnie dopisać tag `[skip ci]` (np. `git commit -m "poprawka literówki [skip ci]"`). Netlify zignoruje taki commit i nie zużyje limitu minut.
+
