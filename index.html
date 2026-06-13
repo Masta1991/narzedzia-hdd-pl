@@ -192,25 +192,49 @@
                 
             </aside>
             
-            <!-- Główny katalog produktów (Prawa kolumna) -->
             <section class="flex-1">
- 
                 <!-- Pasek Sortowania i Filtrów (Poziomy) -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-hairline-soft">
+                <div class="flex flex-col mb-10 pb-6 border-b border-hairline-soft">
                     
-                    <!-- Filtry Lewa Strona -->
-                    <div class="flex flex-wrap items-center gap-3">
-                        <!-- Kategoria Filter (Tylko Mobile) -->
-                        <div id="filter-category-container" class="relative block lg:hidden">
-                            <select id="filter-category-select" class="w-[130px] truncate bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
-                                <option value="">Kategoria</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-ink">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <!-- Main Bar Row (Horizontal align) -->
+                    <div class="flex items-center justify-between gap-3 w-full">
+                        
+                        <!-- Left Side: Category Select (Mobile) / Category Title (Desktop) -->
+                        <div class="flex items-center gap-3">
+                            <!-- Category Select (Tylko Mobile) -->
+                            <div id="filter-category-container" class="relative block lg:hidden">
+                                <select id="filter-category-select" class="w-[160px] truncate bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
+                                    <option value="">Kategoria</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-ink">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Typ Filter (Dynamiczny Select) -->
+                        <!-- Right Side: Filters toggle button (Mobile) / Sort select (Desktop) -->
+                        <div class="flex items-center gap-3">
+                            <!-- Przycisk Filtrowania (Tylko Mobile) -->
+                            <button id="mobile-filters-toggle" class="flex lg:hidden items-center justify-center gap-1.5 bg-canvas text-ink text-[13px] font-bold rounded-full px-3.5 py-2 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer focus:outline-none">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                Filtry i sortowanie
+                            </button>
+
+                            <!-- Sortowanie (Tylko Desktop) -->
+                            <div class="hidden lg:flex items-center gap-3">
+                                <span class="text-body-sm text-steel">Sortuj od:</span>
+                                <select id="sort-select" class="text-body-sm-bold text-ink-deep bg-transparent border-none focus:outline-none cursor-pointer hover:text-primary transition-colors">
+                                    <option value="popular">Najpopularniejszych</option>
+                                    <option value="price-asc">Ceny: od najniższej</option>
+                                    <option value="price-desc">Ceny: od najwyższej</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Filters Row (Ukryte na mobile) -->
+                    <div class="hidden lg:flex flex-wrap items-center gap-3 mt-4">
+                        <!-- Typ Filter (Desktop) -->
                         <div id="filter-type-container" class="relative hidden">
                             <select id="filter-type-select" class="w-[90px] truncate bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
                                 <option value="">Typ</option>
@@ -220,27 +244,50 @@
                             </div>
                         </div>
 
-                        <!-- Średnica otworu -->
+                        <!-- Średnica otworu (Desktop) -->
                         <button class="filter-pill">
                             Średnica otworu
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
-                        <!-- Typ gwintu -->
+                        <!-- Typ gwintu (Desktop) -->
                         <button class="filter-pill">
                             Typ gwintu
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
                     </div>
 
-                    <!-- Sortowanie Prawa Strona -->
-                    <div class="flex items-center gap-3">
-                        <span class="text-body-sm text-steel hidden sm:inline-block">Sortuj od:</span>
-                        <select id="sort-select" class="text-body-sm-bold text-ink-deep bg-transparent border-none focus:outline-none cursor-pointer hover:text-primary transition-colors">
-                            <option value="popular">Najpopularniejszych</option>
-                            <option value="price-asc">Ceny: od najniższej</option>
-                            <option value="price-desc">Ceny: od najwyższej</option>
-                        </select>
-                    </div>
+                    <!-- Mobile Collapsible Filters Panel (Rozwijana szuflada na mobile) -->
+                    <div id="mobile-filters-panel" class="hidden flex-col gap-4 mt-4 pt-4 border-t border-hairline-soft lg:hidden">
+                        
+                        <!-- Typ Filter (Mobile) -->
+                        <div id="filter-type-container-mobile" class="relative hidden w-full">
+                            <label class="text-[11px] text-slate font-bold block mb-1">Typ produktu</label>
+                            <select id="filter-type-select-mobile" class="w-full bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-xl px-4 py-2.5 border border-hairline hover:border-ink transition-colors cursor-pointer focus:outline-none">
+                                <option value="">Dowolny typ</option>
+                            </select>
+                        </div>
+
+                        <!-- Pozostałe Filtry w wierszu na mobile -->
+                        <div class="flex flex-wrap gap-2">
+                            <button class="filter-pill text-[12px] py-1.5 px-3">
+                                Średnica otworu
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <button class="filter-pill text-[12px] py-1.5 px-3">
+                                Typ gwintu
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                        </div>
+
+                        <!-- Sortowanie (Mobile) -->
+                        <div class="w-full">
+                            <label class="text-[11px] text-slate font-bold block mb-1">Sortowanie</label>
+                            <select id="sort-select-mobile" class="w-full bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-xl px-4 py-2.5 border border-hairline hover:border-ink transition-colors cursor-pointer focus:outline-none">
+                                <option value="popular">Najpopularniejsze</option>
+                                <option value="price-asc">Ceny: od najniższej</option>
+                                <option value="price-desc">Ceny: od najwyższej</option>
+                            </select>
+                        </div>
                 </div>
 
                 <!-- Grid Produktów -->
@@ -326,22 +373,38 @@
             const container = document.getElementById('filter-type-container');
             const select = document.getElementById('filter-type-select');
             
-            if (!container || !select) return;
+            const containerMob = document.getElementById('filter-type-container-mobile');
+            const selectMob = document.getElementById('filter-type-select-mobile');
 
             const options = FILTER_OPTIONS[currentCategory];
             if (options) {
-                // Populate options
-                select.innerHTML = '<option value="">Typ</option>';
-                options.forEach(opt => {
-                    const el = document.createElement('option');
-                    el.value = opt.value;
-                    el.innerText = opt.label;
-                    select.appendChild(el);
-                });
-                container.classList.remove('hidden');
+                // Populate options desktop
+                if (select) {
+                    select.innerHTML = '<option value="">Typ</option>';
+                    options.forEach(opt => {
+                        const el = document.createElement('option');
+                        el.value = opt.value;
+                        el.innerText = opt.label;
+                        select.appendChild(el);
+                    });
+                }
+                // Populate options mobile
+                if (selectMob) {
+                    selectMob.innerHTML = '<option value="">Dowolny typ</option>';
+                    options.forEach(opt => {
+                        const el = document.createElement('option');
+                        el.value = opt.value;
+                        el.innerText = opt.label;
+                        selectMob.appendChild(el);
+                    });
+                }
+                if (container) container.classList.remove('hidden');
+                if (containerMob) containerMob.classList.remove('hidden');
             } else {
-                container.classList.add('hidden');
-                select.value = ''; // Reset filter
+                if (container) container.classList.add('hidden');
+                if (containerMob) containerMob.classList.add('hidden');
+                if (select) select.value = ''; // Reset filter
+                if (selectMob) selectMob.value = ''; // Reset filter
             }
         }
 
@@ -367,13 +430,33 @@
             // Wyświetlenie produktów
             renderProducts();
 
-            // Słuchacz sortowania
-            document.getElementById('sort-select').addEventListener('change', renderProducts);
+            // Słuchacz sortowania (desktop i mobile zsynchronizowany)
+            const sortSelect = document.getElementById('sort-select');
+            const sortSelectMobile = document.getElementById('sort-select-mobile');
             
-            // Słuchacz filtru typu
+            if (sortSelect && sortSelectMobile) {
+                sortSelect.addEventListener('change', (e) => {
+                    sortSelectMobile.value = e.target.value;
+                    renderProducts();
+                });
+                sortSelectMobile.addEventListener('change', (e) => {
+                    sortSelect.value = e.target.value;
+                    renderProducts();
+                });
+            }
+
+            // Słuchacz filtru typu (desktop i mobile zsynchronizowany)
             const typeSelect = document.getElementById('filter-type-select');
-            if (typeSelect) {
-                typeSelect.addEventListener('change', renderProducts);
+            const typeSelectMobile = document.getElementById('filter-type-select-mobile');
+            if (typeSelect && typeSelectMobile) {
+                typeSelect.addEventListener('change', (e) => {
+                    typeSelectMobile.value = e.target.value;
+                    renderProducts();
+                });
+                typeSelectMobile.addEventListener('change', (e) => {
+                    typeSelect.value = e.target.value;
+                    renderProducts();
+                });
             }
 
             // Słuchacz kategorii na mobile
@@ -381,6 +464,17 @@
             if (catSelect) {
                 catSelect.addEventListener('change', (e) => {
                     selectCategory(e.target.value);
+                });
+            }
+
+            // Obsługa rozwijania szuflady filtrów na mobile
+            const toggleBtn = document.getElementById('mobile-filters-toggle');
+            const panel = document.getElementById('mobile-filters-panel');
+            if (toggleBtn && panel) {
+                toggleBtn.addEventListener('click', () => {
+                    panel.classList.toggle('hidden');
+                    panel.classList.toggle('flex');
+                    toggleBtn.classList.toggle('bg-surface-soft');
                 });
             }
         });
@@ -472,7 +566,16 @@
             // Filtrowanie po Typie (np. dla chwytaków)
             const typeFilter = document.getElementById('filter-type-select');
             if (typeFilter && typeFilter.value) {
-                filtered = filtered.filter(p => p.type === typeFilter.value);
+                filtered = filtered.filter(p => {
+                    const typeValue = p.type || (
+                        p.name.toLowerCase().includes('gładk') ? 'gladkie' : 
+                        p.name.toLowerCase().includes('gwintowan') ? 'gwintowane' : 
+                        p.name.toLowerCase().includes('długi kołnierz') || p.name.toLowerCase().includes('dlugi kolnierz') ? 'kolnierzowe-dlugie' : 
+                        p.name.toLowerCase().includes('krótki kołnierz') || p.name.toLowerCase().includes('krotki kolnierz') ? 'kolnierzowe-krotkie' : 
+                        p.name.toLowerCase().includes('głowic') || p.name.toLowerCase().includes('glowic') ? 'glowice-pe' : ''
+                    );
+                    return typeValue === typeFilter.value;
+                });
             }
 
             // Sortowanie produktów
