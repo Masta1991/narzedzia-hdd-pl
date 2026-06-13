@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozwieracz Baryłkowy - Narzędzia HDD PL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'] },
+                    colors: {
+                        primary: "#0064e0", 'primary-deep': "#0457cb", 'primary-soft': "#0091ff", 'on-primary': "#ffffff",
+                        'ink-button': "#000000", 'on-ink-button': "#ffffff", success: "#31a24c", attention: "#f2a918", warning: "#f7b928",
+                        critical: "#e41e3f", 'critical-strong': "#f0284a", canvas: "#ffffff", 'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317", ink: "#1c1e21", charcoal: "#444950", slate: "#4b4c4f", steel: "#5d6c7b",
+                        stone: "#8595a4", hairline: "#ced0d4", 'hairline-soft': "#dee3e9", 'cat-yellow': "#FFCD00",
+                    },
+                    borderRadius: { xs: '2px', sm: '4px', md: '6px', lg: '8px', xl: '16px', xxl: '24px', xxxl: '32px', feature: '40px', full: '100px', circle: '50%' },
+                    boxShadow: { 'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px' },
+                    letterSpacing: { tight: '-0.16px', tighter: '-0.14px' }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .text-heading-lg { @apply text-[36px] font-medium leading-[1.28] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-heading-sm { @apply text-[24px] font-medium leading-[1.25] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-subtitle-lg { @apply text-[18px] font-bold leading-[1.44]; }
+            .text-body-md { @apply text-[16px] font-normal leading-[1.50] tracking-tight; }
+            .text-body-md-bold { @apply text-[16px] font-bold leading-[1.50] tracking-tight; }
+            .text-body-sm { @apply text-[14px] font-normal leading-[1.43] tracking-tighter; }
+            .text-body-sm-bold { @apply text-[14px] font-bold leading-[1.43] tracking-tighter; }
+            
+            .btn-pill-tab { @apply bg-canvas text-ink text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors; }
+            .btn-pill-tab-active { @apply bg-ink-deep text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent; }
+            .btn-buy-cta { @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors; }
+            .btn-icon-circular { @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors; }
+            .badge-success { @apply bg-success text-canvas text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block; }
+            .badge-cat { @apply bg-cat-yellow text-ink-deep text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block; }
+        }
+        body { @apply bg-canvas text-ink font-sans antialiased; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+    </style>
+</head>
+<body class="bg-canvas">
+
+    <!-- Promo Banner -->
+    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
+        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN.
+    </div>
+
+    <!-- Pasek Nawigacji -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-6 lg:px-12 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-3">
+            <a href="category.html" class="btn-pill-tab-active">Systemy HDD</a>
+            <a href="category.html" class="btn-pill-tab">Osprzęt Maszynowy</a>
+            <a href="category.html" class="btn-pill-tab">Nawigacja</a>
+            <a href="category.html" class="btn-pill-tab">Części XCMG</a>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+            <button class="btn-icon-circular">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <a href="checkout.html" class="btn-icon-circular relative inline-flex">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość PDP -->
+    <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-8 pb-24">
+        
+        <nav class="flex text-body-sm text-steel mb-8">
+            <a href="index.html" class="hover:text-ink transition-colors">Sklep</a>
+            <span class="mx-2 text-stone">›</span>
+            <a href="category.html" class="hover:text-ink transition-colors">Osprzęt Maszynowy</a>
+            <span class="mx-2 text-stone">›</span>
+            <span class="text-ink">Rozwieracz Baryłkowy HDD Premium 250mm</span>
+        </nav>
+
+        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+            
+            <!-- Lewa kolumna (58%) -->
+            <div class="w-full lg:w-[58%]">
+                
+                <div class="flex flex-col-reverse md:flex-row gap-4 mb-16">
+                    <div class="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible">
+                        <button class="w-20 h-20 rounded-lg bg-surface-soft border-2 border-ink-deep p-2 flex-shrink-0 flex items-center justify-center">
+                            <img src="../images/rozwieracz_barylkowy.png" alt="Thumb 1" class="w-full h-full object-cover rounded-md mix-blend-multiply">
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 bg-surface-soft rounded-xxxl p-8 flex items-center justify-center aspect-[4/3] md:aspect-square">
+                        <img src="../images/rozwieracz_barylkowy.png" alt="Rozwieracz Baryłkowy HDD Premium 250mm" class="w-full h-full object-contain mix-blend-multiply">
+                    </div>
+                </div>
+
+                <!-- Opis Produktu -->
+                <div class="mb-16">
+                    <h2 class="text-heading-lg text-ink-deep mb-6">Zaprojektowany do najtrudniejszych zadań.</h2>
+                    <p class="text-body-md text-charcoal mb-4">
+                        Rozwieracz Baryłkowy HDD Premium o średnicy 250mm to idealne narzędzie do prac wiertniczych w formacjach piaszczystych oraz gliniastych. Zastosowanie wzmocnionej struktury znacznie skraca czas poszerzania otworu.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Prawa kolumna - Checkout Summary -->
+            <div class="w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24">
+                
+                <h1 class="text-heading-lg text-ink-deep mb-2">Rozwieracz Baryłkowy Premium 250mm</h1>
+                <p class="text-body-md text-slate mb-6">SKU: HDD-RE-250 • Zastosowanie: do wiertnic kierunkowych</p>
+                
+                <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
+                    
+                    <div class="mb-6">
+                        <span class="text-heading-lg text-ink-deep font-bold block mb-1">4 500,00 zł <span class="text-body-md font-normal text-slate">brutto</span></span>
+                        <span class="text-body-md text-charcoal">3 658,54 zł netto</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="badge-success">W magazynie</span>
+                    </div>
+                    
+                    <hr class="border-hairline-soft mb-6">
+
+                    <!-- Główny przycisk CTA kierujący bezpośrednio do checkout.html z wymogów -->
+                    <a href="checkout.html" class="btn-buy-cta w-full flex justify-center items-center gap-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        Przejdź do płatności
+                    </a>
+                    
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Stopka -->
+    <footer class="bg-canvas border-t border-hairline-soft py-12">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-12 text-center text-body-sm text-steel">
+            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+</html>

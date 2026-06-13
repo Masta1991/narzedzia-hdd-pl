@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizacja zamówienia - Narzędzia HDD PL</title>
+    <!-- Fallback Font: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#0064e0",
+                        'primary-deep': "#0457cb",
+                        'primary-soft': "#0091ff",
+                        'on-primary': "#ffffff",
+                        'ink-button': "#000000",
+                        'on-ink-button': "#ffffff",
+                        success: "#31a24c",
+                        attention: "#f2a918",
+                        warning: "#f7b928",
+                        critical: "#e41e3f",
+                        'critical-strong': "#f0284a",
+                        canvas: "#ffffff",
+                        'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317",
+                        ink: "#1c1e21",
+                        charcoal: "#444950",
+                        slate: "#4b4c4f",
+                        steel: "#5d6c7b",
+                        stone: "#8595a4",
+                        hairline: "#ced0d4",
+                        'hairline-soft': "#dee3e9",
+                        'cat-yellow': "#FFCD00",
+                    },
+                    borderRadius: {
+                        xs: '2px',
+                        sm: '4px',
+                        md: '6px',
+                        lg: '8px',
+                        xl: '16px',
+                        xxl: '24px',
+                        xxxl: '32px',
+                        feature: '40px',
+                        full: '100px',
+                        circle: '50%',
+                    },
+                    boxShadow: {
+                        'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px',
+                        'modal': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    },
+                    letterSpacing: {
+                        tight: '-0.16px',
+                        tighter: '-0.14px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .text-heading-lg {
+                @apply text-[36px] font-medium leading-[1.28] tracking-normal;
+            }
+            .text-heading-sm {
+                @apply text-[24px] font-medium leading-[1.25] tracking-normal;
+            }
+            .text-subtitle-lg {
+                @apply text-[18px] font-bold leading-[1.44];
+            }
+            .text-body-md {
+                @apply text-[16px] font-normal leading-[1.50] tracking-tight;
+            }
+            .text-body-md-bold {
+                @apply text-[16px] font-bold leading-[1.50] tracking-tight;
+            }
+            .text-body-sm {
+                @apply text-[14px] font-normal leading-[1.43] tracking-tighter;
+            }
+            .text-body-sm-bold {
+                @apply text-[14px] font-bold leading-[1.43] tracking-tighter;
+            }
+            
+            .btn-pill-tab {
+                @apply bg-canvas text-ink text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors;
+            }
+            .btn-pill-tab-active {
+                @apply bg-ink-deep text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent;
+            }
+            .btn-buy-cta {
+                @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors cursor-pointer;
+            }
+            .btn-ghost {
+                @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors;
+            }
+            .btn-icon-circular {
+                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors;
+            }
+            
+            .input-field {
+                @apply w-full h-12 px-4 bg-canvas border border-hairline rounded-lg text-body-md text-ink-deep focus:outline-none focus:border-primary transition-colors;
+            }
+            
+            .radio-box {
+                @apply flex items-center gap-4 p-4 border border-hairline-soft rounded-xl cursor-pointer hover:bg-surface-soft/50 transition-colors;
+            }
+            .radio-box.active {
+                @apply border-primary bg-primary-soft/5;
+            }
+        }
+        
+        body {
+            @apply bg-canvas text-ink font-sans antialiased;
+        }
+    </style>
+    <script src="cart.js"></script>
+</head>
+<body class="bg-canvas flex flex-col min-h-screen">
+
+    <!-- Promo Banner -->
+    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
+        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN.
+    </div>
+
+    <!-- Pasek Nawigacji (Sticky) -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-6 lg:px-12 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity">
+            <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </a>
+        
+        <!-- W centrum: uproszczony link katalogu -->
+        <div class="hidden md:flex items-center">
+            <a href="index.html" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors">Katalog produktów</a>
+        </div>
+        
+        <!-- Ikony z prawej -->
+        <div class="flex items-center space-x-2">
+            <button class="btn-icon-circular">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <a href="koszyk.html" class="btn-icon-circular relative inline-flex animate-none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-16 pb-24 w-full">
+        
+        <h1 class="text-heading-lg text-ink-deep mb-12">Dostawa i płatność</h1>
+
+        <form id="checkout-form" onsubmit="submitOrder(event)">
+            <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+                
+                <!-- Lewa kolumna - Formularz (Szerokość 58% na desktopie) -->
+                <div class="w-full lg:w-[58%] flex flex-col gap-8">
+                    
+                    <!-- Sekcja 1: Dane klienta -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8">
+                        <h2 class="text-subtitle-lg text-ink-deep mb-6">1. Dane kontaktowe</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-body-sm-bold text-ink-deep block mb-2">Imię *</label>
+                                <input type="text" class="input-field" required id="cust-firstname">
+                            </div>
+                            <div>
+                                <label class="text-body-sm-bold text-ink-deep block mb-2">Nazwisko *</label>
+                                <input type="text" class="input-field" required id="cust-lastname">
+                            </div>
+                            <div>
+                                <label class="text-body-sm-bold text-ink-deep block mb-2">Email *</label>
+                                <input type="email" class="input-field" required id="cust-email">
+                            </div>
+                            <div>
+                                <label class="text-body-sm-bold text-ink-deep block mb-2">Telefon *</label>
+                                <input type="tel" class="input-field" required id="cust-phone" placeholder="+48 123 456 789">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sekcja 2: Adres dostawy -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8">
+                        <h2 class="text-subtitle-lg text-ink-deep mb-6">2. Adres dostawy</h2>
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <label class="text-body-sm-bold text-ink-deep block mb-2">Firma (opcjonalnie)</label>
+                                <input type="text" class="input-field" id="cust-company">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="text-body-sm-bold text-ink-deep block mb-2">Ulica i numer *</label>
+                                    <input type="text" class="input-field" required id="cust-address">
+                                </div>
+                                <div>
+                                    <label class="text-body-sm-bold text-ink-deep block mb-2">Kod pocztowy *</label>
+                                    <input type="text" class="input-field" required id="cust-zip" placeholder="00-000">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-body-sm-bold text-ink-deep block mb-2">Miasto *</label>
+                                <input type="text" class="input-field" required id="cust-city">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sekcja 3: Sposób dostawy -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8">
+                        <h2 class="text-subtitle-lg text-ink-deep mb-6">3. Sposób dostawy</h2>
+                        <div class="flex flex-col gap-3">
+                            <label class="radio-box active" onclick="selectDelivery('dpd', 20)">
+                                <input type="radio" name="delivery-method" value="dpd" checked class="accent-primary w-4 h-4">
+                                <div class="flex-1">
+                                    <span class="block text-body-md-bold text-ink-deep">Kurier DPD</span>
+                                    <span class="block text-body-sm text-charcoal">Dostawa pod wskazany adres w 24h</span>
+                                </div>
+                                <span class="text-body-md-bold text-ink-deep" id="dpd-cost-text">20,00 zł</span>
+                            </label>
+                            
+                            <label class="radio-box" onclick="selectDelivery('inpost', 15)">
+                                <input type="radio" name="delivery-method" value="inpost" class="accent-primary w-4 h-4">
+                                <div class="flex-1">
+                                    <span class="block text-body-md-bold text-ink-deep">Paczkomat InPost</span>
+                                    <span class="block text-body-sm text-charcoal">Odbiór w wybranym paczkomacie</span>
+                                </div>
+                                <span class="text-body-md-bold text-ink-deep" id="inpost-cost-text">15,00 zł</span>
+                            </label>
+
+                            <label class="radio-box" onclick="selectDelivery('pickup', 0)">
+                                <input type="radio" name="delivery-method" value="pickup" class="accent-primary w-4 h-4">
+                                <div class="flex-1">
+                                    <span class="block text-body-md-bold text-ink-deep">Odbiór osobisty</span>
+                                    <span class="block text-body-sm text-charcoal">W naszym magazynie w Krakowie</span>
+                                </div>
+                                <span class="text-body-md-bold text-success">Darmowy</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Sekcja 4: Metoda płatności -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8">
+                        <h2 class="text-subtitle-lg text-ink-deep mb-6">4. Metoda płatności</h2>
+                        <div class="flex flex-col gap-3">
+                            <label class="radio-box active" onclick="selectPayment('blik')">
+                                <input type="radio" name="payment-method" value="blik" checked class="accent-primary w-4 h-4">
+                                <div class="flex-1">
+                                    <span class="block text-body-md-bold text-ink-deep">BLIK</span>
+                                    <span class="block text-body-sm text-charcoal">Szybka i bezpieczna płatność kodem z aplikacji banku</span>
+                                </div>
+                            </label>
+                            
+                            <label class="radio-box" onclick="selectPayment('card')">
+                                <input type="radio" name="payment-method" value="card" class="accent-primary w-4 h-4">
+                                <div class="flex-1">
+                                    <span class="block text-body-md-bold text-ink-deep">Karta płatnicza (Visa / Mastercard)</span>
+                                    <span class="block text-body-sm text-charcoal">Płatność online za pośrednictwem operatora</span>
+                                </div>
+                            </label>
+
+                            <label class="radio-box" onclick="selectPayment('transfer')">
+                                <input type="radio" name="payment-method" value="transfer" class="accent-primary w-4 h-4">
+                                <div class="flex-1">
+                                    <span class="block text-body-md-bold text-ink-deep">Przelew bankowy</span>
+                                    <span class="block text-body-sm text-charcoal">Wpłata bezpośrednio na nasze konto firmowe</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Prawa kolumna - Pływający Panel Podsumowania (Szerokość 42%) -->
+                <div class="w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24">
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
+                        <h2 class="text-heading-sm text-ink-deep mb-6">Podsumowanie zamówienia</h2>
+                        
+                        <!-- Lista małych miniatur zakupionych produktów -->
+                        <div class="flex flex-col gap-4 mb-6 max-h-48 overflow-y-auto pr-1" id="checkout-items-list">
+                            <!-- Dynamicznie ładowane przez JS -->
+                        </div>
+
+                        <div class="flex flex-col gap-4 mb-6 pt-4 border-t border-hairline-soft/50">
+                            <div class="flex justify-between text-body-md text-charcoal">
+                                <span>Suma produktów</span>
+                                <span id="summary-subtotal">0,00 zł</span>
+                            </div>
+                            <div class="flex justify-between text-body-md text-charcoal">
+                                <span>Dostawa</span>
+                                <span id="summary-delivery">0,00 zł</span>
+                            </div>
+                            <div class="flex justify-between text-body-md text-charcoal">
+                                <span>Podatek VAT (23%)</span>
+                                <span class="text-stone">Wliczony</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-hairline-soft pt-6 mb-8 flex justify-between items-end">
+                            <span class="text-subtitle-lg text-ink-deep">Do zapłaty</span>
+                            <span class="text-heading-sm text-ink-deep font-bold" id="summary-total">0,00 zł</span>
+                        </div>
+
+                        <!-- Przycisk sfinalizowania zamówienia -->
+                        <button type="submit" class="btn-buy-cta w-full">Zamawiam i płacę</button>
+                        <a href="koszyk.html" class="btn-ghost w-full block text-center mt-3 border-hairline-soft">Wróć do koszyka</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </main>
+
+    <!-- Sukces Modal (Ukryty domyślnie) -->
+    <div id="success-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-ink-deep/60 backdrop-blur-sm"></div>
+        <div class="bg-canvas max-w-md w-full rounded-xxxl shadow-modal border border-hairline p-8 text-center relative z-10 transform scale-95 opacity-0 transition-all duration-300">
+            <div class="w-16 h-16 bg-success/15 text-success rounded-circle flex items-center justify-center mx-auto mb-6">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h3 class="text-heading-sm text-ink-deep mb-3">Dziękujemy za zamówienie!</h3>
+            <p class="text-body-sm text-charcoal mb-2">Twoje zamówienie zostało pomyślnie złożone.</p>
+            <p class="text-body-md-bold text-primary mb-6" id="order-number-text">Numer zamówienia: #HDD-2026-0000</p>
+            <p class="text-body-sm text-steel mb-8">Potwierdzenie wraz z szczegółami płatności wysłaliśmy na podany adres e-mail.</p>
+            <button onclick="closeSuccessModal()" class="btn-buy-cta w-full">Wróć do sklepu</button>
+        </div>
+    </div>
+
+    <!-- Stopka -->
+    <footer class="bg-canvas border-t border-hairline-soft py-12 mt-auto">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-12 text-center text-body-sm text-steel">
+            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <!-- Logika Checkout -->
+    <script>
+        let selectedDeliveryCost = 20;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cart = getCart();
+            
+            // Przekieruj z powrotem do koszyka jeśli jest pusty
+            if (cart.length === 0) {
+                window.location.href = 'koszyk.html';
+                return;
+            }
+
+            renderSummary();
+        });
+
+        // Wybór dostawy
+        function selectDelivery(method, cost) {
+            document.querySelectorAll('input[name="delivery-method"]').forEach(input => {
+                const box = input.closest('.radio-box');
+                if (input.value === method) {
+                    input.checked = true;
+                    box.classList.add('active');
+                } else {
+                    box.classList.remove('active');
+                }
+            });
+
+            selectedDeliveryCost = cost;
+            renderSummary();
+        }
+
+        // Wybór płatności
+        function selectPayment(method) {
+            document.querySelectorAll('input[name="payment-method"]').forEach(input => {
+                const box = input.closest('.radio-box');
+                if (input.value === method) {
+                    input.checked = true;
+                    box.classList.add('active');
+                } else {
+                    box.classList.remove('active');
+                }
+            });
+        }
+
+        // Renderowanie podsumowania zamówienia
+        function renderSummary() {
+            const cart = getCart();
+            const listContainer = document.getElementById('checkout-items-list');
+            const subtotalEl = document.getElementById('summary-subtotal');
+            const deliveryEl = document.getElementById('summary-delivery');
+            const totalEl = document.getElementById('summary-total');
+
+            const formatPrice = (price) => {
+                return price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+            };
+
+            listContainer.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex items-center gap-3 py-2 border-b border-hairline-soft/30 last:border-b-0';
+                itemDiv.innerHTML = `
+                    <div class="w-12 h-12 bg-surface-soft rounded-lg p-1 flex-shrink-0 flex items-center justify-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain mix-blend-multiply">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="block text-body-sm-bold text-ink-deep truncate" title="${item.name}">${item.name}</span>
+                        <span class="block text-body-sm text-steel">Ilość: ${item.quantity} • ${formatPrice(item.price)}</span>
+                    </div>
+                `;
+                listContainer.appendChild(itemDiv);
+            });
+
+            // Dostawa darmowa od 500 zł
+            let delivery = selectedDeliveryCost;
+            if (subtotal > 500) {
+                delivery = 0;
+            }
+
+            subtotalEl.innerText = formatPrice(subtotal);
+            
+            if (delivery === 0) {
+                deliveryEl.innerText = 'Darmowa';
+                deliveryEl.className = 'text-success font-bold';
+            } else {
+                deliveryEl.innerText = formatPrice(delivery);
+                deliveryEl.className = 'text-ink font-bold';
+            }
+
+            totalEl.innerText = formatPrice(subtotal + delivery);
+
+            // Zaktualizuj opisy cen wysyłki w oparciu o próg 500zł
+            const dpdCostText = document.getElementById('dpd-cost-text');
+            const inpostCostText = document.getElementById('inpost-cost-text');
+            if (subtotal > 500) {
+                dpdCostText.innerText = 'Darmowa';
+                dpdCostText.className = 'text-success font-bold';
+                inpostCostText.innerText = 'Darmowa';
+                inpostCostText.className = 'text-success font-bold';
+            } else {
+                dpdCostText.innerText = '20,00 zł';
+                dpdCostText.className = 'text-ink-deep';
+                inpostCostText.innerText = '15,00 zł';
+                inpostCostText.className = 'text-ink-deep';
+            }
+        }
+
+        // Finalizacja zamówienia
+        function submitOrder(event) {
+            event.preventDefault();
+            
+            // Generuj losowy numer zamówienia
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            const date = new Date();
+            const orderNo = `#HDD-${date.getFullYear()}-${randomNum}`;
+            document.getElementById('order-number-text').innerText = `Numer zamówienia: ${orderNo}`;
+
+            // Pokaż modal sukcesu z mikro-animacją
+            const modal = document.getElementById('success-modal');
+            const modalContent = modal.querySelector('.bg-canvas');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        // Zamknięcie modala sukcesu i wyczyszczenie koszyka
+        function closeSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const modalContent = modal.querySelector('.bg-canvas');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                clearCart();
+                window.location.href = 'index.html';
+            }, 300);
+        }
+    </script>
+</body>
+</html>

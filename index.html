@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narzędzia HDD - Sklep i Katalog Osprzętu</title>
+    <!-- Fallback Font: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#0064e0",
+                        'primary-deep': "#0457cb",
+                        'primary-soft': "#0091ff",
+                        'on-primary': "#ffffff",
+                        'ink-button': "#000000",
+                        'on-ink-button': "#ffffff",
+                        success: "#31a24c",
+                        attention: "#f2a918",
+                        warning: "#f7b928",
+                        critical: "#e41e3f",
+                        'critical-strong': "#f0284a",
+                        canvas: "#ffffff",
+                        'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317",
+                        ink: "#1c1e21",
+                        charcoal: "#444950",
+                        slate: "#4b4c4f",
+                        steel: "#5d6c7b",
+                        stone: "#8595a4",
+                        hairline: "#ced0d4",
+                        'hairline-soft': "#dee3e9",
+                        'cat-yellow': "#FFCD00",
+                    },
+                    borderRadius: {
+                        xs: '2px',
+                        sm: '4px',
+                        md: '6px',
+                        lg: '8px',
+                        xl: '16px',
+                        xxl: '24px',
+                        xxxl: '32px',
+                        feature: '40px',
+                        full: '100px',
+                        circle: '50%',
+                    },
+                    boxShadow: {
+                        'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px',
+                    },
+                    letterSpacing: {
+                        tight: '-0.16px',
+                        tighter: '-0.14px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .text-display-lg {
+                @apply text-3xl md:text-[40px] font-medium leading-[1.2] tracking-normal;
+            }
+            .text-heading-sm {
+                @apply text-xl md:text-[22px] font-medium leading-[1.25] tracking-normal;
+            }
+            .text-subtitle-lg {
+                @apply text-[16px] font-bold leading-[1.44];
+            }
+            .text-body-md {
+                @apply text-[15px] font-normal leading-[1.50] tracking-tight;
+            }
+            .text-body-md-bold {
+                @apply text-[15px] font-bold leading-[1.50] tracking-tight;
+            }
+            .text-body-sm {
+                @apply text-[13px] font-normal leading-[1.43] tracking-tighter;
+            }
+            .text-body-sm-bold {
+                @apply text-[13px] font-bold leading-[1.43] tracking-tighter;
+            }
+            
+            /* Buttons & Pills */
+            .btn-pill-tab {
+                @apply bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer whitespace-nowrap;
+            }
+            .btn-pill-tab-active {
+                @apply bg-ink-deep text-canvas text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent cursor-pointer whitespace-nowrap;
+            }
+            .btn-buy-cta {
+                @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors;
+            }
+            .btn-ghost {
+                @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors;
+            }
+            .btn-icon-circular {
+                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors;
+            }
+            .badge-success {
+                @apply bg-success text-canvas text-[11px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block;
+            }
+            .badge-cat {
+                @apply bg-cat-yellow text-ink-deep text-[11px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block;
+            }
+            
+            .filter-pill {
+                @apply bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:border-ink transition-colors flex items-center gap-2;
+            }
+            
+            /* Sidebar Links */
+            .sidebar-link {
+                @apply flex items-center justify-between text-left px-3 py-2.5 rounded-lg text-body-md text-charcoal hover:bg-surface-soft hover:text-ink-deep transition-colors cursor-pointer;
+            }
+            .sidebar-link-active {
+                @apply flex items-center justify-between text-left px-3 py-2.5 rounded-lg text-body-md-bold text-primary bg-primary-soft/5 transition-colors cursor-pointer;
+            }
+        }
+        
+        body {
+            @apply bg-canvas text-ink font-sans antialiased;
+        }
+        
+        /* Ukrywanie scrollbara dla paska mobilnego */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+</head>
+<body class="bg-canvas flex flex-col min-h-screen">
+
+    <!-- Promo Banner (Czarny pasek) -->
+    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
+        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN.
+    </div>
+
+    <!-- Pasek Nawigacji (Sticky) -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-4 lg:px-8 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity">
+            <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </a>
+        
+        <!-- W centrum: uproszczony link katalogu -->
+        <div class="hidden md:flex items-center">
+            <a href="index.html" id="nav-catalog-link" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors">Katalog produktów</a>
+        </div>
+        
+        <!-- Ikony z prawej -->
+        <div class="flex items-center space-x-2">
+            <button class="btn-icon-circular">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <a href="koszyk.html" class="btn-icon-circular relative inline-flex">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Główny Katalog z Sidebar'em -->
+    <main class="w-full px-4 lg:px-8 pt-8 pb-24 flex-1">
+        
+        <!-- Układ dwukolumnowy -->
+        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 mt-4">
+            
+            <!-- Sidebar (Lewa kolumna) - ukryty/przewijany na mobile, pionowy panel na desktopie -->
+            <aside class="w-full lg:w-[280px] lg:flex-shrink-0">
+                
+                <!-- Widok mobilny: przewijany poziomo pasek -->
+                <div class="flex lg:hidden overflow-x-auto gap-2 pb-4 scrollbar-none border-b border-hairline-soft mb-6" id="mobile-categories">
+                    <!-- Generowane dynamicznie przez JS -->
+                </div>
+                
+                <!-- Widok desktopowy: pionowy panel boczny sticky -->
+                <div class="hidden lg:flex flex-col gap-1 sticky top-24 border border-hairline-soft p-5 rounded-xl bg-canvas" id="desktop-categories">
+                    <h3 class="text-body-sm-bold text-slate uppercase tracking-wider mb-4 px-3">Kategorie</h3>
+                    <div class="flex flex-col gap-1" id="desktop-categories-list">
+                        <!-- Generowane dynamicznie przez JS -->
+                    </div>
+                </div>
+                
+            </aside>
+            
+            <!-- Główny katalog produktów (Prawa kolumna) -->
+            <section class="flex-1">
+
+                <!-- Pasek Sortowania i Filtrów (Poziomy) -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-hairline-soft">
+                    
+                    <!-- Filtry Lewa Strona -->
+                    <div class="flex flex-wrap items-center gap-3">
+                        <!-- Typ Filter (Dynamiczny Select) -->
+                        <div id="filter-type-container" class="relative hidden">
+                            <select id="filter-type-select" class="w-[90px] truncate bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
+                                <option value="">Typ</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-ink">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </div>
+
+                        <!-- Średnica otworu -->
+                        <button class="filter-pill">
+                            Średnica otworu
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <!-- Typ gwintu -->
+                        <button class="filter-pill">
+                            Typ gwintu
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                    </div>
+
+                    <!-- Sortowanie Prawa Strona -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-body-sm text-steel hidden sm:inline-block">Sortuj od:</span>
+                        <select id="sort-select" class="text-body-sm-bold text-ink-deep bg-transparent border-none focus:outline-none cursor-pointer hover:text-primary transition-colors">
+                            <option value="popular">Najpopularniejszych</option>
+                            <option value="price-asc">Ceny: od najniższej</option>
+                            <option value="price-desc">Ceny: od najwyższej</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Grid Produktów -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" id="products-grid">
+                    <!-- Dynamicznie generowane za pomocą JavaScript -->
+                </div>
+            </section>
+            
+        </div>
+
+    </main>
+
+    <!-- Stopka -->
+    <footer class="bg-canvas border-t border-hairline-soft py-12 mt-auto">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+            <div>
+                <a href="index.html" class="text-heading-sm font-bold text-ink-deep tracking-tight mb-4 inline-block hover:opacity-80">Narzędzia HDD.</a>
+                <p class="text-body-sm text-charcoal">Eksperci od przewiertów sterowanych. Dostarczamy sprzęt, który nie zawodzi pod ziemią.</p>
+            </div>
+            <div>
+                <h4 class="text-body-md-bold text-ink-deep mb-4">Sklep</h4>
+                <ul class="text-body-sm text-steel space-y-2">
+                    <li><a href="index.html?category=glowice-obudowy" class="hover:text-ink">Głowice i obudowy sondy</a></li>
+                    <li><a href="index.html?category=rozwiertaki" class="hover:text-ink">Rozwiertaki</a></li>
+                    <li><a href="index.html?category=kretliki" class="hover:text-ink">Krętliki HDD</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-body-md-bold text-ink-deep mb-4">Kontakt</h4>
+                <ul class="text-body-sm text-steel space-y-2">
+                    <li>inżynier@narzedzia-hdd.pl</li>
+                    <li>+48 123 456 789</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 pt-8 border-t border-hairline-soft text-center text-body-sm text-steel">
+            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <!-- Logika Katalogu -->
+    <script>
+
+        const CATEGORIES = [
+            { id: 'all', name: 'Wszystkie' },
+            { id: 'chwytaki', name: 'Chwytaki do Rur' },
+            { id: 'glowice-obudowy', name: 'Głowice i obudowy sondy' },
+            { id: 'kretliki', name: 'Krętliki HDD' },
+            { id: 'plyty-pletwy', name: 'Płyty i płetwy wiercące' },
+            { id: 'rolki', name: 'Rolki do rur' },
+            { id: 'rozwiertaki', name: 'Rozwiertaki' },
+            { id: 'smary', name: 'Smary' },
+            { id: 'sondy-lokalizacja', name: 'Sondy i systemy lokalizacyjne' },
+            { id: 'zerdzie', name: 'Żerdzie wiertnicze' },
+            { id: 'zeby', name: 'Zęby wiertnicze' }
+        ];
+
+        const CAT_DETAILS = {
+            'all': { title: 'Wszystkie produkty', desc: 'Pełen katalog profesjonalnego osprzętu wiertniczego HDD oraz części zamiennych.' },
+            'chwytaki': { title: 'Chwytaki do Rur', desc: 'Wytrzymałe chwytaki i zaciągacze do rur PE/PCV stosowane w technologiach bezwykopowych.' },
+            'glowice-obudowy': { title: 'Głowice i obudowy sondy', desc: 'Obudowy sond sterujących, głowice pilotujące oraz płyty wiertnicze chroniące sondy.' },
+            'kretliki': { title: 'Krętliki HDD', desc: 'Krętliki wiertnicze (Swivels) o uciągach od 5 do 50 ton, zapobiegające skręcaniu zaciąganych rur.' },
+            'plyty-pletwy': { title: 'Płyty i płetwy wiercące', desc: 'Wymienne płetwy i płyty sterujące do głowic pilotujących na różne warunki gruntowe.' },
+            'rolki': { title: 'Rolki do rur', desc: 'Wprowadzające i prowadzące rolki maszynowe ułatwiające zaciąganie rurociągu PE.' },
+            'rozwiertaki': { title: 'Rozwiertaki', desc: 'Rozwiertaki baryłkowe, skrzydłowe, kompaktowe i skałkowe (reamery) o różnych średnicach.' },
+            'smary': { title: 'Smary', desc: 'Specjalistyczne smary biodegradowalne i miedziowe do gwintów żerdzi wiertniczych.' },
+            'sondy-lokalizacja': { title: 'Sondy i systemy lokalizacyjne', desc: 'Sondy nadawcze, odbiorniki i systemy lokalizacji i śledzenia przewiertów HDD.' },
+            'zerdzie': { title: 'Żerdzie wiertnicze', desc: 'Najwyższej klasy jednorodne oraz zgrzewane tarciowo żerdzie wiertnicze o wysokiej wytrzymałości.' },
+            'zeby': { title: 'Zęby wiertnicze', desc: 'Zęby i węgliki spiekane do rozwiertaków oraz zęby do łyżek maszyn budowlanych.' }
+        };
+
+        const FILTER_OPTIONS = {
+            'chwytaki': [
+                { value: 'gladkie', label: 'Chwytaki gładkie' },
+                { value: 'gwintowane', label: 'Chwytaki gwintowane' },
+                { value: 'kolnierzowe-dlugie', label: 'Chwytaki kołnierzowe - długie' },
+                { value: 'kolnierzowe-krotkie', label: 'Chwytaki kołnierzowe - krótkie' },
+                { value: 'glowice-pe', label: 'Głowice PE' }
+            ]
+        };
+
+        function updateFilters() {
+            const container = document.getElementById('filter-type-container');
+            const select = document.getElementById('filter-type-select');
+            
+            if (!container || !select) return;
+
+            const options = FILTER_OPTIONS[currentCategory];
+            if (options) {
+                // Populate options
+                select.innerHTML = '<option value="">Typ</option>';
+                options.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.innerText = opt.label;
+                    select.appendChild(el);
+                });
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                select.value = ''; // Reset filter
+            }
+        }
+
+        let currentCategory = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Odczyt kategorii z adresu URL (?category=...)
+            const urlParams = new URLSearchParams(window.location.search);
+            const catParam = urlParams.get('category');
+            if (catParam && CAT_DETAILS[catParam]) {
+                currentCategory = catParam;
+            }
+
+            // Generowanie kategorii w panelu bocznym i mobilnym
+            renderCategories();
+
+            // Ustawienie tytułów i opisów
+            updateCategoryHeader();
+
+            // Ustawienie filtrów
+            updateFilters();
+
+            // Wyświetlenie produktów
+            renderProducts();
+
+            // Słuchacz sortowania
+            document.getElementById('sort-select').addEventListener('change', renderProducts);
+            
+            // Słuchacz filtru typu
+            const typeSelect = document.getElementById('filter-type-select');
+            if (typeSelect) {
+                typeSelect.addEventListener('change', renderProducts);
+            }
+        });
+
+        // Dynamiczne budowanie menu kategorii
+        function renderCategories() {
+            const mobileContainer = document.getElementById('mobile-categories');
+            const desktopList = document.getElementById('desktop-categories-list');
+            
+            mobileContainer.innerHTML = '';
+            desktopList.innerHTML = '';
+
+            CATEGORIES.forEach(cat => {
+                const count = cat.id === 'all' ? PRODUCTS.length : PRODUCTS.filter(p => p.categories.includes(cat.id)).length;
+                
+                // Mobilna zakładka (pigułka)
+                const mobBtn = document.createElement('button');
+                mobBtn.className = cat.id === currentCategory ? 'btn-pill-tab-active' : 'btn-pill-tab';
+                mobBtn.innerText = `${cat.name} (${count})`;
+                mobBtn.onclick = () => selectCategory(cat.id);
+                mobileContainer.appendChild(mobBtn);
+
+                // Desktopowy link w sidebarze
+                const deskBtn = document.createElement('button');
+                deskBtn.className = cat.id === currentCategory ? 'sidebar-link-active' : 'sidebar-link';
+                deskBtn.onclick = () => selectCategory(cat.id);
+                deskBtn.innerHTML = `
+                    <span class="text-left flex-1 mr-2">${cat.name}</span>
+                    <span class="text-[11px] bg-surface-soft text-steel px-2 py-0.5 rounded-full flex-shrink-0">${count}</span>
+                `;
+                desktopList.appendChild(deskBtn);
+            });
+        }
+
+        // Zmiana kategorii
+        function selectCategory(catId) {
+            currentCategory = catId;
+            
+            // Aktualizacja URL bez przeładowania strony
+            const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?category=' + catId;
+            window.history.pushState({path:newurl},'',newurl);
+
+            // Aktualizacja aktywnego stanu klas
+            renderCategories();
+            
+            // Aktualizacja nagłówków
+            updateCategoryHeader();
+
+            // Aktualizacja filtrów
+            updateFilters();
+
+            // Renderowanie listy produktów
+            renderProducts();
+        }
+
+        function updateCategoryHeader() {
+            const title = CAT_DETAILS[currentCategory].title;
+            const titleEl = document.getElementById('category-title');
+            if (titleEl) titleEl.innerText = title;
+            
+            const descEl = document.getElementById('category-desc');
+            if (descEl) descEl.innerText = CAT_DETAILS[currentCategory].desc;
+            
+            const navLink = document.getElementById('nav-catalog-link');
+            if (navLink) {
+                navLink.innerText = title;
+            }
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const sortBy = document.getElementById('sort-select').value;
+            grid.innerHTML = '';
+
+            // Filtrowanie produktów
+            let filtered = PRODUCTS;
+            if (currentCategory !== 'all') {
+                filtered = PRODUCTS.filter(p => p.categories.includes(currentCategory));
+            }
+
+            // Filtrowanie po Typie (np. dla chwytaków)
+            const typeFilter = document.getElementById('filter-type-select');
+            if (typeFilter && typeFilter.value) {
+                filtered = filtered.filter(p => p.type === typeFilter.value);
+            }
+
+            // Sortowanie produktów
+            if (sortBy === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            const formatPrice = (price) => {
+                return price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+            };
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <p class="text-body-md text-charcoal">Brak produktów w tej kategorii. Skontaktuj się z nami w celu doboru.</p>
+                        <a href="mailto:inzynier@narzedzia-hdd.pl" class="btn-ghost inline-block mt-4">Napisz zapytanie</a>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'bg-canvas border border-hairline-soft rounded-2xl p-4 flex flex-col relative hover:shadow-panel transition-shadow group';
+                
+                let badgeHTML = '';
+                if (p.badge) {
+                    badgeHTML = `<div class="absolute top-2 left-2"><span class="${p.badgeClass}">${p.badge}</span></div>`;
+                }
+
+                let priceHTML = '';
+                if (p.oldPrice) {
+                    priceHTML = `
+                        <span class="block text-[16px] font-bold text-critical leading-tight mb-0.5">
+                            ${formatPrice(p.price)} 
+                            <span class="text-[11px] font-normal text-slate line-through ml-1">${formatPrice(p.oldPrice)}</span>
+                        </span>
+                    `;
+                } else {
+                    priceHTML = `
+                        <span class="block text-[16px] font-bold text-ink-deep leading-tight mb-0.5">${formatPrice(p.price)}</span>
+                    `;
+                }
+
+                const netPrice = p.price / 1.23;
+                const netPriceHTML = `<span class="block text-[11px] text-charcoal">${formatPrice(netPrice)} netto</span>`;
+
+                let actionBtnHTML = '';
+                if (p.onOrder) {
+                    actionBtnHTML = `
+                        <a href="mailto:inzynier@narzedzia-hdd.pl?subject=Zapytanie o produkt SKU: ${p.sku}" class="w-8 h-8 bg-transparent text-ink-deep border border-hairline rounded-circle flex items-center justify-center hover:border-ink transition-colors flex-shrink-0" title="Skontaktuj się">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </a>
+                    `;
+                } else {
+                    actionBtnHTML = `
+                        <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-8 h-8 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0" title="Dodaj do koszyka">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="aspect-square bg-surface-soft rounded-xl p-3 flex items-center justify-center mb-3 relative">
+                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="w-full h-full block flex items-center justify-center">
+                            <img src="${p.image}" alt="${p.name}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        </a>
+                        ${badgeHTML}
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 h-9 flex items-center">${p.name}</a>
+                        <p class="text-[11px] text-charcoal mb-3 flex-1">SKU: ${p.sku} ${p.thread ? '• ' + p.thread : ''}</p>
+                        
+                        <div class="flex justify-between items-end mt-auto pt-3 border-t border-hairline-soft/50">
+                            <div>
+                                ${priceHTML}
+                                ${netPriceHTML}
+                            </div>
+                            ${actionBtnHTML}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

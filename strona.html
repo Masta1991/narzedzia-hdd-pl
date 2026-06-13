@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narzędzia HDD - Sklep (Wersja SPA)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'] },
+                    colors: {
+                        primary: "#0064e0", 'primary-deep': "#0457cb", 'primary-soft': "#0091ff", 'on-primary': "#ffffff",
+                        'ink-button': "#000000", 'on-ink-button': "#ffffff", success: "#31a24c", attention: "#f2a918", warning: "#f7b928",
+                        critical: "#e41e3f", 'critical-strong': "#f0284a", canvas: "#ffffff", 'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317", ink: "#1c1e21", charcoal: "#444950", slate: "#4b4c4f", steel: "#5d6c7b",
+                        stone: "#8595a4", hairline: "#ced0d4", 'hairline-soft': "#dee3e9", 'cat-yellow': "#FFCD00",
+                    },
+                    borderRadius: { xs: '2px', sm: '4px', md: '6px', lg: '8px', xl: '16px', xxl: '24px', xxxl: '32px', feature: '40px', full: '100px', circle: '50%' },
+                    boxShadow: { 'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px' },
+                    letterSpacing: { tight: '-0.16px', tighter: '-0.14px' }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .text-hero-display { @apply text-4xl md:text-[64px] font-medium leading-[1.16] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-display-lg { @apply text-3xl md:text-[48px] font-medium leading-[1.17] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-heading-lg { @apply text-[36px] font-medium leading-[1.28] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-heading-sm { @apply text-xl md:text-[24px] font-medium leading-[1.25] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-subtitle-lg { @apply text-[18px] font-bold leading-[1.44]; }
+            .text-subtitle-md { @apply text-[18px] font-normal leading-[1.44]; }
+            .text-body-md { @apply text-[16px] font-normal leading-[1.50] tracking-tight; }
+            .text-body-md-bold { @apply text-[16px] font-bold leading-[1.50] tracking-tight; }
+            .text-body-sm { @apply text-[14px] font-normal leading-[1.43] tracking-tighter; }
+            .text-body-sm-bold { @apply text-[14px] font-bold leading-[1.43] tracking-tighter; }
+            
+            .btn-pill-tab { @apply bg-canvas text-ink text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer; }
+            .btn-pill-tab-active { @apply bg-ink-deep text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent cursor-pointer; }
+            .btn-buy-cta { @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors cursor-pointer; }
+            .btn-ghost { @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors cursor-pointer; }
+            .btn-icon-circular { @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors cursor-pointer; }
+            .badge-success { @apply bg-success text-canvas text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block; }
+            .badge-cat { @apply bg-cat-yellow text-ink-deep text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block; }
+            .filter-pill { @apply bg-canvas text-ink text-[14px] font-normal leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:border-ink transition-colors flex items-center gap-2; }
+        }
+        body { @apply bg-canvas text-ink font-sans antialiased; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+
+        /* Klasy SPA */
+        .spa-view { display: none; }
+        .spa-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        // Prosty router SPA
+        function navigate(viewId) {
+            document.querySelectorAll('.spa-view').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('view-' + viewId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Zaktualizuj styl zakładek (opcjonalne, uproszczone dla SPA)
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('btn-pill-tab-active');
+                    link.classList.add('btn-pill-tab');
+                });
+                
+                const activeLinks = document.querySelectorAll(`.nav-link[data-target="${viewId}"]`);
+                activeLinks.forEach(link => {
+                    link.classList.remove('btn-pill-tab');
+                    link.classList.add('btn-pill-tab-active');
+                });
+            }
+        }
+    </script>
+</head>
+<body class="bg-canvas flex flex-col min-h-screen">
+
+    <!-- Promo Banner (Wspólny) -->
+    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
+        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN.
+    </div>
+
+    <!-- Pasek Nawigacji (Wspólny) -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-6 lg:px-12 flex items-center justify-between">
+        <div onclick="navigate('index')" class="flex items-center gap-1.5 hover:opacity-80 transition-opacity cursor-pointer">
+            <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-3">
+            <button onclick="navigate('category')" class="nav-link btn-pill-tab" data-target="category">Systemy HDD</button>
+            <button onclick="navigate('category')" class="nav-link btn-pill-tab" data-target="category">Osprzęt Maszynowy</button>
+            <button onclick="navigate('category')" class="nav-link btn-pill-tab" data-target="category">Nawigacja</button>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+            <button class="btn-icon-circular">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <button onclick="navigate('checkout')" class="btn-icon-circular relative inline-flex">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================== -->
+    <!-- WIDOK: STRONA GŁÓWNA (INDEX)                   -->
+    <!-- ============================================== -->
+    <div id="view-index" class="spa-view active">
+        <main class="max-w-[1600px] mx-auto p-4 md:p-6 lg:p-8">
+            <div class="relative w-full min-h-[600px] lg:min-h-[720px] rounded-xxxl overflow-hidden flex items-center px-6 md:px-16 lg:px-24 bg-[#0a1317]">
+                <!-- Ciemne techniczne tło -->
+                <img src="images/wiertnica_banner.png" alt="Wiertnica HDD" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-r from-ink-deep/80 to-transparent"></div>
+                
+                <div class="relative z-10 max-w-3xl mt-16 md:mt-0">
+                    <div class="mb-4 inline-block">
+                        <span class="badge-cat">Profesjonalny Osprzęt</span>
+                    </div>
+                    <h1 class="text-hero-display text-canvas mb-6">
+                        Najlepszy wybór osprzętu HDD w Polsce.
+                    </h1>
+                    <p class="text-subtitle-md text-surface-soft mb-10 max-w-2xl leading-relaxed">
+                        Profesjonalne narzędzia wiertnicze i części eksploatacyjne dostosowane do najtrudniejszych warunków gruntowych. Szybka wysyłka, wsparcie inżynieryjne.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <!-- Doskonale kontrastowa biała pigułka główna -->
+                        <button onclick="navigate('category')" class="bg-canvas text-ink-button text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-surface-soft transition-colors shadow-panel w-full sm:w-auto">Sprawdź katalog</button>
+                        <!-- Przezroczysta pigułka z białą ramką -->
+                        <button class="bg-transparent text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[12px] px-[28px] border-2 border-canvas hover:bg-canvas/10 transition-colors inline-block text-center w-full sm:w-auto">Kontakt z inżynierem</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sekcja "Dlaczego My" -->
+            <div class="mt-16 md:mt-24 mb-24 px-2 lg:px-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-canvas rounded-xl p-8 lg:p-10 border border-hairline-soft">
+                        <div class="w-12 h-12 rounded-full bg-surface-soft flex items-center justify-center mb-6 text-ink-deep">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <h3 class="text-subtitle-lg text-ink-deep mb-3">Ekspercki Dobór</h3>
+                        <p class="text-body-sm text-charcoal">Pomoc w dopasowaniu gwintów i dysz pod Twoją wiertnicę, aby zmaksymalizować wydajność prac.</p>
+                    </div>
+                    <div class="bg-canvas rounded-xl p-8 lg:p-10 border border-hairline-soft">
+                        <div class="w-12 h-12 rounded-full bg-surface-soft flex items-center justify-center mb-6 text-ink-deep">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                        </div>
+                        <h3 class="text-subtitle-lg text-ink-deep mb-3">Dostępność 24h</h3>
+                        <p class="text-body-sm text-charcoal">Błyskawiczna wysyłka osprzętu bezpośrednio z magazynu w Polsce. Minimalizujemy przestoje sprzętu.</p>
+                    </div>
+                    <div class="bg-canvas rounded-xl p-8 lg:p-10 border border-hairline-soft">
+                        <div class="w-12 h-12 rounded-full bg-surface-soft flex items-center justify-center mb-6 text-ink-deep">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <h3 class="text-subtitle-lg text-ink-deep mb-3">Klasa Premium</h3>
+                        <p class="text-body-sm text-charcoal">Najwyższej jakości narzędzia charakteryzujące się podwyższoną żywotnością węglików spiekowych.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sekcja Produktów Polecanych -->
+            <div class="mb-24 px-2 lg:px-12">
+                <div class="flex justify-between items-end mb-10">
+                    <h2 class="text-display-lg text-ink-deep">Polecane produkty</h2>
+                    <button onclick="navigate('category')" class="hidden sm:inline-block text-body-md-bold text-primary hover:text-primary-deep transition-colors">Zobacz wszystkie</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- P1 Zaktualizowany wg wytycznych -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                        <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                            <img src="images/glowica_wiercaca.png" alt="Głowica" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                        </div>
+                        <div class="flex-1 flex flex-col">
+                            <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Głowica Wiercąca HDD Standard 85mm</button>
+                            <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-GL-85</p>
+                            <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                                <div>
+                                    <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">2 450,00 zł <span class="text-[14px] font-normal text-slate">brutto</span></span>
+                                    <span class="block text-[13px] text-charcoal">1 991,87 zł netto</span>
+                                </div>
+                                <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- P2 Zaktualizowany wg wytycznych -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                        <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                            <img src="images/rozwieracz_barylkowy.png" alt="Rozwieracz Baryłkowy" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                        </div>
+                        <div class="flex-1 flex flex-col">
+                            <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Rozwieracz Baryłkowy Premium 250mm</button>
+                            <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-RE-250</p>
+                            <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                                <div>
+                                    <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">4 500,00 zł <span class="text-[14px] font-normal text-slate">brutto</span></span>
+                                    <span class="block text-[13px] text-charcoal">3 658,54 zł netto</span>
+                                </div>
+                                <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- P3 Zaktualizowany wg wytycznych -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                        <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                            <img src="images/rozwieracz_skrzydlowy.png" alt="Rozwieracz Skrzydłowy" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                        </div>
+                        <div class="flex-1 flex flex-col">
+                            <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Rozwieracz Skrzydłowy Heavy 350mm</button>
+                            <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-SK-350</p>
+                            <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                                <div>
+                                    <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">6 150,00 zł <span class="text-[14px] font-normal text-slate">brutto</span></span>
+                                    <span class="block text-[13px] text-charcoal">5 000,00 zł netto</span>
+                                </div>
+                                <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- P4 Zaktualizowany wg wytycznych -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                        <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                            <img src="images/zerdzie_wiertnicze.png" alt="Zestaw startowy" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                        </div>
+                        <div class="flex-1 flex flex-col">
+                            <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Zestaw startowy żerdzi wiertniczych</button>
+                            <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-ZER-SET</p>
+                            <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                                <div>
+                                    <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">14 900,00 zł <span class="text-[14px] font-normal text-slate">brutto</span></span>
+                                    <span class="block text-[13px] text-charcoal">12 113,82 zł netto</span>
+                                </div>
+                                <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- WIDOK: KATEGORIA (PLP)                         -->
+    <!-- ============================================== -->
+    <div id="view-category" class="spa-view">
+        <main class="max-w-[1600px] mx-auto px-6 lg:px-12 pt-8 pb-24">
+            <nav class="flex text-body-sm text-steel mb-8">
+                <button onclick="navigate('index')" class="hover:text-ink transition-colors">Sklep</button>
+                <span class="mx-2 text-stone">›</span>
+                <span class="text-ink">Wszystkie Produkty</span>
+            </nav>
+
+            <div class="mb-10">
+                <h1 class="text-display-lg text-ink-deep mb-4">Sprzęt Premium</h1>
+                <p class="text-body-md text-charcoal max-w-2xl">Profesjonalne narzędzia do przewiertów sterowanych HDD.</p>
+            </div>
+
+            <!-- Sortowanie i Filtry -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-hairline-soft">
+                <div class="flex flex-wrap items-center gap-3">
+                    <button class="filter-pill">Średnica otworu <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <button class="filter-pill">Typ gwintu <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                </div>
+            </div>
+
+            <!-- Ten sam Grid Produktów co na Stronie Głównej (Dokładnie skopiowany) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                
+                <!-- P1 -->
+                <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                    <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                        <img src="images/glowica_wiercaca.png" alt="Głowica" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Głowica Wiercąca HDD Standard 85mm</button>
+                        <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-GL-85</p>
+                        <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                            <div>
+                                <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">2 450,00 zł</span>
+                                <span class="block text-[13px] text-charcoal">1 991,87 zł netto</span>
+                            </div>
+                            <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- P2 -->
+                <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                    <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                        <img src="images/rozwieracz_barylkowy.png" alt="Rozwieracz Baryłkowy" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Rozwieracz Baryłkowy Premium 250mm</button>
+                        <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-RE-250</p>
+                        <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                            <div>
+                                <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">4 500,00 zł</span>
+                                <span class="block text-[13px] text-charcoal">3 658,54 zł netto</span>
+                            </div>
+                            <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- P3 -->
+                <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                    <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                        <img src="images/rozwieracz_skrzydlowy.png" alt="Rozwieracz Skrzydłowy" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Rozwieracz Skrzydłowy Heavy 350mm</button>
+                        <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-SK-350</p>
+                        <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                            <div>
+                                <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">6 150,00 zł</span>
+                                <span class="block text-[13px] text-charcoal">5 000,00 zł netto</span>
+                            </div>
+                            <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- P4 -->
+                <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 flex flex-col relative hover:shadow-panel transition-shadow group">
+                    <div onclick="navigate('product')" class="cursor-pointer block aspect-square bg-surface-soft rounded-xl p-4 flex items-center justify-center mb-6 relative">
+                        <img src="images/zerdzie_wiertnicze.png" alt="Zestaw startowy" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 left-3"><span class="badge-success">W magazynie</span></div>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <button onclick="navigate('product')" class="text-left text-heading-sm text-ink-deep mb-2 hover:text-primary transition-colors line-clamp-2">Zestaw startowy żerdzi wiertniczych</button>
+                        <p class="text-body-sm text-charcoal mb-4 flex-1">SKU: HDD-ZER-SET</p>
+                        <div class="flex justify-between items-end mt-auto pt-4 border-t border-hairline-soft/50">
+                            <div>
+                                <span class="block text-2xl font-bold text-ink-deep leading-none mb-1">14 900,00 zł</span>
+                                <span class="block text-[13px] text-charcoal">12 113,82 zł netto</span>
+                            </div>
+                            <button onclick="navigate('checkout')" class="w-12 h-12 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- WIDOK: PRODUKT (PDP)                           -->
+    <!-- ============================================== -->
+    <div id="view-product" class="spa-view">
+        <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-8 pb-24">
+            <nav class="flex text-body-sm text-steel mb-8">
+                <button onclick="navigate('index')" class="hover:text-ink transition-colors">Sklep</button>
+                <span class="mx-2 text-stone">›</span>
+                <button onclick="navigate('category')" class="hover:text-ink transition-colors">Osprzęt Maszynowy</button>
+                <span class="mx-2 text-stone">›</span>
+                <span class="text-ink">Rozwieracz Baryłkowy HDD Premium 250mm</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+                <div class="w-full lg:w-[58%]">
+                    <div class="flex flex-col-reverse md:flex-row gap-4 mb-16">
+                        <div class="flex-1 bg-surface-soft rounded-xxxl p-8 flex items-center justify-center aspect-[4/3] md:aspect-square">
+                            <!-- Zdjęcie Produktu #2 by default dla podglądu -->
+                            <img src="images/rozwieracz_barylkowy.png" alt="Rozwieracz Baryłkowy" class="w-full h-full object-contain mix-blend-multiply">
+                        </div>
+                    </div>
+
+                    <div class="mb-16">
+                        <h2 class="text-heading-lg text-ink-deep mb-6">Zaprojektowany do najtrudniejszych zadań.</h2>
+                        <p class="text-body-md text-charcoal mb-4">
+                            Rozwieracz Baryłkowy HDD Premium o średnicy 250mm to idealne narzędzie do prac wiertniczych. Zastosowanie wzmocnionej struktury znacznie skraca czas poszerzania otworu.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24">
+                    <h1 class="text-heading-lg text-ink-deep mb-2">Rozwieracz Baryłkowy Premium 250mm</h1>
+                    <p class="text-body-md text-slate mb-6">SKU: HDD-RE-250 • Zastosowanie: do wiertnic kierunkowych</p>
+                    
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
+                        <div class="mb-6">
+                            <span class="text-heading-lg text-ink-deep font-bold block mb-1">4 500,00 zł <span class="text-body-md font-normal text-slate">brutto</span></span>
+                            <span class="text-body-md text-charcoal">3 658,54 zł netto</span>
+                        </div>
+                        <div class="flex items-center gap-2 mb-6">
+                            <span class="badge-success">W magazynie</span>
+                        </div>
+                        <hr class="border-hairline-soft mb-6">
+                        <button onclick="navigate('checkout')" class="btn-buy-cta w-full flex justify-center items-center gap-2">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                            Dodaj do koszyka
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- WIDOK: KOSZYK (CHECKOUT)                       -->
+    <!-- ============================================== -->
+    <div id="view-checkout" class="spa-view">
+        <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-16 pb-24">
+            <h1 class="text-heading-lg text-ink-deep mb-12">Twój koszyk</h1>
+
+            <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+                <div class="w-full lg:w-[58%]">
+                    
+                    <!-- Element Koszyka (Produkt #2 z poprawnym nowym zdjęciem i danymi) -->
+                    <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8 flex flex-col sm:flex-row gap-6 md:gap-8 mb-6" id="cart-item">
+                        <div class="w-full sm:w-1/3 bg-surface-soft rounded-xl p-4 aspect-square flex items-center justify-center">
+                            <img src="images/rozwieracz_barylkowy.png" alt="Rozwieracz Baryłkowy" class="w-full h-full object-contain mix-blend-multiply">
+                        </div>
+                        <div class="w-full sm:w-2/3 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <button onclick="navigate('product')" class="text-heading-sm text-ink-deep hover:text-primary transition-colors text-left">Rozwieracz Baryłkowy Premium 250mm</button>
+                                    <span class="text-subtitle-lg text-ink-deep ml-4 whitespace-nowrap">4 500,00 zł</span>
+                                </div>
+                                <p class="text-body-sm text-charcoal mb-4">Kod SKU: HDD-RE-250</p>
+                                <span class="badge-success mb-6">W magazynie</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center gap-4 mt-auto">
+                                <div class="flex items-center border border-hairline rounded-full h-11">
+                                    <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors rounded-full">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                    <input type="number" class="w-10 text-center text-body-md-bold text-ink-deep bg-transparent focus:outline-none" value="1" readonly>
+                                    <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors rounded-full">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                </div>
+                                <button class="btn-ghost ml-auto sm:ml-0" onclick="document.getElementById('cart-item').style.display='none'; document.getElementById('empty-cart').style.display='block'; document.getElementById('checkout-panel').style.opacity='0.5';">Usuń</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pusty koszyk (ukryty) -->
+                    <div id="empty-cart" style="display:none;" class="text-center py-12">
+                        <h3 class="text-heading-sm text-ink-deep mb-4">Twój koszyk jest pusty</h3>
+                        <button onclick="navigate('index')" class="btn-ghost">Wróć do sklepu</button>
+                    </div>
+
+                </div>
+
+                <div class="w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24" id="checkout-panel">
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
+                        <h2 class="text-heading-sm text-ink-deep mb-6">Podsumowanie zamówienia</h2>
+                        <div class="flex flex-col gap-4 mb-6">
+                            <div class="flex justify-between text-body-md text-charcoal">
+                                <span>Suma produktów</span>
+                                <span>4 500,00 zł</span>
+                            </div>
+                            <div class="flex justify-between text-body-md text-charcoal">
+                                <span>Dostawa</span>
+                                <span class="text-success font-bold">Darmowa</span>
+                            </div>
+                        </div>
+                        <div class="border-t border-hairline-soft pt-6 mb-8 flex justify-between items-end">
+                            <span class="text-subtitle-lg text-ink-deep">Do zapłaty</span>
+                            <span class="text-heading-sm text-ink-deep font-bold">4 500,00 zł</span>
+                        </div>
+                        <button class="btn-buy-cta w-full block text-center">Zapłać teraz</button>
+                        <button onclick="navigate('index')" class="btn-ghost w-full block text-center mt-3 border-hairline-soft">Wróć do sklepu</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Stopka (Wspólna) -->
+    <footer class="bg-canvas border-t border-hairline-soft py-12 mt-auto">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+            <div>
+                <button onclick="navigate('index')" class="text-heading-sm font-bold text-ink-deep tracking-tight mb-4 inline-block hover:opacity-80">Narzędzia HDD.</button>
+                <p class="text-body-sm text-charcoal">Eksperci od przewiertów sterowanych. Dostarczamy sprzęt, który nie zawodzi pod ziemią.</p>
+            </div>
+            <div>
+                <h4 class="text-body-md-bold text-ink-deep mb-4">Sklep</h4>
+                <ul class="text-body-sm text-steel space-y-2">
+                    <li><button onclick="navigate('category')" class="hover:text-ink">Systemy HDD</button></li>
+                    <li><button onclick="navigate('category')" class="hover:text-ink">Osprzęt Maszynowy</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-body-md-bold text-ink-deep mb-4">Kontakt</h4>
+                <ul class="text-body-sm text-steel space-y-2">
+                    <li>inżynier@narzedzia-hdd.pl</li>
+                    <li>+48 123 456 789</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

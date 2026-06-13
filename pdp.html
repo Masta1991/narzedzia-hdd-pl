@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozwieracz Baryłkowy HDD Premium 250mm - Narzędzia HDD PL</title>
+    <!-- Fallback Font: Montserrat (imitujący geometryczno-humanistyczny charakter Optimistic VF) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#0064e0",
+                        'primary-deep': "#0457cb",
+                        'primary-soft': "#0091ff",
+                        'on-primary': "#ffffff",
+                        'ink-button': "#000000",
+                        'on-ink-button': "#ffffff",
+                        success: "#31a24c",
+                        attention: "#f2a918",
+                        warning: "#f7b928",
+                        critical: "#e41e3f",
+                        'critical-strong': "#f0284a",
+                        canvas: "#ffffff",
+                        'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317",
+                        ink: "#1c1e21",
+                        charcoal: "#444950",
+                        slate: "#4b4c4f",
+                        steel: "#5d6c7b",
+                        stone: "#8595a4",
+                        hairline: "#ced0d4",
+                        'hairline-soft': "#dee3e9",
+                    },
+                    borderRadius: {
+                        xs: '2px',
+                        sm: '4px',
+                        md: '6px',
+                        lg: '8px',
+                        xl: '16px',
+                        xxl: '24px',
+                        xxxl: '32px',
+                        feature: '40px',
+                        full: '100px',
+                        circle: '50%',
+                    },
+                    boxShadow: {
+                        'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px',
+                    },
+                    letterSpacing: {
+                        tight: '-0.16px',
+                        tighter: '-0.14px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .text-heading-lg {
+                @apply text-[36px] font-medium leading-[1.28] tracking-normal;
+            }
+            .text-heading-sm {
+                @apply text-[24px] font-medium leading-[1.25] tracking-normal;
+            }
+            .text-subtitle-lg {
+                @apply text-[18px] font-bold leading-[1.44];
+            }
+            .text-body-md {
+                @apply text-[16px] font-normal leading-[1.50] tracking-tight;
+            }
+            .text-body-md-bold {
+                @apply text-[16px] font-bold leading-[1.50] tracking-tight;
+            }
+            .text-body-sm {
+                @apply text-[14px] font-normal leading-[1.43] tracking-tighter;
+            }
+            .text-body-sm-bold {
+                @apply text-[14px] font-bold leading-[1.43] tracking-tighter;
+            }
+            
+            /* Buttons & Pills */
+            .btn-pill-tab {
+                @apply bg-canvas text-ink text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors;
+            }
+            .btn-pill-tab-active {
+                @apply bg-ink-deep text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent;
+            }
+            .btn-buy-cta {
+                @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors;
+            }
+            .btn-ghost {
+                @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors;
+            }
+            .btn-icon-circular {
+                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors;
+            }
+            .badge-success {
+                @apply bg-success text-canvas text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block;
+            }
+        }
+        
+        body {
+            @apply bg-canvas text-ink font-sans antialiased;
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+</head>
+<body class="bg-canvas">
+
+    <!-- Promo Banner -->
+    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
+        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN. <a href="#" class="underline hover:text-surface-soft">Sprawdź szczegóły</a>
+    </div>
+
+    <!-- Pasek Nawigacji (Sticky) -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-6 lg:px-12 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity">
+            <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </a>
+        
+        <!-- W centrum: uproszczony link katalogu -->
+        <div class="hidden md:flex items-center">
+            <a href="index.html" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors">Katalog produktów</a>
+        </div>
+        
+        <!-- Ikony z prawej -->
+        <div class="flex items-center space-x-2">
+            <button class="btn-icon-circular">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <a href="koszyk.html" class="btn-icon-circular relative inline-flex">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-8 pb-24">
+        
+        <!-- Breadcrumbs -->
+        <nav class="flex text-body-sm text-steel mb-8">
+            <a href="index.html" class="hover:text-ink transition-colors">Sklep</a>
+            <span class="mx-2 text-stone">›</span>
+            <a href="index.html" id="breadcrumb-category-link" class="hover:text-ink transition-colors">Katalog</a>
+            <span class="mx-2 text-stone">›</span>
+            <span class="text-ink" id="breadcrumb-product-title">Ładowanie...</span>
+        </nav>
+
+        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+            
+            <!-- Lewa kolumna (58%) -->
+            <div class="w-full lg:w-[58%]">
+                
+                <!-- Product Gallery -->
+                <div class="flex flex-col-reverse md:flex-row gap-4 mb-16">
+                    <!-- Miniaturki (Vertical strip) -->
+                    <div class="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible" id="product-thumbnails">
+                        <!-- Wygenerowane dynamicznie -->
+                    </div>
+                    
+                    <!-- Główne zdjęcie -->
+                    <div class="flex-1 bg-surface-soft rounded-xxxl p-8 flex items-center justify-center aspect-[4/3] md:aspect-square">
+                        <img id="product-main-image" src="images/rozwieracz_skrzydlowy.png" alt="Zdjęcie produktu" class="w-full h-full object-contain mix-blend-multiply">
+                    </div>
+                </div>
+
+                <!-- Feature Icons Row -->
+                <div id="product-features-row" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
+                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Wydajność</h4>
+                        <p class="text-body-sm text-charcoal">Zoptymalizowany dla wiertnic kierunkowych</p>
+                    </div>
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
+                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Wytrzymałość</h4>
+                        <p class="text-body-sm text-charcoal">Formacje gliniaste i piaszczyste</p>
+                    </div>
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
+                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Gwarancja</h4>
+                        <p class="text-body-sm text-charcoal">Worry-free warranty 24 mc</p>
+                    </div>
+                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
+                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Szybka dostawa</h4>
+                        <p class="text-body-sm text-charcoal">Darmowa wysyłka powyżej 500 zł</p>
+                    </div>
+                </div>
+
+                <!-- Opis Produktu -->
+                <div class="mb-16">
+                    <h2 class="text-heading-lg text-ink-deep mb-6" id="product-desc-title">Zaprojektowany do najtrudniejszych zadań.</h2>
+                    <div id="product-description" class="text-body-md text-charcoal space-y-4">
+                        <p>Ładowanie opisu...</p>
+                    </div>
+                </div>
+
+                <!-- Specyfikacja Techniczna -->
+                <div class="mb-16">
+                    <h2 class="text-heading-sm text-ink-deep mb-6">Specyfikacja Techniczna</h2>
+                    <div class="bg-canvas border border-hairline-soft rounded-lg p-6" id="product-specs-list">
+                        <!-- Wygenerowane dynamicznie -->
+                    </div>
+                </div>
+
+                <!-- Testimonial (Why Buy) -->
+                <div id="product-testimonial-container" class="bg-canvas border border-hairline-soft rounded-xl p-8 mb-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-primary-soft/15 flex items-center justify-center text-primary font-bold flex-shrink-0">
+                            MK
+                        </div>
+                        <div>
+                            <p class="text-body-md text-ink mb-2">"Rozwieracz HDD Premium znacząco przyspieszył nasze prace na przewiertach w trudnym terenie. Doskonale radzi sobie w zwartej glinie, a węgliki prawie w ogóle się nie zużywają."</p>
+                            <span class="text-body-sm-bold text-ink-deep">Michał K. — Operator wiertnicy HDD</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Prawa kolumna - Pływający Panel Podsumowania (Sticky, max 380px) -->
+            <div class="w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24">
+                
+                <h1 class="text-heading-lg text-ink-deep mb-2" id="product-title-right">Ładowanie...</h1>
+                <p class="text-body-md text-slate mb-6" id="product-sku-thread-right">SKU: --</p>
+                
+                <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
+                    
+                    <!-- Cena -->
+                    <div class="mb-6">
+                        <span class="text-heading-lg text-ink-deep font-bold block mb-1" id="product-price-gross-right">0,00 zł <span class="text-body-md font-normal text-slate">brutto</span></span>
+                        <span class="text-body-md text-charcoal" id="product-price-net-right">0,00 zł netto</span>
+                    </div>
+
+                    <!-- Dostępność -->
+                    <div class="flex items-center gap-2 mb-6" id="product-stock-container">
+                        <span class="badge-success" id="product-stock-badge">W magazynie</span>
+                        <span class="text-body-sm text-steel" id="product-shipping-time">Wysyłka w 24h</span>
+                    </div>
+                    
+                    <hr class="border-hairline-soft mb-6">
+
+                    <!-- Ilość (wielkie zaokrąglenia - rounded-full) -->
+                    <div class="mb-6">
+                        <label class="text-body-sm-bold text-ink-deep block mb-3">Ilość</label>
+                        <div class="flex items-center border border-hairline rounded-full h-11 w-max">
+                            <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn minus rounded-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                            <input type="number" class="w-10 text-center text-body-md-bold text-ink-deep bg-transparent focus:outline-none qty-input" value="1" min="1" max="10">
+                            <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn plus rounded-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Główny przycisk CTA w kolorze Kobaltu, pełna pigułka -->
+                    <button id="add-to-cart-btn" class="btn-buy-cta w-full flex justify-center items-center gap-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        Dodaj do koszyka
+                    </button>
+                    
+                    <button class="btn-ghost w-full mt-3">Dodaj do ulubionych</button>
+                    
+                    <div class="mt-6 flex items-start gap-3">
+                        <svg class="text-steel flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <p class="text-caption text-steel leading-[1.33]">Płatność jest bezpiecznie szyfrowana. Darmowy zwrot w ciągu 30 dni.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Stopka -->
+    <footer class="bg-canvas border-t border-hairline-soft py-12">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-12 text-center text-body-sm text-steel">
+            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <!-- Skrypt dynamicznego ładowania produktu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obsługa ilości (qty-input)
+            const input = document.querySelector('.qty-input');
+            const minus = document.querySelector('.qty-btn.minus');
+            const plus = document.querySelector('.qty-btn.plus');
+
+            minus.addEventListener('click', () => {
+                let currentVal = parseInt(input.value);
+                if (currentVal > 1) input.value = currentVal - 1;
+            });
+
+            plus.addEventListener('click', () => {
+                let currentVal = parseInt(input.value);
+                if (currentVal < 10) input.value = currentVal + 1;
+            });
+
+            // Dynamiczne ładowanie produktu
+            const urlParams = new URLSearchParams(window.location.search);
+            const skuParam = urlParams.get('sku') || 'HDD-SK-350';
+            
+            // Wyszukanie produktu w bazie PRODUCTS (dostępnej z products.js)
+            const product = PRODUCTS.find(p => p.sku === skuParam);
+            
+            if (!product) {
+                document.querySelector('main').innerHTML = `
+                    <div class="text-center py-24">
+                        <h1 class="text-heading-lg text-critical mb-4">Nie znaleziono produktu</h1>
+                        <p class="text-body-md text-charcoal mb-8">Produkt o kodzie SKU: "${skuParam}" nie istnieje w naszym katalogu.</p>
+                        <a href="index.html" class="btn-buy-cta">Powrót do katalogu</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Przeliczenie cen
+            const formatPrice = (price) => {
+                return price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+            };
+            const netPrice = product.price / 1.23;
+
+            // Ustawienie tytułu strony
+            document.title = `${product.name} - Narzędzia HDD PL`;
+
+            // Breadcrumbs
+            const catNames = {
+                'chwytaki': 'Chwytaki do Rur',
+                'glowice-obudowy': 'Głowice i obudowy sondy',
+                'kretliki': 'Krętliki HDD',
+                'plyty-pletwy': 'Płyty i płetwy wiercące',
+                'rolki': 'Rolki do rur',
+                'rozwiertaki': 'Rozwiertaki',
+                'smary': 'Smary',
+                'sondy-lokalizacja': 'Sondy i systemy lokalizacyjne',
+                'zerdzie': 'Żerdzie wiertnicze',
+                'zeby': 'Zęby wiertnicze'
+            };
+            const catId = product.categories[0] || 'all';
+            const catName = catNames[catId] || 'Katalog';
+            
+            const catLink = document.getElementById('breadcrumb-category-link');
+            if (catLink) {
+                catLink.innerText = catName;
+                catLink.href = `index.html?category=${catId}`;
+            }
+            document.getElementById('breadcrumb-product-title').innerText = product.name;
+
+            // Galeria zdjęć i miniaturka
+            const mainImg = document.getElementById('product-main-image');
+            if (mainImg) {
+                mainImg.src = product.image;
+                mainImg.alt = product.name;
+            }
+
+            const thumbsContainer = document.getElementById('product-thumbnails');
+            if (thumbsContainer) {
+                thumbsContainer.innerHTML = `
+                    <button class="w-20 h-20 rounded-lg bg-surface-soft border-2 border-ink-deep p-2 flex-shrink-0 flex items-center justify-center">
+                        <img src="${product.image}" alt="Thumb 1" class="w-full h-full object-cover rounded-md mix-blend-multiply">
+                    </button>
+                `;
+            }
+
+            // Opis produktu
+            document.getElementById('product-desc-title').innerText = product.name;
+            const descContainer = document.getElementById('product-description');
+            if (descContainer) {
+                descContainer.innerHTML = `<p>${product.description}</p>`;
+            }
+
+            // Renderowanie dynamicznych cech (Features) na podstawie kategorii
+            const featuresContainer = document.getElementById('product-features-row');
+            if (featuresContainer) {
+                const categoryFeatures = {
+                    'chwytaki': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wydajność', desc: 'Szybki montaż i pewne trzymanie rur PE' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Niezawodność', desc: 'Przetestowane na tysiącach metrów rurociągów' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'glowice-obudowy': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Ochrona', desc: 'Maksymalne zabezpieczenie sondy i elektroniki' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Sygnał', desc: 'Zoptymalizowane szczeliny dla bezstratnej transmisji' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'kretliki': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wytrzymałość', desc: 'Praca pod dużym uciągiem bez ryzyka zerwania' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Szczelność', desc: 'Wielostopniowe uszczelnienia chroniące łożyska' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'plyty-pletwy': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Odporność', desc: 'Agresywna geometria i twardy węglik spiekany' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Stabilność', desc: 'Pewne prowadzenie wiertnicy w każdym gruncie' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'rolki': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Płynność', desc: 'Niskie opory toczenia ułatwiające zaciąganie' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Stabilność', desc: 'Wytrzymała konstrukcja stalowa odporna na obciążenia' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'rozwiertaki': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wydajność', desc: 'Zoptymalizowany dla wiertnic kierunkowych' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Wytrzymałość', desc: 'Formacje gliniaste i piaszczyste' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'smary': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Ochrona', desc: 'Doskonałe smarowanie i ochrona przed zapiekaniem' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Trwałość', desc: 'Wysoka odporność na wypłukiwanie przez płuczkę' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'sondy-lokalizacja': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Precyzja', desc: 'Niezwykle dokładne określenie pozycji i głębokości' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Zasięg', desc: 'Stabilna praca w najgłębszych punktach przewiertu' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'zerdzie': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wytrzymałość', desc: 'Wykonane ze specjalnej stali stopowej' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Trwałość', desc: 'Precyzyjnie wykonane gwinty chroniące przed pęknięciem' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ],
+                    'zeby': [
+                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Żywotność', desc: 'Wysokiej jakości węgliki o przedłużonej trwałości' },
+                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Agresywność', desc: 'Szybkie kruszenie nawet najtwardszych formacji' },
+                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
+                    ]
+                };
+
+                const activeFeatures = categoryFeatures[catId] || categoryFeatures['rozwiertaki'];
+                let featuresHTML = '';
+                activeFeatures.forEach(f => {
+                    featuresHTML += `
+                        <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
+                            <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>
+                            <h4 class="text-subtitle-lg text-ink-deep mb-2">${f.title}</h4>
+                            <p class="text-body-sm text-charcoal">${f.desc}</p>
+                        </div>
+                    `;
+                });
+                featuresContainer.innerHTML = featuresHTML;
+            }
+
+            // Renderowanie dynamicznej opinii (Testimonial) na podstawie kategorii
+            const testimonialContainer = document.getElementById('product-testimonial-container');
+            if (testimonialContainer) {
+                const categoryTestimonials = {
+                    'chwytaki': {
+                        text: '"Zaciąganie rury PE 110mm poszło bez najmniejszego problemu. Chwytak trzyma pewnie, a montaż jest błyskawiczny. Bardzo solidny sprzęt."',
+                        author: 'Tomasz L. — Kierownik budowy',
+                        initials: 'TL'
+                    },
+                    'glowice-obudowy': {
+                        text: '"Obudowa sondy doskonale chroni naszą elektronikę DCI. Świetna przepustowość sygnału i bardzo mocne łączenie."',
+                        author: 'Andrzej W. — Technik lokalizacji HDD',
+                        initials: 'AW'
+                    },
+                    'kretliki': {
+                        text: '"Krętlik 12-tonowy pracuje u nas od kilku miesięcy bez żadnych luzów. Łożyskowanie jest doskonale uszczelnione."',
+                        author: 'Robert G. — Właściciel firmy przewiertowej',
+                        initials: 'RG'
+                    },
+                    'plyty-pletwy': {
+                        text: '"Wymienne płetwy wiertnicze o profilu STP świetnie sprawdzają się w trudnym, zagęszczonym gruncie. Bardzo twarde węgliki."',
+                        author: 'Janusz K. — Operator wiertnicy',
+                        initials: 'JK'
+                    },
+                    'rolki': {
+                        text: '"Rolki znacząco zmniejszyły opory przy zaciąganiu rurociągu 315mm. Lekkie, poręczne i bardzo stabilne pod obciążeniem."',
+                        author: 'Krzysztof B. — Brygadzista',
+                        initials: 'KB'
+                    },
+                    'rozwiertaki': {
+                        text: '"Rozwieracz HDD Premium znacząco przyspieszył nasze prace na przewiertach w trudnym terenie. Doskonale radzi sobie w zwartej glinie, a węgliki prawie w ogóle się nie zużywają."',
+                        author: 'Michał K. — Operator wiertnicy HDD',
+                        initials: 'MK'
+                    },
+                    'smary': {
+                        text: '"Smar miedziowy idealnie chroni gwinty żerdzi przed zapiekaniem. Łatwo się nakłada i nie spływa pod wpływem ciśnienia płuczki."',
+                        author: 'Piotr S. — Serwisant sprzętu HDD',
+                        initials: 'PS'
+                    },
+                    'sondy-lokalizacja': {
+                        text: '"Nawigacja Sense działa niezwykle stabilnie nawet przy dużych zakłóceniach miejskich. Głębokość wskazuje z dokładnością do centymetra."',
+                        author: 'Kamil D. — Specjalista radiolokalizacji',
+                        initials: 'KD'
+                    },
+                    'zerdzie': {
+                        text: '"Żerdzie wykazują doskonałą elastyczność i wytrzymałość na skręcanie. Gwinty są idealnie wykonane, bez problemów z klinowaniem."',
+                        author: 'Marcin Z. — Inżynier robót HDD',
+                        initials: 'MZ'
+                    },
+                    'zeby': {
+                        text: '"Zęby BR2 do naszych reamerów wytrzymują znacznie dłużej niż standardowe zamienniki. Bardzo dobry stosunek ceny do jakości."',
+                        author: 'Dariusz P. — Operator',
+                        initials: 'DP'
+                    }
+                };
+
+                const activeTestimonial = categoryTestimonials[catId] || categoryTestimonials['rozwiertaki'];
+                testimonialContainer.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-primary-soft/15 flex items-center justify-center text-primary font-bold flex-shrink-0">
+                            ${activeTestimonial.initials}
+                        </div>
+                        <div>
+                            <p class="text-body-md text-ink mb-2">${activeTestimonial.text}</p>
+                            <span class="text-body-sm-bold text-ink-deep">${activeTestimonial.author}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Specyfikacja techniczna
+            const specsContainer = document.getElementById('product-specs-list');
+            if (specsContainer) {
+                let specsHTML = '';
+                const keys = Object.keys(product.specs || {});
+                
+                keys.forEach((key, index) => {
+                    const isLast = index === keys.length - 1;
+                    const borderClass = isLast ? '' : 'border-b border-hairline-soft';
+                    specsHTML += `
+                        <div class="flex justify-between py-3 ${borderClass}">
+                            <span class="text-body-sm-bold text-ink">${key}</span>
+                            <span class="text-body-sm text-charcoal">${product.specs[key]}</span>
+                        </div>
+                    `;
+                });
+
+                // Zawsze dołączaj SKU do specyfikacji
+                const borderClass = keys.length === 0 ? '' : 'border-t border-hairline-soft';
+                specsHTML += `
+                    <div class="flex justify-between py-3 ${borderClass}">
+                        <span class="text-body-sm-bold text-ink">Kod SKU</span>
+                        <span class="text-body-sm text-charcoal">${product.sku}</span>
+                    </div>
+                `;
+                specsContainer.innerHTML = specsHTML;
+            }
+
+            // Sticky panel (prawa strona)
+            document.getElementById('product-title-right').innerText = product.name;
+            
+            const threadText = product.thread ? ` • Gwint: ${product.thread}` : '';
+            document.getElementById('product-sku-thread-right').innerText = `SKU: ${product.sku}${threadText}`;
+            
+            // Cenówki
+            document.getElementById('product-price-gross-right').innerHTML = `${formatPrice(product.price)} <span class="text-body-md font-normal text-slate">brutto</span>`;
+            document.getElementById('product-price-net-right').innerText = `${formatPrice(netPrice)} netto`;
+
+            // Dostępność / status
+            const badge = document.getElementById('product-stock-badge');
+            if (badge) {
+                badge.innerText = product.badge || 'W magazynie';
+                badge.className = product.badgeClass || 'badge-success';
+            }
+            const shipping = document.getElementById('product-shipping-time');
+            if (shipping) {
+                shipping.innerText = product.stock === 'W magazynie' ? 'Wysyłka w 24h' : 'Dostawa na zamówienie';
+            }
+
+            // Przycisk Dodaj do koszyka
+            const addToCartBtn = document.getElementById('add-to-cart-btn');
+            if (addToCartBtn) {
+                addToCartBtn.onclick = () => {
+                    addToCart({
+                        sku: product.sku,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: parseInt(input.value)
+                    });
+                };
+            }
+        });
+    </script>
+</body>
+</html>

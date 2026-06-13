@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twój koszyk - Narzędzia HDD PL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'] },
+                    colors: {
+                        primary: "#0064e0", 'primary-deep': "#0457cb", 'primary-soft': "#0091ff", 'on-primary': "#ffffff",
+                        'ink-button': "#000000", 'on-ink-button': "#ffffff", success: "#31a24c", attention: "#f2a918", warning: "#f7b928",
+                        critical: "#e41e3f", 'critical-strong': "#f0284a", canvas: "#ffffff", 'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317", ink: "#1c1e21", charcoal: "#444950", slate: "#4b4c4f", steel: "#5d6c7b",
+                        stone: "#8595a4", hairline: "#ced0d4", 'hairline-soft': "#dee3e9", 'cat-yellow': "#FFCD00",
+                    },
+                    borderRadius: { xs: '2px', sm: '4px', md: '6px', lg: '8px', xl: '16px', xxl: '24px', xxxl: '32px', feature: '40px', full: '100px', circle: '50%' },
+                    boxShadow: { 'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px' },
+                    letterSpacing: { tight: '-0.16px', tighter: '-0.14px' }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .text-heading-lg { @apply text-[36px] font-medium leading-[1.28] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-heading-sm { @apply text-[24px] font-medium leading-[1.25] tracking-normal; font-feature-settings: "ss01" on, "ss02" on; }
+            .text-subtitle-lg { @apply text-[18px] font-bold leading-[1.44]; }
+            .text-body-md { @apply text-[16px] font-normal leading-[1.50] tracking-tight; }
+            .text-body-md-bold { @apply text-[16px] font-bold leading-[1.50] tracking-tight; }
+            .text-body-sm { @apply text-[14px] font-normal leading-[1.43] tracking-tighter; }
+            .text-body-sm-bold { @apply text-[14px] font-bold leading-[1.43] tracking-tighter; }
+            
+            .btn-pill-tab { @apply bg-canvas text-ink text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors; }
+            .btn-pill-tab-active { @apply bg-ink-deep text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent; }
+            .btn-buy-cta { @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors; }
+            .btn-ghost { @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors; }
+            .btn-icon-circular { @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors; }
+            .badge-success { @apply bg-success text-canvas text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block; }
+            .badge-cat { @apply bg-cat-yellow text-ink-deep text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block; }
+        }
+        body { @apply bg-canvas text-ink font-sans antialiased; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+    </style>
+</head>
+<body class="bg-canvas">
+
+    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
+        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN.
+    </div>
+
+    <!-- Pasek Nawigacji (Sticky) -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-6 lg:px-12 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-3">
+            <a href="category.html" class="btn-pill-tab-active">Systemy HDD</a>
+            <a href="category.html" class="btn-pill-tab">Osprzęt Maszynowy</a>
+            <a href="category.html" class="btn-pill-tab">Nawigacja</a>
+            <a href="category.html" class="btn-pill-tab">Części XCMG</a>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+            <a href="checkout.html" class="btn-icon-circular relative inline-flex">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-16 pb-24">
+        
+        <h1 class="text-heading-lg text-ink-deep mb-12">Twój koszyk</h1>
+
+        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+            
+            <!-- Lewa kolumna - Lista produktów -->
+            <div class="w-full lg:w-[58%]">
+                
+                <!-- Produkt koszykowy: Rozwieracz Baryłkowy 250mm -->
+                <div class="bg-canvas border border-hairline-soft rounded-xxxl p-6 md:p-8 flex flex-col sm:flex-row gap-6 md:gap-8 mb-6" id="product-1">
+                    <div class="w-full sm:w-1/3 bg-surface-soft rounded-xl p-4 aspect-square flex items-center justify-center">
+                        <img src="../images/rozwieracz_barylkowy.png" alt="Rozwieracz Baryłkowy" class="w-full h-full object-contain mix-blend-multiply">
+                    </div>
+                    <div class="w-full sm:w-2/3 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <a href="product.html" class="text-heading-sm text-ink-deep hover:text-primary transition-colors">Rozwieracz Baryłkowy Premium 250mm</a>
+                                <span class="text-subtitle-lg text-ink-deep ml-4 whitespace-nowrap item-price" data-price="4500.00">4 500,00 zł</span>
+                            </div>
+                            <p class="text-body-sm text-charcoal mb-4">Kod SKU: HDD-RE-250</p>
+                            <span class="badge-success mb-6">W magazynie</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center gap-4 mt-auto">
+                            <div class="flex items-center border border-hairline rounded-full h-11">
+                                <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn minus rounded-full">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                                <input type="number" class="w-10 text-center text-body-md-bold text-ink-deep bg-transparent focus:outline-none qty-input" value="1" min="1" max="10">
+                                <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn plus rounded-full">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
+                            <button class="btn-ghost ml-auto sm:ml-0 remove-item">Usuń</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Prawa kolumna - Pływający Panel Podsumowania -->
+            <div class="w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24">
+                <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
+                    <h2 class="text-heading-sm text-ink-deep mb-6">Podsumowanie zamówienia</h2>
+                    
+                    <div class="flex flex-col gap-4 mb-6">
+                        <div class="flex justify-between text-body-md text-charcoal">
+                            <span>Suma produktów</span>
+                            <span id="subtotal">4 500,00 zł</span>
+                        </div>
+                        <div class="flex justify-between text-body-md text-charcoal">
+                            <span>Dostawa</span>
+                            <span class="text-success font-bold">Darmowa</span>
+                        </div>
+                        <div class="flex justify-between text-body-md text-charcoal">
+                            <span>Podatek VAT (23%)</span>
+                            <span id="tax">Wliczony w cenę</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-hairline-soft pt-6 mb-8 flex justify-between items-end">
+                        <span class="text-subtitle-lg text-ink-deep">Do zapłaty</span>
+                        <span class="text-heading-sm text-ink-deep font-bold" id="total">4 500,00 zł</span>
+                    </div>
+
+                    <a href="checkout.html" class="btn-buy-cta w-full block text-center">Przejdź do płatności</a>
+                    <a href="index.html" class="btn-ghost w-full block text-center mt-3 border-hairline-soft">Wróć do sklepu</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-canvas border-t border-hairline-soft py-12">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-12 text-center text-body-sm text-steel">
+            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formatPrice = (price) => {
+                return price.toFixed(2).replace('.', ',') + ' zł';
+            };
+
+            const calculateTotals = () => {
+                let subtotal = 0;
+                document.querySelectorAll('[id^="product-"]').forEach(product => {
+                    const priceElement = product.querySelector('.item-price');
+                    const inputElement = product.querySelector('.qty-input');
+                    if (priceElement && inputElement) {
+                        const price = parseFloat(priceElement.getAttribute('data-price'));
+                        const qty = parseInt(inputElement.value);
+                        subtotal += price * qty;
+                    }
+                });
+                
+                document.getElementById('subtotal').innerText = formatPrice(subtotal);
+                document.getElementById('total').innerText = formatPrice(subtotal);
+            };
+
+            document.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const input = e.currentTarget.parentElement.querySelector('.qty-input');
+                    let currentVal = parseInt(input.value);
+                    if (e.currentTarget.classList.contains('plus')) {
+                        if (currentVal < 10) input.value = currentVal + 1;
+                    } else if (e.currentTarget.classList.contains('minus')) {
+                        if (currentVal > 1) input.value = currentVal - 1;
+                    }
+                    calculateTotals();
+                });
+            });
+            
+            document.querySelectorAll('.qty-input').forEach(input => {
+                input.addEventListener('change', () => {
+                    if (input.value < 1) input.value = 1;
+                    if (input.value > 10) input.value = 10;
+                    calculateTotals();
+                });
+            });
+
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const productDiv = e.currentTarget.closest('[id^="product-"]');
+                    productDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        productDiv.remove();
+                        calculateTotals();
+                        
+                        if(document.querySelectorAll('[id^="product-"]').length === 0) {
+                            document.querySelector('.lg\\:w-\\[58\\%\\]').innerHTML = '<div class="text-center py-12"><h3 class="text-heading-sm text-ink-deep mb-4">Twój koszyk jest pusty</h3><a href="index.html" class="btn-ghost">Wróć do sklepu</a></div>';
+                        }
+                    }, 300);
+                });
+            });
+
+            calculateTotals();
+        });
+    </script>
+</body>
+</html>
