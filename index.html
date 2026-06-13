@@ -179,14 +179,8 @@
         
         <!-- Układ dwukolumnowy -->
         <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 mt-4">
-            
-            <!-- Sidebar (Lewa kolumna) - ukryty/przewijany na mobile, pionowy panel na desktopie -->
-            <aside class="w-full lg:w-[280px] lg:flex-shrink-0">
-                
-                <!-- Widok mobilny: przewijany poziomo pasek -->
-                <div class="flex lg:hidden overflow-x-auto gap-2 pb-4 scrollbar-none border-b border-hairline-soft mb-6" id="mobile-categories">
-                    <!-- Generowane dynamicznie przez JS -->
-                </div>
+               <!-- Sidebar (Lewa kolumna) - ukryty na mobile, pionowy panel na desktopie -->
+            <aside class="hidden lg:block lg:w-[280px] lg:flex-shrink-0">
                 
                 <!-- Widok desktopowy: pionowy panel boczny sticky -->
                 <div class="hidden lg:flex flex-col gap-1 sticky top-24 border border-hairline-soft p-5 rounded-xl bg-canvas" id="desktop-categories">
@@ -200,12 +194,22 @@
             
             <!-- Główny katalog produktów (Prawa kolumna) -->
             <section class="flex-1">
-
+ 
                 <!-- Pasek Sortowania i Filtrów (Poziomy) -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-hairline-soft">
                     
                     <!-- Filtry Lewa Strona -->
                     <div class="flex flex-wrap items-center gap-3">
+                        <!-- Kategoria Filter (Tylko Mobile) -->
+                        <div id="filter-category-container" class="relative block lg:hidden">
+                            <select id="filter-category-select" class="w-[130px] truncate bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
+                                <option value="">Kategoria</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-ink">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </div>
+
                         <!-- Typ Filter (Dynamiczny Select) -->
                         <div id="filter-type-container" class="relative hidden">
                             <select id="filter-type-select" class="w-[90px] truncate bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
@@ -371,35 +375,51 @@
             if (typeSelect) {
                 typeSelect.addEventListener('change', renderProducts);
             }
+
+            // Słuchacz kategorii na mobile
+            const catSelect = document.getElementById('filter-category-select');
+            if (catSelect) {
+                catSelect.addEventListener('change', (e) => {
+                    selectCategory(e.target.value);
+                });
+            }
         });
 
         // Dynamiczne budowanie menu kategorii
         function renderCategories() {
-            const mobileContainer = document.getElementById('mobile-categories');
+            const mobileSelect = document.getElementById('filter-category-select');
             const desktopList = document.getElementById('desktop-categories-list');
             
-            mobileContainer.innerHTML = '';
-            desktopList.innerHTML = '';
+            if (mobileSelect) {
+                mobileSelect.innerHTML = '';
+            }
+            if (desktopList) {
+                desktopList.innerHTML = '';
+            }
 
             CATEGORIES.forEach(cat => {
                 const count = cat.id === 'all' ? PRODUCTS.length : PRODUCTS.filter(p => p.categories.includes(cat.id)).length;
                 
-                // Mobilna zakładka (pigułka)
-                const mobBtn = document.createElement('button');
-                mobBtn.className = cat.id === currentCategory ? 'btn-pill-tab-active' : 'btn-pill-tab';
-                mobBtn.innerText = `${cat.name} (${count})`;
-                mobBtn.onclick = () => selectCategory(cat.id);
-                mobileContainer.appendChild(mobBtn);
+                // Mobilna opcja w select
+                if (mobileSelect) {
+                    const opt = document.createElement('option');
+                    opt.value = cat.id;
+                    opt.innerText = `${cat.name} (${count})`;
+                    opt.selected = cat.id === currentCategory;
+                    mobileSelect.appendChild(opt);
+                }
 
                 // Desktopowy link w sidebarze
-                const deskBtn = document.createElement('button');
-                deskBtn.className = cat.id === currentCategory ? 'sidebar-link-active' : 'sidebar-link';
-                deskBtn.onclick = () => selectCategory(cat.id);
-                deskBtn.innerHTML = `
-                    <span class="text-left flex-1 mr-2">${cat.name}</span>
-                    <span class="text-[11px] bg-surface-soft text-steel px-2 py-0.5 rounded-full flex-shrink-0">${count}</span>
-                `;
-                desktopList.appendChild(deskBtn);
+                if (desktopList) {
+                    const deskBtn = document.createElement('button');
+                    deskBtn.className = cat.id === currentCategory ? 'sidebar-link-active' : 'sidebar-link';
+                    deskBtn.onclick = () => selectCategory(cat.id);
+                    deskBtn.innerHTML = `
+                        <span class="text-left flex-1 mr-2">${cat.name}</span>
+                        <span class="text-[11px] bg-surface-soft text-steel px-2 py-0.5 rounded-full flex-shrink-0">${count}</span>
+                    `;
+                    desktopList.appendChild(deskBtn);
+                }
             });
         }
 
@@ -525,7 +545,7 @@
                         ${badgeHTML}
                     </div>
                     <div class="flex-1 flex flex-col">
-                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 h-9 flex items-center">${p.name}</a>
+                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 min-h-[42px] leading-snug flex items-center">${p.name}</a>
                         <p class="text-[11px] text-charcoal mb-3 flex-1">SKU: ${p.sku} ${p.thread ? '• ' + p.thread : ''}</p>
                         
                         <div class="flex justify-between items-end mt-auto pt-3 border-t border-hairline-soft/50">
