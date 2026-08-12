@@ -4,11 +4,11 @@
     <script src="auth-gate.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Narzędzia HDD - Sklep i Katalog Osprzętu</title>
+    <title>Narzędzia HDD - Profesjonalny Osprzęt Wiertniczy i Rozwiertaki</title>
     <!-- Fallback Font: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -43,23 +43,10 @@
                         'cat-yellow': "#FFCD00",
                     },
                     borderRadius: {
-                        xs: '2px',
-                        sm: '4px',
-                        md: '6px',
-                        lg: '8px',
-                        xl: '16px',
-                        xxl: '24px',
-                        xxxl: '32px',
-                        feature: '40px',
-                        full: '100px',
-                        circle: '50%',
+                        xs: '2px', sm: '4px', md: '6px', lg: '8px', xl: '16px', xxl: '24px', xxxl: '32px', feature: '40px', full: '100px', circle: '50%'
                     },
                     boxShadow: {
-                        'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px',
-                    },
-                    letterSpacing: {
-                        tight: '-0.16px',
-                        tighter: '-0.14px',
+                        'panel': 'rgba(20, 22, 26, 0.12) 0px 2px 8px 0px',
                     }
                 }
             }
@@ -68,237 +55,205 @@
 
     <style type="text/tailwindcss">
         @layer components {
-            .text-display-lg {
-                @apply text-3xl md:text-[40px] font-medium leading-[1.2] tracking-normal;
-            }
-            .text-heading-sm {
-                @apply text-xl md:text-[22px] font-medium leading-[1.25] tracking-normal;
-            }
-            .text-subtitle-lg {
-                @apply text-[16px] font-bold leading-[1.44];
-            }
-            .text-body-md {
-                @apply text-[15px] font-normal leading-[1.50] tracking-tight;
-            }
-            .text-body-md-bold {
-                @apply text-[15px] font-bold leading-[1.50] tracking-tight;
-            }
-            .text-body-sm {
-                @apply text-[13px] font-normal leading-[1.43] tracking-tighter;
-            }
-            .text-body-sm-bold {
-                @apply text-[13px] font-bold leading-[1.43] tracking-tighter;
-            }
+            .text-display-lg { @apply text-2xl md:text-[32px] font-bold leading-[1.25] tracking-tight; }
+            .text-heading-sm { @apply text-xl md:text-[22px] font-bold leading-[1.25] tracking-tight; }
+            .text-subtitle-lg { @apply text-[16px] font-bold leading-[1.44]; }
+            .text-body-md { @apply text-[14px] font-normal leading-[1.50]; }
+            .text-body-md-bold { @apply text-[14px] font-bold leading-[1.50]; }
+            .text-body-sm { @apply text-[12px] font-normal leading-[1.43]; }
+            .text-body-sm-bold { @apply text-[12px] font-bold leading-[1.43]; }
             
-            /* Buttons & Pills */
-            .btn-pill-tab {
-                @apply bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer whitespace-nowrap;
-            }
-            .btn-pill-tab-active {
-                @apply bg-ink-deep text-canvas text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent cursor-pointer whitespace-nowrap;
-            }
             .btn-buy-cta {
-                @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors;
+                @apply bg-primary text-on-primary text-[14px] font-bold rounded-full py-3.5 px-6 inline-flex items-center justify-center gap-2 hover:bg-primary-deep transition-all duration-200 cursor-pointer;
             }
             .btn-ghost {
-                @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors;
+                @apply bg-transparent text-ink-deep text-[13px] font-bold rounded-full py-2 px-4 border border-hairline hover:bg-surface-soft transition-colors text-center inline-block cursor-pointer;
             }
             .btn-icon-circular {
-                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors;
+                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors cursor-pointer;
             }
             .badge-success {
-                @apply bg-success text-canvas text-[11px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block;
+                @apply bg-success text-canvas text-[10px] font-bold rounded-full py-0.5 px-2 inline-block;
             }
             .badge-cat {
-                @apply bg-cat-yellow text-ink-deep text-[11px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block;
+                @apply bg-cat-yellow text-ink-deep text-[10px] font-bold rounded-full py-0.5 px-2 inline-block;
             }
-            
             .filter-pill {
-                @apply bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:border-ink transition-colors flex items-center gap-2;
+                @apply bg-canvas text-ink text-[13px] font-medium rounded-full px-3.5 py-2 border border-hairline hover:border-ink transition-colors flex items-center gap-2 cursor-pointer;
             }
             
-            /* Sidebar Links */
             .sidebar-link {
-                @apply flex items-center justify-between text-left px-3 py-2.5 rounded-lg text-body-md text-charcoal hover:bg-surface-soft hover:text-ink-deep transition-colors cursor-pointer;
+                @apply flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-body-md text-charcoal hover:bg-surface-soft hover:text-ink-deep transition-colors cursor-pointer;
             }
             .sidebar-link-active {
-                @apply flex items-center justify-between text-left px-3 py-2.5 rounded-lg text-body-md-bold text-primary bg-primary-soft/5 transition-colors cursor-pointer;
+                @apply flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-body-md-bold text-primary bg-primary-soft/10 border-l-4 border-primary transition-colors cursor-pointer;
             }
         }
-        
-        body {
-            @apply bg-canvas text-ink font-sans antialiased;
-        }
-        
-        /* Ukrywanie scrollbara dla paska mobilnego */
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-none {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        body { @apply bg-[#fbfcfd] text-ink font-sans antialiased; }
     </style>
+    <script src="shop-config.js"></script>
     <script src="products.js"></script>
     <script src="cart.js"></script>
 </head>
-<body class="bg-canvas flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
 
-    <!-- Promo Banner (Czarny pasek) -->
-    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
-        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN.
+    <!-- Promo Banner (Górny Pasek Ogłoszeń) -->
+    <div class="top-announcement-bar bg-ink-deep text-canvas text-body-sm-bold py-2.5 px-6 text-center text-xs md:text-sm">
+        🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Wysyłka w 24h
     </div>
 
     <!-- Pasek Nawigacji (Sticky) -->
-    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-4 lg:px-8 flex items-center justify-between">
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-4 lg:px-8 flex items-center justify-between gap-4">
         <!-- Logo -->
-        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity">
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity flex-shrink-0">
             <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
             <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
         </a>
         
-        <!-- W centrum: uproszczony link katalogu -->
-        <div class="hidden md:flex items-center">
-            <a href="index.html" id="nav-catalog-link" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors">Katalog produktów</a>
+        <!-- Pasek Wyszukiwarki Live Search w centrum nawigacji -->
+        <div class="flex-1 max-w-xl relative">
+            <div class="relative flex items-center w-full">
+                <input type="text" id="live-search-input" placeholder="Szukaj osprzętu, SKU (np. HDD-SK-350), gwintu, średnicy..." class="w-full h-10 pl-10 pr-10 bg-surface-soft/80 border border-hairline-soft rounded-full text-xs md:text-sm text-ink-deep focus:outline-none focus:border-primary focus:bg-canvas transition-all" oninput="handleSearchInput(this.value)">
+                <div class="absolute left-3.5 text-steel pointer-events-none">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <button id="clear-search-btn" onclick="clearSearch()" class="absolute right-3 text-steel hover:text-ink hidden p-1">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
         </div>
         
         <!-- Ikony z prawej -->
-        <div class="flex items-center space-x-2">
-            <button class="btn-icon-circular">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </button>
-            <a href="koszyk.html" class="btn-icon-circular relative inline-flex">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+        <div class="flex items-center space-x-2 flex-shrink-0">
+            <a href="koszyk.html" class="btn-icon-circular relative inline-flex" title="Twój koszyk">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="cart-badge absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center border border-canvas"></span>
             </a>
         </div>
     </nav>
 
     <!-- Główny Katalog z Sidebar'em -->
-    <main class="w-full px-4 lg:px-8 pt-0 lg:pt-6 pb-24 flex-1">
+    <main class="max-w-[1600px] mx-auto w-full px-4 lg:px-8 pt-6 pb-24 flex-1">
         
         <!-- Układ dwukolumnowy -->
-        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 mt-0.5 lg:mt-4">
-               <!-- Sidebar (Lewa kolumna) - ukryty na mobile, pionowy panel na desktopie -->
-            <aside class="hidden lg:block lg:w-[280px] lg:flex-shrink-0">
-                
-                <!-- Widok desktopowy: pionowy panel boczny sticky -->
-                <div class="hidden lg:flex flex-col gap-1 sticky top-24 border border-hairline-soft p-5 rounded-xl bg-canvas" id="desktop-categories">
-                    <h3 class="text-body-sm-bold text-slate uppercase tracking-wider mb-4 px-3">Kategorie</h3>
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+            
+            <!-- Sidebar (Lewa kolumna) - Desktop Menu Kategorii -->
+            <aside class="hidden lg:block lg:w-[260px] lg:flex-shrink-0">
+                <div class="sticky top-24 border border-hairline-soft p-4 rounded-2xl bg-canvas shadow-sm" id="desktop-categories">
+                    <h3 class="text-xs font-bold text-slate uppercase tracking-wider mb-3 px-2">Kategorie osprzętu</h3>
                     <div class="flex flex-col gap-1" id="desktop-categories-list">
                         <!-- Generowane dynamicznie przez JS -->
                     </div>
                 </div>
-                
             </aside>
             
-            <section class="flex-1">
-                <!-- Pasek Sortowania i Filtrów (Poziomy) -->
-                <div class="flex flex-col mb-8 pb-6 border-b border-hairline-soft">
+            <!-- Sekcja Główna z Produktami -->
+            <section class="flex-1 w-full min-w-0">
+                
+                <!-- Nagłówek Kategorii / Wyszukiwania -->
+                <div class="bg-canvas border border-hairline-soft rounded-2xl p-6 mb-6 shadow-sm">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-display-lg text-ink-deep" id="category-title">Wszystkie produkty</h1>
+                            <p class="text-body-sm text-charcoal mt-1 max-w-3xl" id="category-desc">Pełen katalog profesjonalnego osprzętu wiertniczego HDD.</p>
+                        </div>
+                        <div class="text-xs bg-surface-soft px-3 py-1.5 rounded-full font-bold text-steel self-start md:self-auto whitespace-nowrap" id="products-count-badge">
+                            Znaleziono 0 produktów
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pasek Filtrów i Sortowania -->
+                <div class="bg-canvas border border-hairline-soft rounded-2xl p-4 mb-6 shadow-sm flex flex-col gap-4">
                     
-                    <!-- Main Bar Row (Horizontal align) -->
-                    <div class="flex items-end justify-between gap-3 w-full">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
                         
-                        <!-- Left Side: Category Select (Mobile) -->
-                        <div class="flex flex-col gap-1 flex-1 max-w-[48%] lg:max-w-none">
-                            <!-- Label (Tylko Mobile) -->
-                            <span class="text-[11px] text-slate font-bold uppercase tracking-wider block lg:hidden pl-1">Kategorie</span>
-                            <!-- Category Select (Tylko Mobile) -->
-                            <div id="filter-category-container" class="relative block lg:hidden w-full">
-                                <select id="filter-category-select" class="w-full truncate bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2.5 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
-                                    <option value="">Kategoria</option>
+                        <!-- Filtry po lewej -->
+                        <div class="flex flex-wrap items-center gap-2.5 flex-1">
+                            
+                            <!-- Mobile Kategoria Select -->
+                            <div class="block lg:hidden relative min-w-[140px]">
+                                <select id="filter-category-select" class="w-full bg-surface-soft text-ink text-xs font-bold rounded-xl px-3 py-2 border border-hairline appearance-none cursor-pointer focus:outline-none pr-7" onchange="selectCategory(this.value)">
+                                    <option value="">Wszystkie kategorie</option>
                                 </select>
-                                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-ink">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none text-ink">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Right Side: Filters toggle button (Mobile) / Sort select (Desktop) -->
-                        <div class="flex flex-col gap-1 items-stretch flex-1 max-w-[48%] lg:max-w-none lg:flex-row lg:items-center">
-                            <!-- Label (Tylko Mobile) -->
-                            <span class="text-[11px] text-slate font-bold uppercase tracking-wider block lg:hidden text-right pr-1">Filtry</span>
-                            <!-- Przycisk Filtrowania (Tylko Mobile) -->
-                            <button id="mobile-filters-toggle" class="flex lg:hidden w-full items-center justify-between gap-1.5 bg-canvas text-ink text-[13px] font-bold rounded-full pl-4 pr-3.5 py-2.5 border border-hairline hover:bg-surface-soft transition-colors cursor-pointer focus:outline-none">
-                                <span class="truncate">Filtry i sortowanie</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                            </button>
-
-                            <!-- Sortowanie (Tylko Desktop) -->
-                            <div class="hidden lg:flex items-center gap-3">
-                                <span class="text-body-sm text-steel">Sortuj od:</span>
-                                <select id="sort-select" class="text-body-sm-bold text-ink-deep bg-transparent border-none focus:outline-none cursor-pointer hover:text-primary transition-colors">
-                                    <option value="popular">Najpopularniejszych</option>
-                                    <option value="price-asc">Ceny: od najniższej</option>
-                                    <option value="price-desc">Ceny: od najwyższej</option>
+                            <!-- Dynamiczny Podtyp Filtr (dla danej kategorii) -->
+                            <div id="filter-type-container" class="relative hidden">
+                                <select id="filter-type-select" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
+                                    <option value="">Typ produktu</option>
                                 </select>
+                                <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none text-ink">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Desktop Filters Row (Ukryte na mobile) -->
-                    <div class="hidden lg:flex flex-wrap items-center gap-3 mt-4">
-                        <!-- Typ Filter (Desktop) -->
-                        <div id="filter-type-container" class="relative hidden">
-                            <select id="filter-type-select" class="w-[90px] truncate bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-full pl-4 pr-8 py-2 border border-hairline hover:border-ink transition-colors appearance-none cursor-pointer focus:outline-none">
-                                <option value="">Typ</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-ink">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <!-- Filtr Średnicy -->
+                            <div class="relative">
+                                <select id="filter-diameter-select" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
+                                    <option value="">Średnica / Rozmiar</option>
+                                    <option value="male">Do 110 mm (DN32-DN110)</option>
+                                    <option value="srednie">150 mm – 300 mm</option>
+                                    <option value="duze">350 mm – 500 mm+</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none text-ink">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
                             </div>
+
+                            <!-- Filtr Gwintu -->
+                            <div class="relative">
+                                <select id="filter-thread-select" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
+                                    <option value="">Typ gwintu</option>
+                                    <option value="2 7/8">2 7/8" IF</option>
+                                    <option value="2 3/8">2 3/8" API Reg</option>
+                                    <option value="3 1/2">3 1/2" API Reg</option>
+                                    <option value="bezgwintowy">Bezgwintowe / Kołnierz</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none text-ink">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                            </div>
+
+                            <!-- Toggle Dostępne Od Ręki -->
+                            <label class="flex items-center gap-1.5 px-3 py-2 bg-surface-soft rounded-xl text-xs font-semibold cursor-pointer border border-hairline hover:bg-hairline-soft transition-colors select-none">
+                                <input type="checkbox" id="filter-stock-only" class="accent-primary w-3.5 h-3.5" onchange="renderProducts()">
+                                <span>Tylko w magazynie</span>
+                            </label>
+
                         </div>
 
-                        <!-- Średnica otworu (Desktop) -->
-                        <button class="filter-pill">
-                            Średnica otworu
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </button>
-                        <!-- Typ gwintu (Desktop) -->
-                        <button class="filter-pill">
-                            Typ gwintu
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </button>
-                    </div>
-
-                    <!-- Mobile Collapsible Filters Panel (Rozwijana szuflada na mobile) -->
-                    <div id="mobile-filters-panel" class="hidden flex-col gap-4 mt-4 pt-4 border-t border-hairline-soft lg:hidden">
-                        
-                        <!-- Typ Filter (Mobile) -->
-                        <div id="filter-type-container-mobile" class="relative hidden w-full">
-                            <label class="text-[11px] text-slate font-bold block mb-1">Typ produktu</label>
-                            <select id="filter-type-select-mobile" class="w-full bg-canvas text-ink text-[13px] font-normal leading-[1.43] tracking-tighter rounded-xl px-4 py-2.5 border border-hairline hover:border-ink transition-colors cursor-pointer focus:outline-none">
-                                <option value="">Dowolny typ</option>
+                        <!-- Sortowanie po prawej -->
+                        <div class="flex items-center gap-2 self-end sm:self-auto">
+                            <span class="text-xs text-steel">Sortuj:</span>
+                            <select id="sort-select" class="text-xs font-bold text-ink-deep bg-surface-soft border border-hairline rounded-xl px-3 py-2 focus:outline-none cursor-pointer" onchange="renderProducts()">
+                                <option value="popular">Domyślnie / Polecane</option>
+                                <option value="price-asc">Cena: od najniższej</option>
+                                <option value="price-desc">Cena: od najwyższej</option>
+                                <option value="name-asc">Nazwa: A-Z</option>
                             </select>
                         </div>
 
-                        <!-- Pozostałe Filtry w wierszu na mobile -->
-                        <div class="flex flex-wrap gap-2">
-                            <button class="filter-pill text-[12px] py-1.5 px-3">
-                                Średnica otworu
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                            </button>
-                            <button class="filter-pill text-[12px] py-1.5 px-3">
-                                Typ gwintu
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                            </button>
-                        </div>
-
-                        <!-- Sortowanie (Mobile) -->
-                        <div class="w-full">
-                            <label class="text-[11px] text-slate font-bold block mb-1">Sortowanie</label>
-                            <select id="sort-select-mobile" class="w-full bg-canvas text-ink text-[13px] font-bold leading-[1.43] tracking-tighter rounded-xl px-4 py-2.5 border border-hairline hover:border-ink transition-colors cursor-pointer focus:outline-none">
-                                <option value="popular">Najpopularniejsze</option>
-                                <option value="price-asc">Ceny: od najniższej</option>
-                                <option value="price-desc">Ceny: od najwyższej</option>
-                            </select>
-                        </div>
                     </div>
+
+                    <!-- Pigułki Aktywnych Filtrów -->
+                    <div id="active-filters-bar" class="hidden flex-wrap items-center gap-2 pt-2 border-t border-hairline-soft">
+                        <span class="text-[11px] text-steel font-bold uppercase">Aktywne filtry:</span>
+                        <div id="active-filter-chips" class="flex flex-wrap gap-1.5"></div>
+                        <button onclick="resetAllFilters()" class="text-xs text-critical hover:underline font-bold ml-auto">Wyczyść wszystkie</button>
+                    </div>
+
                 </div>
 
                 <!-- Grid Produktów -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" id="products-grid">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4" id="products-grid">
                     <!-- Dynamicznie generowane za pomocą JavaScript -->
                 </div>
+
             </section>
             
         </div>
@@ -307,199 +262,112 @@
 
     <!-- Stopka -->
     <footer class="bg-canvas border-t border-hairline-soft py-12 mt-auto">
-        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
             <div>
-                <a href="index.html" class="text-heading-sm font-bold text-ink-deep tracking-tight mb-4 inline-block hover:opacity-80">Narzędzia HDD.</a>
-                <p class="text-body-sm text-charcoal">Eksperci od przewiertów sterowanych. Dostarczamy sprzęt, który nie zawodzi pod ziemią.</p>
+                <a href="index.html" class="text-heading-sm font-bold text-ink-deep tracking-tight mb-2 inline-block company-name-text">Narzędzia HDD Sp. z o.o.</a>
+                <p class="text-body-sm text-charcoal footer-about-text">Specjalistyczny dystrybutor osprzętu do przewiertów sterowanych HDD. Rozwiertaki, chwytaki, żerdzie, krętliki i chemia wiertnicza z dostawą w 24h na plac budowy.</p>
             </div>
             <div>
-                <h4 class="text-body-md-bold text-ink-deep mb-4">Sklep</h4>
-                <ul class="text-body-sm text-steel space-y-2">
-                    <li><a href="index.html?category=glowice-obudowy" class="hover:text-ink">Głowice i obudowy sondy</a></li>
-                    <li><a href="index.html?category=rozwiertaki" class="hover:text-ink">Rozwiertaki</a></li>
-                    <li><a href="index.html?category=kretliki" class="hover:text-ink">Krętliki HDD</a></li>
+                <h4 class="text-body-md-bold text-ink-deep mb-3">Popularny Osprzęt</h4>
+                <ul class="text-body-sm text-steel space-y-1.5">
+                    <li><a href="index.html?category=rozwiertaki" class="hover:text-primary transition-colors">Rozwiertaki wiertnicze</a></li>
+                    <li><a href="index.html?category=chwytaki" class="hover:text-primary transition-colors">Chwytaki do rur PE</a></li>
+                    <li><a href="index.html?category=kretliki" class="hover:text-primary transition-colors">Krętliki łożyskowane 15T-50T</a></li>
+                    <li><a href="index.html?category=glowice-obudowy" class="hover:text-primary transition-colors">Głowice i obudowy sond</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="text-body-md-bold text-ink-deep mb-4">Kontakt</h4>
-                <ul class="text-body-sm text-steel space-y-2">
-                    <li>inżynier@narzedzia-hdd.pl</li>
-                    <li>+48 123 456 789</li>
+                <h4 class="text-body-md-bold text-ink-deep mb-3">Kompatybilność Wiertnic</h4>
+                <ul class="text-body-sm text-steel space-y-1.5">
+                    <li>Vermeer D20x22 / D24x40 / D36x50</li>
+                    <li>Ditch Witch JT2020 / JT3020 / JT4020</li>
+                    <li>Tracto-Technik Grundodrill</li>
+                    <li>Wiertnice XCMG / Prime Drilling</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-body-md-bold text-ink-deep mb-3">Kontakt i Magazyn</h4>
+                <ul class="text-body-sm text-steel space-y-1.5">
+                    <li class="text-ink-deep font-semibold company-name-text">Narzędzia HDD Sp. z o.o.</li>
+                    <li class="company-address-text">ul. Wiertnicza 44, 30-001 Kraków</li>
+                    <li class="company-phone-text">📞 +48 123 456 789</li>
+                    <li class="company-email-text">✉️ inzynier@narzedzia-hdd.pl</li>
+                    <li class="text-[11px] text-steel pt-1 footer-hours-text">Pn - Pt: 7:00 - 17:00 | Dyżur: 24/7</li>
                 </ul>
             </div>
         </div>
-        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 pt-8 border-t border-hairline-soft text-center text-body-sm text-steel">
-            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-8 pt-8 border-t border-hairline-soft flex flex-col sm:flex-row items-center justify-between text-xs text-steel gap-4">
+            <p class="footer-copyright-text">&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+            <a href="admin.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-surface-soft border border-hairline hover:border-primary hover:text-primary transition-all font-semibold text-charcoal shadow-sm text-xs" title="Zarządzaj ofertami, cenami i sklepem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>⚙️ Panel Administratora (CMS)</span>
+            </a>
         </div>
     </footer>
 
-    <!-- Logika Katalogu -->
+    <!-- Logika Katalogu, Wyszukiwarki i Filtrów -->
     <script>
-
-        const CATEGORIES = [
-            { id: 'all', name: 'Wszystkie' },
-            { id: 'chwytaki', name: 'Chwytaki do Rur' },
-            { id: 'glowice-obudowy', name: 'Głowice i obudowy sondy' },
-            { id: 'kretliki', name: 'Krętliki HDD' },
-            { id: 'plyty-pletwy', name: 'Płyty i płetwy wiercące' },
-            { id: 'rolki', name: 'Rolki do rur' },
-            { id: 'rozwiertaki', name: 'Rozwiertaki' },
-            { id: 'smary', name: 'Smary' },
-            { id: 'sondy-lokalizacja', name: 'Sondy i systemy lokalizacyjne' },
-            { id: 'zerdzie', name: 'Żerdzie wiertnicze' },
-            { id: 'zeby', name: 'Zęby wiertnicze' }
-        ];
-
-        const CAT_DETAILS = {
-            'all': { title: 'Wszystkie produkty', desc: 'Pełen katalog profesjonalnego osprzętu wiertniczego HDD oraz części zamiennych.' },
-            'chwytaki': { title: 'Chwytaki do Rur', desc: 'Wytrzymałe chwytaki i zaciągacze do rur PE/PCV stosowane w technologiach bezwykopowych.' },
-            'glowice-obudowy': { title: 'Głowice i obudowy sondy', desc: 'Obudowy sond sterujących, głowice pilotujące oraz płyty wiertnicze chroniące sondy.' },
-            'kretliki': { title: 'Krętliki HDD', desc: 'Krętliki wiertnicze (Swivels) o uciągach od 5 do 50 ton, zapobiegające skręcaniu zaciąganych rur.' },
-            'plyty-pletwy': { title: 'Płyty i płetwy wiercące', desc: 'Wymienne płetwy i płyty sterujące do głowic pilotujących na różne warunki gruntowe.' },
-            'rolki': { title: 'Rolki do rur', desc: 'Wprowadzające i prowadzące rolki maszynowe ułatwiające zaciąganie rurociągu PE.' },
-            'rozwiertaki': { title: 'Rozwiertaki', desc: 'Rozwiertaki baryłkowe, skrzydłowe, kompaktowe i skałkowe (reamery) o różnych średnicach.' },
-            'smary': { title: 'Smary', desc: 'Specjalistyczne smary biodegradowalne i miedziowe do gwintów żerdzi wiertniczych.' },
-            'sondy-lokalizacja': { title: 'Sondy i systemy lokalizacyjne', desc: 'Sondy nadawcze, odbiorniki i systemy lokalizacji i śledzenia przewiertów HDD.' },
-            'zerdzie': { title: 'Żerdzie wiertnicze', desc: 'Najwyższej klasy jednorodne oraz zgrzewane tarciowo żerdzie wiertnicze o wysokiej wytrzymałości.' },
-            'zeby': { title: 'Zęby wiertnicze', desc: 'Zęby i węgliki spiekane do rozwiertaków oraz zęby do łyżek maszyn budowlanych.' }
-        };
-
-        const FILTER_OPTIONS = {
-            'chwytaki': [
-                { value: 'gladkie', label: 'Chwytaki gładkie' },
-                { value: 'gwintowane', label: 'Chwytaki gwintowane' },
-                { value: 'kolnierzowe-dlugie', label: 'Chwytaki kołnierzowe - długie' },
-                { value: 'kolnierzowe-krotkie', label: 'Chwytaki kołnierzowe - krótkie' },
-                { value: 'glowice-pe', label: 'Głowice PE' }
-            ]
-        };
-
-        function updateFilters() {
-            const container = document.getElementById('filter-type-container');
-            const select = document.getElementById('filter-type-select');
-            
-            const containerMob = document.getElementById('filter-type-container-mobile');
-            const selectMob = document.getElementById('filter-type-select-mobile');
-
-            const options = FILTER_OPTIONS[currentCategory];
-            if (options) {
-                // Populate options desktop
-                if (select) {
-                    select.innerHTML = '<option value="">Typ</option>';
-                    options.forEach(opt => {
-                        const el = document.createElement('option');
-                        el.value = opt.value;
-                        el.innerText = opt.label;
-                        select.appendChild(el);
-                    });
-                }
-                // Populate options mobile
-                if (selectMob) {
-                    selectMob.innerHTML = '<option value="">Dowolny typ</option>';
-                    options.forEach(opt => {
-                        const el = document.createElement('option');
-                        el.value = opt.value;
-                        el.innerText = opt.label;
-                        selectMob.appendChild(el);
-                    });
-                }
-                if (container) container.classList.remove('hidden');
-                if (containerMob) containerMob.classList.remove('hidden');
-            } else {
-                if (container) container.classList.add('hidden');
-                if (containerMob) containerMob.classList.add('hidden');
-                if (select) select.value = ''; // Reset filter
-                if (selectMob) selectMob.value = ''; // Reset filter
-            }
-        }
-
         let currentCategory = 'all';
+        let searchQuery = '';
+        let searchDebounceTimer = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Odczyt kategorii z adresu URL (?category=...)
             const urlParams = new URLSearchParams(window.location.search);
             const catParam = urlParams.get('category');
+            const qParam = urlParams.get('q');
+
             if (catParam && CAT_DETAILS[catParam]) {
                 currentCategory = catParam;
             }
+            if (qParam) {
+                searchQuery = qParam;
+                const searchInput = document.getElementById('live-search-input');
+                if (searchInput) searchInput.value = qParam;
+                document.getElementById('clear-search-btn')?.classList.remove('hidden');
+            }
 
-            // Generowanie kategorii w panelu bocznym i mobilnym
             renderCategories();
-
-            // Ustawienie tytułów i opisów
             updateCategoryHeader();
-
-            // Ustawienie filtrów
-            updateFilters();
-
-            // Wyświetlenie produktów
+            updateSubtypeFilterOptions();
             renderProducts();
-
-            // Słuchacz sortowania (desktop i mobile zsynchronizowany)
-            const sortSelect = document.getElementById('sort-select');
-            const sortSelectMobile = document.getElementById('sort-select-mobile');
-            
-            if (sortSelect && sortSelectMobile) {
-                sortSelect.addEventListener('change', (e) => {
-                    sortSelectMobile.value = e.target.value;
-                    renderProducts();
-                });
-                sortSelectMobile.addEventListener('change', (e) => {
-                    sortSelect.value = e.target.value;
-                    renderProducts();
-                });
-            }
-
-            // Słuchacz filtru typu (desktop i mobile zsynchronizowany)
-            const typeSelect = document.getElementById('filter-type-select');
-            const typeSelectMobile = document.getElementById('filter-type-select-mobile');
-            if (typeSelect && typeSelectMobile) {
-                typeSelect.addEventListener('change', (e) => {
-                    typeSelectMobile.value = e.target.value;
-                    renderProducts();
-                });
-                typeSelectMobile.addEventListener('change', (e) => {
-                    typeSelect.value = e.target.value;
-                    renderProducts();
-                });
-            }
-
-            // Słuchacz kategorii na mobile
-            const catSelect = document.getElementById('filter-category-select');
-            if (catSelect) {
-                catSelect.addEventListener('change', (e) => {
-                    selectCategory(e.target.value);
-                });
-            }
-
-            // Obsługa rozwijania szuflady filtrów na mobile
-            const toggleBtn = document.getElementById('mobile-filters-toggle');
-            const panel = document.getElementById('mobile-filters-panel');
-            if (toggleBtn && panel) {
-                toggleBtn.addEventListener('click', () => {
-                    panel.classList.toggle('hidden');
-                    panel.classList.toggle('flex');
-                    toggleBtn.classList.toggle('bg-surface-soft');
-                });
-            }
         });
 
-        // Dynamiczne budowanie menu kategorii
+        // 1. Live Search z Debouncingiem
+        function handleSearchInput(val) {
+            clearTimeout(searchDebounceTimer);
+            const clearBtn = document.getElementById('clear-search-btn');
+            
+            if (val.trim()) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            searchDebounceTimer = setTimeout(() => {
+                searchQuery = val.trim().toLowerCase();
+                renderProducts();
+            }, 250);
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('live-search-input');
+            if (input) input.value = '';
+            searchQuery = '';
+            document.getElementById('clear-search-btn')?.classList.add('hidden');
+            renderProducts();
+        }
+
+        // 2. Dynamiczne Menu Kategorii
         function renderCategories() {
             const mobileSelect = document.getElementById('filter-category-select');
             const desktopList = document.getElementById('desktop-categories-list');
             
-            if (mobileSelect) {
-                mobileSelect.innerHTML = '';
-            }
-            if (desktopList) {
-                desktopList.innerHTML = '';
-            }
+            if (mobileSelect) mobileSelect.innerHTML = '';
+            if (desktopList) desktopList.innerHTML = '';
 
             CATEGORIES.forEach(cat => {
-                const count = cat.id === 'all' ? PRODUCTS.length : PRODUCTS.filter(p => p.categories.includes(cat.id)).length;
+                const count = cat.id === 'all' ? PRODUCTS.length : PRODUCTS.filter(p => p.categories && p.categories.includes(cat.id)).length;
                 
-                // Mobilna opcja w select
                 if (mobileSelect) {
                     const opt = document.createElement('option');
                     opt.value = cat.id;
@@ -508,97 +376,160 @@
                     mobileSelect.appendChild(opt);
                 }
 
-                // Desktopowy link w sidebarze
                 if (desktopList) {
                     const deskBtn = document.createElement('button');
                     deskBtn.className = cat.id === currentCategory ? 'sidebar-link-active' : 'sidebar-link';
                     deskBtn.onclick = () => selectCategory(cat.id);
                     deskBtn.innerHTML = `
                         <span class="text-left flex-1 mr-2">${cat.name}</span>
-                        <span class="text-[11px] bg-surface-soft text-steel px-2 py-0.5 rounded-full flex-shrink-0">${count}</span>
+                        <span class="text-[11px] bg-surface-soft text-steel px-2 py-0.5 rounded-full flex-shrink-0 font-mono">${count}</span>
                     `;
                     desktopList.appendChild(deskBtn);
                 }
             });
         }
 
-        // Zmiana kategorii
         function selectCategory(catId) {
             currentCategory = catId;
             
-            // Aktualizacja URL bez przeładowania strony
-            const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?category=' + catId;
+            const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + (catId === 'all' ? '' : '?category=' + catId);
             window.history.pushState({path:newurl},'',newurl);
 
-            // Aktualizacja aktywnego stanu klas
             renderCategories();
-            
-            // Aktualizacja nagłówków
             updateCategoryHeader();
-
-            // Aktualizacja filtrów
-            updateFilters();
-
-            // Renderowanie listy produktów
+            updateSubtypeFilterOptions();
             renderProducts();
         }
 
         function updateCategoryHeader() {
-            const title = CAT_DETAILS[currentCategory].title;
-            const titleEl = document.getElementById('category-title');
-            if (titleEl) titleEl.innerText = title;
-            
-            const descEl = document.getElementById('category-desc');
-            if (descEl) descEl.innerText = CAT_DETAILS[currentCategory].desc;
-            
-            const navLink = document.getElementById('nav-catalog-link');
-            if (navLink) {
-                navLink.innerText = title;
+            const details = CAT_DETAILS[currentCategory] || CAT_DETAILS['all'];
+            document.getElementById('category-title').innerText = details.title;
+            document.getElementById('category-desc').innerText = details.desc;
+        }
+
+        function updateSubtypeFilterOptions() {
+            const container = document.getElementById('filter-type-container');
+            const select = document.getElementById('filter-type-select');
+            const options = FILTER_OPTIONS[currentCategory];
+
+            if (options && options.length > 0) {
+                container.classList.remove('hidden');
+                select.innerHTML = '<option value="">Dowolny typ</option>' + options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+            } else {
+                container.classList.add('hidden');
+                select.innerHTML = '<option value="">Dowolny typ</option>';
             }
         }
 
+        // 3. Główny Algorytm Renderowania Produktów z Multi-Filtrami
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             const sortBy = document.getElementById('sort-select').value;
+            const typeFilter = document.getElementById('filter-type-select').value;
+            const diameterFilter = document.getElementById('filter-diameter-select').value;
+            const threadFilter = document.getElementById('filter-thread-select').value;
+            const stockOnly = document.getElementById('filter-stock-only').checked;
+            const countBadge = document.getElementById('products-count-badge');
+
             grid.innerHTML = '';
 
-            // Filtrowanie produktów
             let filtered = PRODUCTS;
+
+            // Kategoria
             if (currentCategory !== 'all') {
-                filtered = PRODUCTS.filter(p => p.categories.includes(currentCategory));
+                filtered = filtered.filter(p => p.categories && p.categories.includes(currentCategory));
             }
 
-            // Filtrowanie po Typie (np. dla chwytaków)
-            const typeFilter = document.getElementById('filter-type-select');
-            if (typeFilter && typeFilter.value) {
+            // Live Search
+            if (searchQuery) {
                 filtered = filtered.filter(p => {
-                    const typeValue = p.type || (
-                        p.name.toLowerCase().includes('gładk') ? 'gladkie' : 
-                        p.name.toLowerCase().includes('gwintowan') ? 'gwintowane' : 
-                        p.name.toLowerCase().includes('długi kołnierz') || p.name.toLowerCase().includes('dlugi kolnierz') ? 'kolnierzowe-dlugie' : 
-                        p.name.toLowerCase().includes('krótki kołnierz') || p.name.toLowerCase().includes('krotki kolnierz') ? 'kolnierzowe-krotkie' : 
-                        p.name.toLowerCase().includes('głowic') || p.name.toLowerCase().includes('glowic') ? 'glowice-pe' : ''
-                    );
-                    return typeValue === typeFilter.value;
+                    const str = `${p.name} ${p.sku} ${p.thread || ''} ${p.description || ''} ${JSON.stringify(p.specs || {})}`.toLowerCase();
+                    return str.includes(searchQuery);
                 });
             }
 
-            // Sortowanie produktów
+            // Filtr Typu
+            if (typeFilter) {
+                filtered = filtered.filter(p => {
+                    const name = p.name.toLowerCase();
+                    if (typeFilter === 'gladkie') return name.includes('gładk') || name.includes('gladk');
+                    if (typeFilter === 'gwintowane') return name.includes('gwintowan');
+                    if (typeFilter === 'kolnierzowe-dlugie') return name.includes('długi') || name.includes('dlugi');
+                    if (typeFilter === 'kolnierzowe-krotkie') return name.includes('krótki') || name.includes('krotki');
+                    if (typeFilter === 'glowice-pe') return name.includes('głowic') || name.includes('glowic');
+                    if (typeFilter === 'skrzydlowy') return name.includes('skrzydłow') || name.includes('skrzydlow');
+                    if (typeFilter === 'barylkowy') return name.includes('baryłkow') || name.includes('barylkow');
+                    if (typeFilter === 'kompaktowy') return name.includes('kompakt');
+                    if (typeFilter === 'skalkowy') return name.includes('skałk') || name.includes('skalk') || name.includes('tci');
+                    if (typeFilter === '5t-15t') return name.includes('5t') || name.includes('10t') || name.includes('15t');
+                    if (typeFilter === '20t-35t') return name.includes('20t') || name.includes('25t') || name.includes('30t');
+                    if (typeFilter === '40t-60t') return name.includes('40t') || name.includes('45t') || name.includes('50t');
+                    if (typeFilter === 'listwy') return name.includes('listwa');
+                    if (typeFilter === 'pojedyncze') return name.includes('ząb') || name.includes('zab');
+                    return true;
+                });
+            }
+
+            // Filtr Średnicy
+            if (diameterFilter) {
+                filtered = filtered.filter(p => {
+                    const nameAndSpecs = `${p.name} ${JSON.stringify(p.specs || {})}`.toLowerCase();
+                    if (diameterFilter === 'male') {
+                        return nameAndSpecs.includes('dn32') || nameAndSpecs.includes('dn40') || nameAndSpecs.includes('dn50') || nameAndSpecs.includes('dn63') || nameAndSpecs.includes('dn90') || nameAndSpecs.includes('dn110') || nameAndSpecs.includes('105 mm');
+                    } else if (diameterFilter === 'srednie') {
+                        return nameAndSpecs.includes('160') || nameAndSpecs.includes('200') || nameAndSpecs.includes('250') || nameAndSpecs.includes('300') || nameAndSpecs.includes('250mm') || nameAndSpecs.includes('200mm');
+                    } else if (diameterFilter === 'duze') {
+                        return nameAndSpecs.includes('350') || nameAndSpecs.includes('400') || nameAndSpecs.includes('450') || nameAndSpecs.includes('500') || nameAndSpecs.includes('600') || nameAndSpecs.includes('350mm');
+                    }
+                    return true;
+                });
+            }
+
+            // Filtr Gwintu
+            if (threadFilter) {
+                filtered = filtered.filter(p => {
+                    const threadStr = (p.thread || '').toLowerCase() + ' ' + (p.name || '').toLowerCase();
+                    if (threadFilter === 'bezgwintowy') {
+                        return !p.thread || p.thread === '' || threadStr.includes('kołnierz');
+                    }
+                    return threadStr.includes(threadFilter.toLowerCase());
+                });
+            }
+
+            // Filtr Magazynowy
+            if (stockOnly) {
+                filtered = filtered.filter(p => !p.onOrder && p.stock !== 'Brak w magazynie');
+            }
+
+            // Sortowanie
             if (sortBy === 'price-asc') {
                 filtered.sort((a, b) => a.price - b.price);
             } else if (sortBy === 'price-desc') {
                 filtered.sort((a, b) => b.price - a.price);
+            } else if (sortBy === 'name-asc') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name, 'pl'));
             }
 
-            const formatPrice = (price) => {
-                return price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
-            };
+            // Aktualizacja licznika
+            countBadge.innerText = `Znaleziono ${filtered.length} produktów`;
+
+            // Aktualizacja pigułek aktywnych filtrów
+            renderActiveFilterChips(typeFilter, diameterFilter, threadFilter, stockOnly);
+
+            const formatPrice = (p) => p.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full text-center py-16">
-                        <p class="text-body-md text-charcoal">Brak produktów w tej kategorii. Skontaktuj się z nami w celu doboru.</p>
-                        <a href="mailto:inzynier@narzedzia-hdd.pl" class="btn-ghost inline-block mt-4">Napisz zapytanie</a>
+                    <div class="col-span-full text-center py-16 bg-canvas border border-hairline-soft rounded-2xl p-8">
+                        <div class="w-16 h-16 bg-surface-soft rounded-full flex items-center justify-center mx-auto mb-3 text-steel">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <h3 class="text-subtitle-lg text-ink-deep mb-1">Brak produktów spełniających wybrane kryteria</h3>
+                        <p class="text-body-sm text-steel mb-5">Spróbuj zmienić parametry filtrów, wpisać inną frazę lub skontaktuj się z naszym inżynierem.</p>
+                        <div class="flex justify-center gap-3">
+                            <button onclick="resetAllFilters()" class="btn-buy-cta text-xs py-2 px-5">Wyczyść filtry</button>
+                            <a href="mailto:inzynier@narzedzia-hdd.pl" class="btn-ghost text-xs">Napisz zapytanie do inżyniera</a>
+                        </div>
                     </div>
                 `;
                 return;
@@ -606,44 +537,14 @@
 
             filtered.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'bg-canvas border border-hairline-soft rounded-2xl p-4 flex flex-col relative hover:shadow-panel transition-shadow group';
-                
+                card.className = 'bg-canvas border border-hairline-soft rounded-2xl p-4 flex flex-col relative hover:shadow-panel hover:border-hairline transition-all group shadow-sm';
+
                 let badgeHTML = '';
                 if (p.badge) {
-                    badgeHTML = `<div class="absolute top-2 left-2"><span class="${p.badgeClass}">${p.badge}</span></div>`;
-                }
-
-                let priceHTML = '';
-                if (p.oldPrice) {
-                    priceHTML = `
-                        <span class="block text-[16px] font-bold text-critical leading-tight mb-0.5">
-                            ${formatPrice(p.price)} 
-                            <span class="text-[11px] font-normal text-slate line-through ml-1">${formatPrice(p.oldPrice)}</span>
-                        </span>
-                    `;
-                } else {
-                    priceHTML = `
-                        <span class="block text-[16px] font-bold text-ink-deep leading-tight mb-0.5">${formatPrice(p.price)}</span>
-                    `;
+                    badgeHTML = `<div class="absolute top-2 left-2 z-10"><span class="${p.badgeClass}">${p.badge}</span></div>`;
                 }
 
                 const netPrice = p.price / 1.23;
-                const netPriceHTML = `<span class="block text-[11px] text-charcoal">${formatPrice(netPrice)} netto</span>`;
-
-                let actionBtnHTML = '';
-                if (p.onOrder) {
-                    actionBtnHTML = `
-                        <a href="mailto:inzynier@narzedzia-hdd.pl?subject=Zapytanie o produkt SKU: ${p.sku}" class="w-8 h-8 bg-transparent text-ink-deep border border-hairline rounded-circle flex items-center justify-center hover:border-ink transition-colors flex-shrink-0" title="Skontaktuj się">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        </a>
-                    `;
-                } else {
-                    actionBtnHTML = `
-                        <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-8 h-8 bg-primary text-on-primary rounded-circle flex items-center justify-center hover:bg-primary-deep transition-colors flex-shrink-0" title="Dodaj do koszyka">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        </button>
-                    `;
-                }
 
                 card.innerHTML = `
                     <div class="aspect-square bg-[#f7f7f7] rounded-xl p-3 flex items-center justify-center mb-3 relative overflow-hidden w-full">
@@ -652,21 +553,65 @@
                         </a>
                         ${badgeHTML}
                     </div>
+
                     <div class="flex-1 flex flex-col">
-                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 min-h-[42px] leading-snug flex items-center">${p.name}</a>
-                        <p class="text-[11px] text-charcoal mb-3 flex-1">SKU: ${p.sku} ${p.thread ? '• ' + p.thread : ''}</p>
+                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 min-h-[38px] leading-snug flex items-center">${p.name}</a>
                         
-                        <div class="flex justify-between items-end mt-auto pt-3 border-t border-hairline-soft/50">
+                        <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-steel mb-3 flex-1">
+                            <span class="font-mono">SKU: ${p.sku}</span>
+                            ${p.thread ? `<span class="bg-surface-soft px-1.5 py-0.5 rounded font-semibold text-charcoal">• ${p.thread}</span>` : ''}
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-auto pt-3 border-t border-hairline-soft/60">
                             <div>
-                                ${priceHTML}
-                                ${netPriceHTML}
+                                <span class="block text-[16px] font-bold text-ink-deep leading-tight mb-0.5">${formatPrice(p.price)}</span>
+                                <span class="block text-[11px] text-steel">${formatPrice(netPrice)} netto</span>
                             </div>
-                            ${actionBtnHTML}
+                            <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-9 h-9 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-transform active:scale-95 shadow-sm" title="Dodaj do koszyka">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
                         </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // 4. Renderowanie Pigułek Aktywnych Filtrów
+        function renderActiveFilterChips(type, dia, thr, stock) {
+            const bar = document.getElementById('active-filters-bar');
+            const chipsContainer = document.getElementById('active-filter-chips');
+            const chips = [];
+
+            if (searchQuery) chips.push({ label: `Szukaj: "${searchQuery}"`, clear: () => clearSearch() });
+            if (type) chips.push({ label: `Typ: ${type}`, clear: () => { document.getElementById('filter-type-select').value = ''; renderProducts(); } });
+            if (dia) chips.push({ label: `Średnica: ${dia}`, clear: () => { document.getElementById('filter-diameter-select').value = ''; renderProducts(); } });
+            if (thr) chips.push({ label: `Gwint: ${thr}`, clear: () => { document.getElementById('filter-thread-select').value = ''; renderProducts(); } });
+            if (stock) chips.push({ label: `Tylko w magazynie`, clear: () => { document.getElementById('filter-stock-only').checked = false; renderProducts(); } });
+
+            if (chips.length > 0) {
+                bar.classList.remove('hidden');
+                bar.classList.add('flex');
+                chipsContainer.innerHTML = chips.map((c, i) => `
+                    <span class="inline-flex items-center gap-1.5 bg-surface-soft border border-hairline text-ink-deep text-xs font-semibold px-2.5 py-1 rounded-full">
+                        ${c.label}
+                        <button onclick="window.activeFiltersCallbacks[${i}]()" class="hover:text-critical font-bold">×</button>
+                    </span>
+                `).join('');
+                window.activeFiltersCallbacks = chips.map(c => c.clear);
+            } else {
+                bar.classList.add('hidden');
+                bar.classList.remove('flex');
+            }
+        }
+
+        function resetAllFilters() {
+            clearSearch();
+            document.getElementById('filter-type-select').value = '';
+            document.getElementById('filter-diameter-select').value = '';
+            document.getElementById('filter-thread-select').value = '';
+            document.getElementById('filter-stock-only').checked = false;
+            selectCategory('all');
         }
     </script>
 </body>

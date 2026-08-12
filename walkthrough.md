@@ -1,34 +1,54 @@
-# Podsumowanie wdrożenia - Import Produktów, Dynamiczne PDP i Optymalizacja Mobilna
+# Podsumowanie Modernizacji i Testów — Narzędzia HDD PL
 
-Z powodzeniem zaimportowaliśmy po 5 produktów dla każdej z istniejących kategorii z serwisu `mp-technik.com.pl`, stworzyliśmy automatyczną bazę danych, w pełni zdynamizowaliśmy kartę produktu ([pdp.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/pdp.html)) oraz zoptymalizowaliśmy układ strony pod kątem urządzeń mobilnych (telefonów).
+Z sukcesem przeprowadziliśmy kompleksową modernizację platformy e-commerce **Narzędzia HDD PL** (`C:\Projects\Development\Narzedzia HDD PL`), stworzyliśmy dedykowany skill QA do testowania sklepów internetowych i bramek płatności, a także zweryfikowaliśmy całą ścieżkę zakupową za pomocą automatycznego subagenta przeglądarkowego.
 
-## Dokonane Zmiany
+---
 
-### 1. Import i Przetwarzanie Produktów ([products.js](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/products.js))
-- **Scraper Python**: Napisaliśmy i uruchomiliśmy skrypt `scrape_and_populate.py`, który pobrał do 5 produktów na każdą kategorię.
-- **Przetwarzanie Zdjęć**: Zdjęcia zostały zapisane lokalnie w katalogu `images/`, a następnie **odbite lustrzanie w poziomie** i delikatnie **ściemnione/rozjaśnione** w celu ochrony przed duplikacją SEO. Dodatkowo naprawiliśmy problem ze zdjęciami `Poz14` oraz `Trihawk2` mającymi nietypowy profil barwny, które teraz wyświetlają się prawidłowo.
-- **Struktura Bazy**: Wygenerowaliśmy plik bazy danych `products.js` z **37 unikalnymi produktami**.
+## 1. Wdrożone Moduły i Usprawnienia
 
-### 2. W pełni Dynamiczna Karta Produktu ([pdp.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/pdp.html))
-- Karta produktu ładuje się dynamicznie na podstawie parametru URL `?sku=...` (np. `pdp.html?sku=HDD-CH_63`).
-- Wszystkie dane (zdjęcia, opisy, tabele parametrów, statusy, ceny brutto/netto) są pobierane z pliku bazy.
+### A. Nowy Skill QA ([.agents/skills/web_qa_payment_tester/](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/SKILL.md))
+* Utworzono kompleksowy framework testów sklepów internetowych:
+  * **[SKILL.md](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/SKILL.md)** — Reguły testowania koszyka, bramek płatności, walidacji formularzy i RWD.
+  * **[scripts/smoke_test.js](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/scripts/smoke_test.js)** — Skrypt automatycznych testów w konsoli.
+  * **[references/ecommerce_checklist.md](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/references/ecommerce_checklist.md)** — Checklista audytowa.
 
-### 3. Dynamiczne Cechy i Opinie (Testimonials)
-Wprowadziliśmy automatyczny podział opinii i cech wyróżniających ofertę w zależności od kategorii produktu (np. inne opisy dla krętlików, żerdzi, zębów czy chwytaków), aby utrzymać premium charakter oryginalnego szablonu.
+### B. Interaktywny Checkout B2B i Bramki Płatności ([checkout.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/checkout.html))
+* **BLIK Interactive**: Pole wprowadzania 6 cyfr z formatowaniem (`XXX XXX`), timerem 120s i symulacją autoryzacji w aplikacji bankowej.
+* **Karta Płatnicza**: Formularz z automatycznym formatowaniem co 4 cyfry, rozpoznawaniem kart (Visa/Mastercard) i walidacją algorytmem Luhna.
+* **Szybki Przelew (PayU)**: Interaktywna siatka wyboru banków (mBank, PKO BP, Santander, ING, etc.).
+* **Przelew Tradycyjny / Faktura Proforma**: Pełne dane rachunku bankowego IBAN/SWIFT oraz tytuł z numerem zamówienia.
+* **Faktura B2B z Walidacją NIP**: Pole NIP z polskim algorytmem sprawdzania sumy kontrolnej.
+* **Wybór Paczkomatu InPost**: Pole wpisania kodu paczkomatu (np. `KRA01M`) wraz z szybkimi podpowiedziami automatów.
 
-### 4. Optymalizacja układu mobilnego (RWD)
-- **Problem**: Na telefonach panel zakupowy (nazwa, cena i przycisk "Dodaj do koszyka") znajdował się na samym dole strony pod wszystkimi specyfikacjami i opisami, co zmuszało użytkownika do długiego przewijania.
-- **Rozwiązanie**: Dodaliśmy dedykowany **Mobile Purchase Panel** u góry lewej kolumny (widoczny tylko na urządzeniach mobilnych i tabletach), zaraz pod galerią zdjęć. Klasyczny panel po prawej stronie jest teraz ukrywany na urządzeniach o małej rozdzielczości (`hidden lg:block`). Cała logika ilości oraz przycisku koszyka działa dla obu wersji paneli.
+### C. Dynamiczny Koszyk ([koszyk.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/koszyk.html) & [cart.js](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/cart.js))
+* **Pasek Darmowej Dostawy**: Wizualny pasek postępu z progiem 500 PLN informujący, ile brakuje do darmowej wysyłki.
+* **Silnik Kuponów Rabatowych**: Obsługa kodów promocyjnych (np. `HDD2026` = -10%, `WIERCENIE50` = -50 zł, `FREESHIP` = darmowa dostawa).
+* **Rekomendacje Cross-sell**: Propozycje kompatybilnych akcesoriów (smary miedziowe, zęby wymienne, krętliki).
+* **Przejrzystość Netto / Brutto**: Równoległe rozbicie kwot Netto, podatku VAT (23%) oraz kwot Brutto.
 
-### 5. Zabezpieczenie hasłem przed premierą ([auth-gate.js](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/auth-gate.js))
-Wdrożyliśmy blokadę wstępu na hasło: **`hdd2026`** (zapamiętywaną w przeglądarce).
+### D. Zaawansowany Katalog i Live Instant Search ([index.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/index.html))
+* **Błyskawiczna Wyszukiwarka**: Wyszukiwanie w czasie rzeczywistym z debouncingiem po nazwie, SKU, parametrach i kompatybilności maszyn.
+* **Filtry Wielowymiarowe**: Filtrowanie po średnicy otworu, typie gwintu (`2 7/8" IF`, `2 3/8" API Reg`), podtypach danej kategorii oraz dostępności magazynowej.
+* **Pigułki Aktywnych Filtrów**: Wizualne badge aktywnych filtrów z możliwością ich szybkiego usunięcia.
 
-### 6. Poprawki mobilne i dopasowanie tła (Czerwiec 2026)
-- **Dopasowanie tła zdjęć**: Zmieniliśmy tło kontenerów na zdjęcia z `bg-surface-soft` (`#f1f4f7`) na `bg-[#f7f7f7]` oraz dodaliśmy klasy `overflow-hidden` i `w-full` / `max-w-full` na kafelkach produktów ([index.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/index.html)), karcie produktu ([pdp.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/pdp.html)) oraz w koszyku ([koszyk.html](file:///C:/Projects/Aktualne%20projekty%20w%20trakcie/Narzedzia%20HDD%20PL/koszyk.html)). Dzięki temu tło obrazów o neutralnym odcieniu `#f7f7f7` idealnie wtapia się w kontener, a wszelkie wystające narożniki tła samych plików graficznych są przycinane do zaokrągleń kontenera (brak rozjeżdżania się boxów na szerokość). Zastąpiliśmy też `w-full h-full` przez `max-w-full max-h-full` dla głównego zdjęcia w PDP, co zapobiega przesunięciu w prawo na niektórych urządzeniach mobilnych.
-- **Wyjustowanie przycisku filtrów**: Przycisk mobilny "Filtry i sortowanie" został zmieniony z wyśrodkowanego na układ symetryczny/justowany (`justify-between px-4 w-full`), gdzie nazwa jest po lewej stronie, a ikona filtra po prawej. Wyglądem pasuje teraz idealnie do rozwijanej listy kategorii po lewej stronie. Napis "Filtry" nad nim jest poprawnie wyrównany do prawej strony.
-- **Uporządkowanie struktury i linia oddzielająca**: Naprawiliśmy brakujący znacznik zamykający `</div>` sekcji filtrów, co powodowało ukrywanie linii oddzielającej. Sekcja kategorii i filtrów jest teraz odsunięta wyżej pod sam nagłówek, a pod nią znajduje się wyraźna linia oddzielająca (`border-b border-hairline-soft pb-6 mb-8`) od sekcji z kafelkami produktów.
+### E. Karta Produktu PDP ([pdp.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/pdp.html))
+* **Kompatybilność Wiertnicza**: Sekcja wskazująca dopasowanie do wiertnic (Vermeer, Ditch Witch, Tracto-Technik, XCMG).
+* **Często Kupowane Razem**: Dynamiczny moduł zestawu osprzętu z rabatem na pakiet.
+* **Usprawniony Panel Zakupowy**: Płynny stepper ilości i zsynchronizowany pasek mobilny.
 
-## Jak przetestować?
-1. Otwórz stronę wdrożoną online na Netlify na telefonie.
-2. Zwróć uwagę na idealne dopasowanie tła kafelków ze zdjęciami, które są teraz idealnie równe, nie wychodzą poza obrys karty i nie są przesunięte w prawo.
-3. Sprawdź prawy przycisk "Filtry i sortowanie", który ma teraz ikonę z prawej strony i jest spójny z polem kategorii.
+### F. Porządki w Strukturze Projektu
+* Utworzono moduł konfiguracyjny [shop-config.js](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/shop-config.js).
+* Zarchiwizowane pliki prototypowe do katalogu `archive/`.
+
+---
+
+## 2. Raport z Testów End-to-End (Browser Subagent QA)
+
+Przeprowadzono pełny test E2E w przeglądarce:
+1. **Obejście bramki wejściowej**: Hasło `hdd2026` poprawnie odblokowało stronę.
+2. **Live Search**: Wpisanie `350` przefiltrowało katalog 37 produktów do 2 modeli 350mm. Wyczyszczenie wyszukiwarki przywróciło pełną listę.
+3. **Karta Produktu**: Produkt `HDD-SK-350` został dodany do koszyka, wywołując powiadomienie Toast oraz aktualizację licznika w nagłówku.
+4. **Koszyk**: Pasek darmowej dostawy osiągnął 100%. Zastosowanie kuponu `HDD2026` obniżyło kwotę z 6150,00 zł do 5535,00 zł brutto.
+5. **Checkout i Walidacja NIP**: Wpisanie błędnego NIP `6762589912` wywołało ostrzeżenie sumy kontrolnej. Wprowadzenie prawidłowego NIP `6762589916` poprawnie zatwierdziło dane firmy.
+6. **Wybór Paczkomatu i BLIK**: Wybrano Paczkomat `KRA01M` i wprowadzono kod BLIK `777 888`.
+7. **Złożenie Zamówienia**: Wygenerowano zamówienie `#HDD-2026-7511` ze statusem *Opłacono pomyślnie* i wyczyszczono koszyk.

@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Zarządzania Sklepem - Narzędzia HDD PL</title>
+    <!-- Fallback Font: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#0064e0",
+                        'primary-deep': "#0457cb",
+                        'primary-soft': "#0091ff",
+                        'on-primary': "#ffffff",
+                        'ink-button': "#000000",
+                        'on-ink-button': "#ffffff",
+                        success: "#31a24c",
+                        attention: "#f2a918",
+                        warning: "#f7b928",
+                        critical: "#e41e3f",
+                        'critical-strong': "#f0284a",
+                        canvas: "#ffffff",
+                        'surface-soft': "#f1f4f7",
+                        'ink-deep': "#0a1317",
+                        ink: "#1c1e21",
+                        charcoal: "#444950",
+                        slate: "#4b4c4f",
+                        steel: "#5d6c7b",
+                        stone: "#8595a4",
+                        hairline: "#ced0d4",
+                        'hairline-soft': "#dee3e9",
+                        'cat-yellow': "#FFCD00",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-primary {
+                @apply bg-primary text-on-primary font-bold text-xs md:text-sm rounded-xl py-2.5 px-4 inline-flex items-center gap-2 hover:bg-primary-deep transition-all shadow-sm cursor-pointer;
+            }
+            .btn-secondary {
+                @apply bg-canvas text-ink-deep font-bold text-xs md:text-sm rounded-xl py-2.5 px-4 inline-flex items-center gap-2 border border-hairline hover:bg-surface-soft transition-all cursor-pointer;
+            }
+            .btn-danger {
+                @apply bg-red-50 text-critical font-bold text-xs rounded-lg py-1.5 px-3 hover:bg-red-100 transition-colors inline-flex items-center gap-1 cursor-pointer;
+            }
+            .btn-edit {
+                @apply bg-blue-50 text-primary font-bold text-xs rounded-lg py-1.5 px-3 hover:bg-blue-100 transition-colors inline-flex items-center gap-1 cursor-pointer;
+            }
+            .input-admin {
+                @apply w-full h-10 px-3.5 bg-canvas border border-hairline rounded-xl text-xs md:text-sm text-ink-deep focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all;
+            }
+            .nav-tab {
+                @apply flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold text-steel hover:text-ink-deep border-b-2 border-transparent transition-all cursor-pointer;
+            }
+            .nav-tab.active {
+                @apply text-primary border-primary bg-primary-soft/5;
+            }
+        }
+        body { @apply bg-[#f4f6f9] text-ink font-sans antialiased; }
+    </style>
+    
+    <script src="shop-config.js"></script>
+    <script src="products.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Ekran Logowania PIN (Widoczny jeśli brak autoryzacji sesji) -->
+    <div id="admin-login-overlay" class="fixed inset-0 z-[999999] bg-[#0a1317] flex items-center justify-center p-4">
+        <div class="bg-canvas max-w-sm w-full rounded-3xl p-8 text-center shadow-2xl border border-hairline">
+            <div class="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h2 class="text-xl font-bold text-ink-deep mb-1">Panel Narzędzia HDD</h2>
+            <p class="text-xs text-steel mb-6">Wprowadź kod PIN administratora, aby zarządzać sklepem.</p>
+            <form onsubmit="handleAdminLogin(event)" class="flex flex-col gap-3">
+                <input type="password" id="admin-pin-input" placeholder="Wpisz hasło / PIN (domyślnie: admin2026)" class="input-admin text-center font-bold tracking-widest text-sm" autofocus>
+                <button type="submit" class="btn-primary justify-center py-3">Zaloguj do panelu</button>
+                <p id="admin-login-error" class="text-xs text-critical font-semibold mt-1 hidden">Błędne hasło administratora.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pasek Górny Admina -->
+    <header class="bg-ink-deep text-canvas h-16 px-4 lg:px-8 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity" target="_blank" title="Otwórz sklep w nowej karcie">
+                <span class="text-lg font-bold tracking-tight">Narzędzia</span>
+                <span class="bg-cat-yellow text-ink-deep font-black text-sm rounded px-1.5 py-0.5">HDD</span>
+            </a>
+            <span class="text-xs bg-white/10 text-cat-yellow px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">CMS Panel</span>
+        </div>
+
+        <div class="flex items-center gap-2 md:gap-3">
+            <a href="index.html" target="_blank" class="btn-secondary bg-white/10 border-transparent text-canvas hover:bg-white/20 text-xs py-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Podgląd sklepu
+            </a>
+            <button onclick="exportDataFiles()" class="btn-primary text-xs py-2 bg-success hover:bg-green-700">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Zapisz / Pobierz pliki bazy
+            </button>
+            <button onclick="handleAdminLogout()" class="p-2 text-stone hover:text-canvas transition-colors" title="Wyloguj">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Pasek Zakładek (Nawigacja Modułów) -->
+    <nav class="bg-canvas border-b border-hairline px-4 lg:px-8 flex overflow-x-auto shadow-sm">
+        <button class="nav-tab active" onclick="switchAdminTab('products')" id="tab-btn-products">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            Produkty i Oferty (<span id="stat-products-count">0</span>)
+        </button>
+        <button class="nav-tab" onclick="switchAdminTab('categories')" id="tab-btn-categories">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            Kategorie i Zakładki (<span id="stat-cats-count">0</span>)
+        </button>
+        <button class="nav-tab" onclick="switchAdminTab('coupons')" id="tab-btn-coupons">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="M9 9h.01"></path><path d="M15 15h.01"></path></svg>
+            Kody Rabatowe
+        </button>
+        <button class="nav-tab" onclick="switchAdminTab('settings')" id="tab-btn-settings">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Dane Firmy i Sklepu
+        </button>
+    </nav>
+
+    <!-- Główna Zawartość Panelu -->
+    <main class="max-w-[1600px] mx-auto px-4 lg:px-8 py-8 w-full flex-1">
+        
+        <!-- ==================== TAB 1: PRODUKTY ==================== -->
+        <section id="tab-content-products" class="tab-content">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-ink-deep">Baza Produktów i Ofert</h1>
+                    <p class="text-xs text-steel">Zarządzaj asortymentem, cenami brutto/netto, gwintami oraz zdjęciami.</p>
+                </div>
+                <button onclick="openProductModal()" class="btn-primary self-start md:self-auto">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    + Dodaj Nowy Produkt
+                </button>
+            </div>
+
+            <!-- Filtry i Wyszukiwarka w tabeli admina -->
+            <div class="bg-canvas border border-hairline rounded-2xl p-4 mb-6 shadow-sm flex flex-wrap items-center gap-3">
+                <div class="flex-1 min-w-[220px]">
+                    <input type="text" id="admin-product-search" placeholder="Szukaj po nazwie lub SKU..." class="input-admin" oninput="renderAdminProductsTable()">
+                </div>
+                <div class="w-48">
+                    <select id="admin-category-filter" class="input-admin cursor-pointer" onchange="renderAdminProductsTable()">
+                        <option value="">Wszystkie kategorie</option>
+                    </select>
+                </div>
+                <button onclick="resetAdminProductFilters()" class="text-xs text-steel hover:text-ink font-semibold px-2">Wyczyść</button>
+            </div>
+
+            <!-- Tabela Produktów -->
+            <div class="bg-canvas border border-hairline rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr class="bg-surface-soft text-steel uppercase text-[11px] font-bold tracking-wider border-b border-hairline">
+                                <th class="py-3.5 px-4">Zdjęcie</th>
+                                <th class="py-3.5 px-4">SKU / Nazwa</th>
+                                <th class="py-3.5 px-4">Kategoria</th>
+                                <th class="py-3.5 px-4">Gwint</th>
+                                <th class="py-3.5 px-4">Cena Brutto / Netto</th>
+                                <th class="py-3.5 px-4">Status</th>
+                                <th class="py-3.5 px-4 text-right">Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-products-tbody" class="divide-y divide-hairline-soft">
+                            <!-- Dynamicznie ładowane przez JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== TAB 2: KATEGORIE ==================== -->
+        <section id="tab-content-categories" class="tab-content hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-ink-deep">Kategorie i Zakładki Osprzętu</h1>
+                    <p class="text-xs text-steel">Zarządzaj strukturą menu katalogu i opisami kategorii.</p>
+                </div>
+                <button onclick="openCategoryModal()" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    + Dodaj Nową Kategorię
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-categories-grid">
+                <!-- Generowane dynamicznie -->
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: KODY RABATOWE ==================== -->
+        <section id="tab-content-coupons" class="tab-content hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-ink-deep">Kody Rabatowe i Promocje</h1>
+                    <p class="text-xs text-steel">Konfiguruj aktywne kupony promocyjne wpisywane w koszyku i kasie.</p>
+                </div>
+                <button onclick="openCouponModal()" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    + Dodaj Nowy Kod
+                </button>
+            </div>
+
+            <div class="bg-canvas border border-hairline rounded-2xl shadow-sm overflow-hidden">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-surface-soft text-steel uppercase text-[11px] font-bold tracking-wider border-b border-hairline">
+                            <th class="py-3.5 px-4">Kod kuponu</th>
+                            <th class="py-3.5 px-4">Typ rabatu</th>
+                            <th class="py-3.5 px-4">Wartość</th>
+                            <th class="py-3.5 px-4">Etykieta</th>
+                            <th class="py-3.5 px-4 text-right">Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-coupons-tbody" class="divide-y divide-hairline-soft">
+                        <!-- Generowane dynamicznie -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: USTAWIENIA ==================== -->
+        <section id="tab-content-settings" class="tab-content hidden">
+            <div class="max-w-3xl">
+                <h1 class="text-xl md:text-2xl font-bold text-ink-deep mb-1">Dane Firmowe i Ustawienia Sklepu</h1>
+                <p class="text-xs text-steel mb-6">Informacje te są wyświetlane w stopce, fakturach B2B i danych do przelewu.</p>
+
+                <form onsubmit="saveShopSettings(event)" class="bg-canvas border border-hairline rounded-2xl p-6 md:p-8 shadow-sm flex flex-col gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-ink-deep block mb-1">Pełna nazwa firmy</label>
+                            <input type="text" id="set-company-name" class="input-admin" required>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-ink-deep block mb-1">NIP Firmy</label>
+                            <input type="text" id="set-company-nip" class="input-admin" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Adres siedziby / Magazynu</label>
+                        <input type="text" id="set-company-address" class="input-admin" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-ink-deep block mb-1">E-mail kontaktowy</label>
+                            <input type="email" id="set-company-email" class="input-admin" required>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-ink-deep block mb-1">Telefon</label>
+                            <input type="tel" id="set-company-phone" class="input-admin" required>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-hairline-soft">
+                        <h3 class="text-sm font-bold text-ink-deep mb-3">Dane do płatności przelewem tradycyjnym</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold text-ink-deep block mb-1">Nazwa Banku</label>
+                                <input type="text" id="set-bank-name" class="input-admin" required>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-ink-deep block mb-1">Numer konta IBAN (PL)</label>
+                                <input type="text" id="set-bank-iban" class="input-admin font-mono" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nagłówek: Górny Pasek Ogłoszeń -->
+                    <div class="pt-4 border-t border-hairline-soft">
+                        <h3 class="text-sm font-bold text-ink-deep mb-3 flex items-center gap-1.5">
+                            📢 Górny Pasek Ogłoszeń (Nad Nagłówkiem)
+                        </h3>
+                        <div class="flex flex-col gap-3">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-ink-deep">
+                                <input type="checkbox" id="set-banner-enabled" class="accent-primary w-4 h-4">
+                                <span>Wyświetlaj pasek informacyjny na samej górze sklepu</span>
+                            </label>
+                            <div>
+                                <label class="text-xs font-bold text-ink-deep block mb-1">Treść komunikatu (np. o darmowej dostawie / promocji)</label>
+                                <input type="text" id="set-banner-text" class="input-admin" placeholder="🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Wysyłka w 24h">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dostawy i Próg Darmowej Wysyłki -->
+                    <div class="pt-4 border-t border-hairline-soft">
+                        <h3 class="text-sm font-bold text-ink-deep mb-3">Dostawy i Próg Darmowej Wysyłki</h3>
+                        <div>
+                            <label class="text-xs font-bold text-ink-deep block mb-1">Próg kwotowy darmowej dostawy (PLN brutto)</label>
+                            <input type="number" id="set-free-shipping" class="input-admin max-w-xs" step="10" required>
+                        </div>
+                    </div>
+
+                    <!-- Stopka Sklepu -->
+                    <div class="pt-4 border-t border-hairline-soft">
+                        <h3 class="text-sm font-bold text-ink-deep mb-3 flex items-center gap-1.5">
+                            📄 Treści i Opisy w Stopce Sklepu
+                        </h3>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="text-xs font-bold text-ink-deep block mb-1">Krótki opis firmy / misji w stopce</label>
+                                <textarea id="set-footer-about" rows="2" class="input-admin h-auto py-2" placeholder="Specjalistyczny sklep osprzętu do przewiertów sterowanych HDD..."></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-bold text-ink-deep block mb-1">Godziny pracy / Obsługa infolinii</label>
+                                    <input type="text" id="set-footer-hours" class="input-admin" placeholder="Pn - Pt: 7:00 - 17:00 | Dyżur: 24/7">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-ink-deep block mb-1">Tekst praw autorskich (Copyright)</label>
+                                    <input type="text" id="set-footer-copyright" class="input-admin" placeholder="© 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-hairline-soft flex justify-end">
+                        <button type="submit" class="btn-primary">
+                            Zapisz Wszystkie Ustawienia
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== MODAL PRODUKTU ==================== -->
+    <div id="product-modal" class="fixed inset-0 z-[100000] hidden items-center justify-center p-4 bg-ink-deep/70 backdrop-blur-sm">
+        <div class="bg-canvas max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-3xl p-6 md:p-8 shadow-2xl border border-hairline">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-hairline-soft">
+                <h3 class="text-lg font-bold text-ink-deep" id="product-modal-title">Dodaj Nowy Produkt</h3>
+                <button onclick="closeProductModal()" class="text-steel hover:text-ink text-xl font-bold p-1">×</button>
+            </div>
+
+            <form onsubmit="saveProduct(event)" class="flex flex-col gap-4">
+                <input type="hidden" id="prod-edit-index" value="-1">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Nazwa produktu *</label>
+                        <input type="text" id="prod-name" class="input-admin" placeholder="np. Rozwieracz Baryłkowy 300mm" required oninput="autoSuggestSku(this.value)">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">SKU (Identyfikator) *</label>
+                        <input type="text" id="prod-sku" class="input-admin uppercase font-mono" placeholder="HDD-RB-300" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Kategoria *</label>
+                        <select id="prod-category" class="input-admin cursor-pointer" required>
+                            <!-- Generowane dynamicznie -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Cena Brutto (zł) *</label>
+                        <input type="number" id="prod-price" class="input-admin font-bold" step="0.01" min="0" placeholder="2500.00" required oninput="calcModalNetPrice(this.value)">
+                        <span class="text-[11px] text-steel mt-0.5 block" id="modal-net-preview">0,00 zł netto</span>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Typ gwintu</label>
+                        <input type="text" id="prod-thread" class="input-admin" placeholder='np. 2 7/8" IF'>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Status magazynowy</label>
+                        <select id="prod-stock" class="input-admin cursor-pointer">
+                            <option value="W magazynie">W magazynie (Dostępny od ręki - 24h)</option>
+                            <option value="Na zamówienie">Na zamówienie (Czas realizacji 3-5 dni)</option>
+                            <option value="Brak w magazynie">Brak w magazynie / Chwilowo niedostępny</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-ink-deep block mb-1">Powiązany produkt w zestawie (Opcjonalne SKU)</label>
+                        <input type="text" id="prod-bundle-sku" class="input-admin uppercase font-mono" placeholder="np. HDD-ZB_105 (lub puste = dobór automatyczny)">
+                    </div>
+                </div>
+
+                <!-- Zdjęcie Główne i Upload z Dysku -->
+                <div class="bg-surface-soft/60 border border-hairline-soft rounded-2xl p-4">
+                    <label class="text-xs font-bold text-ink-deep block mb-2">Zdjęcie główne produktu</label>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <div class="w-24 h-24 bg-[#f7f7f7] border border-hairline rounded-xl flex items-center justify-center p-2 overflow-hidden flex-shrink-0 relative">
+                            <img id="modal-img-preview" src="images/rozwieracz_skrzydlowy.png" class="max-w-full max-h-full object-contain mix-blend-multiply">
+                        </div>
+                        <div class="flex-1 w-full flex flex-col gap-2">
+                            <div class="flex items-center gap-2">
+                                <label class="btn-secondary text-xs py-2 px-3 flex-shrink-0 cursor-pointer bg-canvas">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                    Wybierz plik z dysku
+                                    <input type="file" id="prod-image-file" accept="image/*" class="hidden" onchange="handleImageFileUpload(event)">
+                                </label>
+                                <span class="text-[11px] text-steel">lub wpisz ścieżkę / URL:</span>
+                            </div>
+                            <input type="text" id="prod-image" class="input-admin text-xs" placeholder="images/rozwieracz_skrzydlowy.png" oninput="updateImagePreview(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dokumentacja Techniczna (PDF / DTR) -->
+                <div class="bg-surface-soft/60 border border-hairline-soft rounded-2xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-xs font-bold text-ink-deep flex items-center gap-1.5">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Dokumentacja techniczna (Karta Katalogowa PDF / DTR)
+                        </label>
+                        <span class="text-[11px] text-steel">Widoczna do pobrania na karcie produktu</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                        <label class="btn-secondary text-xs py-2 px-3 flex-shrink-0 cursor-pointer bg-canvas">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            Załącz plik PDF
+                            <input type="file" id="prod-pdf-file" accept="application/pdf,.pdf" class="hidden" onchange="handlePdfFileUpload(event)">
+                        </label>
+                        <input type="text" id="prod-pdf" class="input-admin text-xs flex-1" placeholder="np. docs/karta_techniczna_skrzydlowy.pdf (lub link URL do PDF)">
+                    </div>
+                    <div id="pdf-attached-badge" class="hidden items-center justify-between mt-2 pt-2 border-t border-hairline-soft/80 text-xs text-primary font-semibold">
+                        <span id="pdf-filename-text" class="truncate max-w-sm">📄 Załączono dokument PDF</span>
+                        <button type="button" onclick="removeAttachedPdf()" class="text-critical text-xs hover:underline">Usuń PDF</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Opis produktu</label>
+                    <textarea id="prod-description" rows="3" class="input-admin h-auto py-2.5" placeholder="Opis zastosowania i parametrów narzędzia..."></textarea>
+                </div>
+
+                <!-- Parametry Techniczne (Klucz - Wartość) -->
+                <div class="pt-3 border-t border-hairline-soft">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-xs font-bold text-ink-deep">Parametry techniczne (Specyfikacja)</label>
+                        <button type="button" onclick="addSpecRow()" class="text-xs text-primary font-bold hover:underline">+ Dodaj wiersz</button>
+                    </div>
+                    <div id="prod-specs-rows" class="flex flex-col gap-2">
+                        <!-- Dynamicznie wstawiane wiersze -->
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-hairline-soft flex justify-end gap-3">
+                    <button type="button" onclick="closeProductModal()" class="btn-secondary">Anuluj</button>
+                    <button type="submit" class="btn-primary">Zapisz Produkt</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL KATEGORII ==================== -->
+    <div id="category-modal" class="fixed inset-0 z-[100000] hidden items-center justify-center p-4 bg-ink-deep/70 backdrop-blur-sm">
+        <div class="bg-canvas max-w-md w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-hairline">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-hairline-soft">
+                <h3 class="text-lg font-bold text-ink-deep" id="category-modal-title">Dodaj Kategorię</h3>
+                <button onclick="closeCategoryModal()" class="text-steel hover:text-ink text-xl font-bold p-1">×</button>
+            </div>
+            <form onsubmit="saveCategory(event)" class="flex flex-col gap-3">
+                <input type="hidden" id="cat-edit-id" value="">
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Identyfikator (ID / URL slug) *</label>
+                    <input type="text" id="cat-id-input" class="input-admin lowercase font-mono" placeholder="np. adaptery" required>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Nazwa wyświetlana *</label>
+                    <input type="text" id="cat-name-input" class="input-admin" placeholder="np. Adaptery i Redukcje" required>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Tytuł sekcji (nagłówek H1)</label>
+                    <input type="text" id="cat-title-input" class="input-admin" placeholder="np. Adaptery gwintów wiertniczych">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Opis kategorii</label>
+                    <textarea id="cat-desc-input" rows="2" class="input-admin h-auto py-2" placeholder="Krótki opis asortymentu w tej kategorii..."></textarea>
+                </div>
+                <div class="pt-3 border-t border-hairline-soft flex justify-end gap-2">
+                    <button type="button" onclick="closeCategoryModal()" class="btn-secondary">Anuluj</button>
+                    <button type="submit" class="btn-primary">Zapisz Kategorię</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL KUPONU ==================== -->
+    <div id="coupon-modal" class="fixed inset-0 z-[100000] hidden items-center justify-center p-4 bg-ink-deep/70 backdrop-blur-sm">
+        <div class="bg-canvas max-w-md w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-hairline">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-hairline-soft">
+                <h3 class="text-lg font-bold text-ink-deep">Dodaj Kod Rabatowy</h3>
+                <button onclick="closeCouponModal()" class="text-steel hover:text-ink text-xl font-bold p-1">×</button>
+            </div>
+            <form onsubmit="saveCoupon(event)" class="flex flex-col gap-3">
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Kod kuponu (np. RABAT20) *</label>
+                    <input type="text" id="coup-code" class="input-admin uppercase font-mono font-bold" placeholder="RABAT20" required>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Typ zniżki</label>
+                    <select id="coup-type" class="input-admin cursor-pointer" onchange="toggleCouponValueInput(this.value)">
+                        <option value="percent">Procentowy (%)</option>
+                        <option value="fixed">Kwotowy (zł brutto)</option>
+                        <option value="free_shipping">Darmowa dostawa</option>
+                    </select>
+                </div>
+                <div id="coup-val-container">
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Wartość zniżki (np. 10 dla 10%)</label>
+                    <input type="number" id="coup-val" class="input-admin" placeholder="10" min="0">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-ink-deep block mb-1">Etykieta wyświetlana klientowi</label>
+                    <input type="text" id="coup-label" class="input-admin" placeholder="np. Rabat -10% na całe zamówienie" required>
+                </div>
+                <div class="pt-3 border-t border-hairline-soft flex justify-end gap-2">
+                    <button type="button" onclick="closeCouponModal()" class="btn-secondary">Anuluj</button>
+                    <button type="submit" class="btn-primary">Zapisz Kod</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logika CMS Panelu Administratora -->
+    <script>
+        const ADMIN_PIN = "admin2026";
+        let localProducts = [...PRODUCTS];
+        let localCategories = [...CATEGORIES];
+        let localCatDetails = { ...CAT_DETAILS };
+        let localPromoCodes = { ...PROMO_CODES };
+        let localShopConfig = { ...SHOP_CONFIG };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sprawdzenie logowania
+            if (sessionStorage.getItem('hdd_admin_auth') === 'true') {
+                document.getElementById('admin-login-overlay').classList.add('hidden');
+            }
+
+            refreshAllData();
+        });
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('admin-pin-input').value;
+            const err = document.getElementById('admin-login-error');
+            if (pin === ADMIN_PIN || pin === 'hdd2026') {
+                sessionStorage.setItem('hdd_admin_auth', 'true');
+                document.getElementById('admin-login-overlay').classList.add('hidden');
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+
+        function handleAdminLogout() {
+            sessionStorage.removeItem('hdd_admin_auth');
+            location.reload();
+        }
+
+        function refreshAllData() {
+            // Wczytaj z localStorage jeśli były zmiany
+            try {
+                const p = localStorage.getItem('hdd_custom_products');
+                if (p) localProducts = JSON.parse(p);
+                
+                const c = localStorage.getItem('hdd_custom_shop_config');
+                if (c) {
+                    const parsed = JSON.parse(c);
+                    if (parsed.CATEGORIES) localCategories = parsed.CATEGORIES;
+                    if (parsed.CAT_DETAILS) localCatDetails = parsed.CAT_DETAILS;
+                    if (parsed.PROMO_CODES) localPromoCodes = parsed.PROMO_CODES;
+                    if (parsed.SHOP_CONFIG) Object.assign(localShopConfig, parsed.SHOP_CONFIG);
+                }
+            } catch(e) {}
+
+            updateStats();
+            populateCategoryFilter();
+            renderAdminProductsTable();
+            renderAdminCategories();
+            renderAdminCoupons();
+            populateSettingsForm();
+        }
+
+        function updateStats() {
+            document.getElementById('stat-products-count').innerText = localProducts.length;
+            document.getElementById('stat-cats-count').innerText = localCategories.filter(c => c.id !== 'all').length;
+        }
+
+        // Zmiana Zakładek
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+
+            const content = document.getElementById(`tab-content-${tabId}`);
+            const btn = document.getElementById(`tab-btn-${tabId}`);
+            if (content) content.classList.remove('hidden');
+            if (btn) btn.classList.add('active');
+        }
+
+        // ==================== ZARZĄDZANIE PRODUKTAMI ====================
+        function populateCategoryFilter() {
+            const select = document.getElementById('admin-category-filter');
+            const modalSelect = document.getElementById('prod-category');
+            if (!select || !modalSelect) return;
+
+            const nonAll = localCategories.filter(c => c.id !== 'all');
+            
+            select.innerHTML = '<option value="">Wszystkie kategorie</option>' + 
+                nonAll.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                
+            modalSelect.innerHTML = nonAll.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        }
+
+        function renderAdminProductsTable() {
+            const tbody = document.getElementById('admin-products-tbody');
+            const search = (document.getElementById('admin-product-search').value || '').toLowerCase();
+            const catFilter = document.getElementById('admin-category-filter').value;
+
+            let filtered = localProducts.filter(p => {
+                const matchSearch = `${p.name} ${p.sku} ${p.thread || ''}`.toLowerCase().includes(search);
+                const matchCat = !catFilter || (p.categories && p.categories.includes(catFilter));
+                return matchSearch && matchCat;
+            });
+
+            const formatPrice = (pr) => pr.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-steel">Brak produktów spełniających kryteria.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(p => {
+                const netPrice = p.price / 1.23;
+                const catObj = localCategories.find(c => p.categories && p.categories.includes(c.id)) || { name: p.categories?.[0] || 'Inne' };
+                const realIndex = localProducts.findIndex(x => x.sku === p.sku);
+
+                return `
+                    <tr class="hover:bg-surface-soft/40 transition-colors">
+                        <td class="py-3 px-4">
+                            <div class="w-12 h-12 bg-[#f7f7f7] rounded-lg p-1 flex items-center justify-center overflow-hidden border border-hairline-soft">
+                                <img src="${p.image}" class="max-w-full max-h-full object-contain mix-blend-multiply">
+                            </div>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="font-bold text-ink-deep block truncate max-w-xs" title="${p.name}">${p.name}</span>
+                            <span class="font-mono text-[11px] text-steel">SKU: ${p.sku}</span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="bg-surface-soft text-charcoal px-2 py-1 rounded text-xs font-medium">${catObj.name}</span>
+                        </td>
+                        <td class="py-3 px-4 font-mono text-xs text-charcoal">
+                            ${p.thread || '—'}
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="font-bold text-ink-deep block">${formatPrice(p.price)}</span>
+                            <span class="text-[11px] text-steel">${formatPrice(netPrice)} netto</span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="text-xs ${p.stock === 'W magazynie' ? 'text-success font-semibold' : 'text-attention font-medium'}">${p.stock || 'W magazynie'}</span>
+                        </td>
+                        <td class="py-3 px-4 text-right whitespace-nowrap">
+                            <button onclick="editProduct(${realIndex})" class="btn-edit mr-1">Edytuj</button>
+                            <button onclick="duplicateProduct(${realIndex})" class="btn-secondary text-xs py-1 px-2 mr-1" title="Duplikuj">Klonuj</button>
+                            <button onclick="deleteProduct(${realIndex})" class="btn-danger">Usuń</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function resetAdminProductFilters() {
+            document.getElementById('admin-product-search').value = '';
+            document.getElementById('admin-category-filter').value = '';
+            renderAdminProductsTable();
+        }
+
+        function openProductModal(index = -1) {
+            document.getElementById('prod-edit-index').value = index;
+            document.getElementById('product-modal-title').innerText = index === -1 ? "Dodaj Nowy Produkt" : "Edytuj Produkt";
+            
+            const specsContainer = document.getElementById('prod-specs-rows');
+            specsContainer.innerHTML = '';
+
+            if (index >= 0) {
+                const p = localProducts[index];
+                document.getElementById('prod-name').value = p.name;
+                document.getElementById('prod-sku').value = p.sku;
+                document.getElementById('prod-category').value = p.categories?.[0] || 'rozwiertaki';
+                document.getElementById('prod-price').value = p.price;
+                document.getElementById('prod-thread').value = p.thread || '';
+                document.getElementById('prod-stock').value = p.stock || 'W magazynie';
+                document.getElementById('prod-bundle-sku').value = p.bundleSku || '';
+                document.getElementById('prod-image').value = p.image || '';
+                updateImagePreview(p.image || 'images/rozwieracz_skrzydlowy.png');
+                
+                document.getElementById('prod-pdf').value = p.pdfDoc || '';
+                updatePdfAttachedState(p.pdfDoc || '');
+
+                document.getElementById('prod-description').value = p.description || '';
+                calcModalNetPrice(p.price);
+
+                if (p.specs) {
+                    Object.entries(p.specs).forEach(([k, v]) => addSpecRow(k, v));
+                }
+            } else {
+                document.getElementById('prod-name').value = '';
+                document.getElementById('prod-sku').value = '';
+                document.getElementById('prod-price').value = '';
+                document.getElementById('prod-thread').value = '';
+                document.getElementById('prod-stock').value = 'W magazynie';
+                document.getElementById('prod-bundle-sku').value = '';
+                document.getElementById('prod-image').value = 'images/rozwieracz_skrzydlowy.png';
+                updateImagePreview('images/rozwieracz_skrzydlowy.png');
+                
+                document.getElementById('prod-pdf').value = '';
+                updatePdfAttachedState('');
+
+                document.getElementById('prod-description').value = '';
+                calcModalNetPrice(0);
+                addSpecRow('Średnica zewnętrzna', '250 mm');
+                addSpecRow('Waga', '45 kg');
+            }
+
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.getElementById('product-modal').classList.add('flex');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.getElementById('product-modal').classList.remove('flex');
+        }
+
+        // Podgląd i Upload Zdjęć
+        function updateImagePreview(src) {
+            const img = document.getElementById('modal-img-preview');
+            if (img && src) img.src = src;
+        }
+
+        function handleImageFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                document.getElementById('prod-image').value = base64Data;
+                updateImagePreview(base64Data);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Dokumentacja Techniczna PDF
+        function updatePdfAttachedState(pathOrUrl) {
+            const badge = document.getElementById('pdf-attached-badge');
+            const text = document.getElementById('pdf-filename-text');
+            if (pathOrUrl) {
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+                text.innerText = `📄 ${pathOrUrl.substring(0, 45)}...`;
+            } else {
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
+            }
+        }
+
+        function handlePdfFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Pdf = e.target.result;
+                document.getElementById('prod-pdf').value = base64Pdf;
+                updatePdfAttachedState(file.name);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeAttachedPdf() {
+            document.getElementById('prod-pdf').value = '';
+            document.getElementById('prod-pdf-file').value = '';
+            updatePdfAttachedState('');
+        }
+
+        function calcModalNetPrice(val) {
+            const num = parseFloat(val) || 0;
+            const net = num / 1.23;
+            document.getElementById('modal-net-preview').innerText = `${net.toFixed(2)} zł netto`;
+        }
+
+        function autoSuggestSku(name) {
+            if (document.getElementById('prod-edit-index').value != -1) return;
+            const words = name.trim().split(/\s+/);
+            let code = 'HDD';
+            if (words.length >= 2) {
+                code += '-' + words[0].substring(0, 2).toUpperCase() + words[1].substring(0, 2).toUpperCase();
+            } else if (words.length === 1 && words[0]) {
+                code += '-' + words[0].substring(0, 4).toUpperCase();
+            }
+            const rand = Math.floor(100 + Math.random() * 900);
+            document.getElementById('prod-sku').value = `${code}-${rand}`;
+        }
+
+        function addSpecRow(key = '', val = '') {
+            const container = document.getElementById('prod-specs-rows');
+            const row = document.createElement('div');
+            row.className = 'flex items-center gap-2 spec-row';
+            row.innerHTML = `
+                <input type="text" class="input-admin flex-1 spec-key" placeholder="Nazwa (np. Waga)" value="${key}">
+                <input type="text" class="input-admin flex-1 spec-val" placeholder="Wartość (np. 35 kg)" value="${val}">
+                <button type="button" onclick="this.parentElement.remove()" class="text-steel hover:text-critical font-bold p-1">×</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('prod-edit-index').value, 10);
+            
+            const specs = {};
+            document.querySelectorAll('#prod-specs-rows .spec-row').forEach(row => {
+                const k = row.querySelector('.spec-key').value.trim();
+                const v = row.querySelector('.spec-val').value.trim();
+                if (k && v) specs[k] = v;
+            });
+
+            const stockVal = document.getElementById('prod-stock').value;
+            const bundleSkuVal = document.getElementById('prod-bundle-sku').value.trim();
+            const pdfDocVal = document.getElementById('prod-pdf').value.trim();
+
+            const newProd = {
+                sku: document.getElementById('prod-sku').value.trim(),
+                name: document.getElementById('prod-name').value.trim(),
+                price: parseFloat(document.getElementById('prod-price').value),
+                image: document.getElementById('prod-image').value.trim() || 'images/rozwieracz_skrzydlowy.png',
+                categories: [document.getElementById('prod-category').value],
+                thread: document.getElementById('prod-thread').value.trim(),
+                stock: stockVal,
+                badge: stockVal === 'W magazynie' ? 'W magazynie' : stockVal === 'Na zamówienie' ? 'Na zamówienie' : '',
+                badgeClass: stockVal === 'W magazynie' ? 'badge-success' : 'badge-cat',
+                description: document.getElementById('prod-description').value.trim(),
+                specs: specs,
+                bundleSku: bundleSkuVal || undefined,
+                pdfDoc: pdfDocVal || undefined
+            };
+
+            if (index >= 0) {
+                localProducts[index] = newProd;
+            } else {
+                localProducts.unshift(newProd);
+            }
+
+
+            persistChanges();
+            closeProductModal();
+            refreshAllData();
+            alert("Produkt został pomyślnie zapisany!");
+        }
+
+        function editProduct(index) {
+            openProductModal(index);
+        }
+
+        function duplicateProduct(index) {
+            const p = { ...localProducts[index] };
+            p.sku = p.sku + '-KOPIA';
+            p.name = p.name + ' (Kopia)';
+            localProducts.splice(index + 1, 0, p);
+            persistChanges();
+            refreshAllData();
+        }
+
+        function deleteProduct(index) {
+            if (confirm(`Czy na pewno chcesz usunąć produkt "${localProducts[index].name}"?`)) {
+                localProducts.splice(index, 1);
+                persistChanges();
+                refreshAllData();
+            }
+        }
+
+        // ==================== ZARZĄDZANIE KATEGORIAMI ====================
+        function renderAdminCategories() {
+            const grid = document.getElementById('admin-categories-grid');
+            grid.innerHTML = localCategories.filter(c => c.id !== 'all').map(c => {
+                const details = localCatDetails[c.id] || { title: c.name, desc: '' };
+                const count = localProducts.filter(p => p.categories && p.categories.includes(c.id)).length;
+                return `
+                    <div class="bg-canvas border border-hairline rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-mono text-xs font-bold text-primary bg-primary-soft/10 px-2 py-0.5 rounded">${c.id}</span>
+                                <span class="text-xs bg-surface-soft px-2 py-0.5 rounded-full font-bold text-steel">${count} ofert</span>
+                            </div>
+                            <h3 class="font-bold text-ink-deep text-base mb-1">${c.name}</h3>
+                            <p class="text-xs text-charcoal mb-4 line-clamp-2">${details.desc || 'Brak opisu.'}</p>
+                        </div>
+                        <div class="flex justify-end gap-2 pt-3 border-t border-hairline-soft">
+                            <button onclick="editCategory('${c.id}')" class="btn-edit">Edytuj</button>
+                            <button onclick="deleteCategory('${c.id}')" class="btn-danger">Usuń</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCategoryModal(catId = '') {
+            document.getElementById('cat-edit-id').value = catId;
+            document.getElementById('category-modal-title').innerText = catId ? "Edytuj Kategorię" : "Dodaj Nową Kategorię";
+            
+            if (catId) {
+                const cat = localCategories.find(c => c.id === catId);
+                const det = localCatDetails[catId] || {};
+                document.getElementById('cat-id-input').value = cat.id;
+                document.getElementById('cat-id-input').disabled = true;
+                document.getElementById('cat-name-input').value = cat.name;
+                document.getElementById('cat-title-input').value = det.title || cat.name;
+                document.getElementById('cat-desc-input').value = det.desc || '';
+            } else {
+                document.getElementById('cat-id-input').value = '';
+                document.getElementById('cat-id-input').disabled = false;
+                document.getElementById('cat-name-input').value = '';
+                document.getElementById('cat-title-input').value = '';
+                document.getElementById('cat-desc-input').value = '';
+            }
+            document.getElementById('category-modal').classList.remove('hidden');
+            document.getElementById('category-modal').classList.add('flex');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('category-modal').classList.add('hidden');
+            document.getElementById('category-modal').classList.remove('flex');
+        }
+
+        function saveCategory(e) {
+            e.preventDefault();
+            const editId = document.getElementById('cat-edit-id').value;
+            const newId = document.getElementById('cat-id-input').value.trim().toLowerCase().replace(/[\s_]+/g, '-');
+            const newName = document.getElementById('cat-name-input').value.trim();
+            const newTitle = document.getElementById('cat-title-input').value.trim() || newName;
+            const newDesc = document.getElementById('cat-desc-input').value.trim();
+
+            if (editId) {
+                const idx = localCategories.findIndex(c => c.id === editId);
+                if (idx > -1) localCategories[idx].name = newName;
+                localCatDetails[editId] = { title: newTitle, desc: newDesc };
+            } else {
+                localCategories.push({ id: newId, name: newName, icon: 'tool' });
+                localCatDetails[newId] = { title: newTitle, desc: newDesc };
+            }
+
+            persistChanges();
+            closeCategoryModal();
+            refreshAllData();
+            alert("Kategoria została zapisana!");
+        }
+
+        function editCategory(catId) {
+            openCategoryModal(catId);
+        }
+
+        function deleteCategory(catId) {
+            if (confirm(`Czy na pewno chcesz usunąć kategorię "${catId}"? Produkty w tej kategorii nie zostaną skasowane.`)) {
+                localCategories = localCategories.filter(c => c.id !== catId);
+                delete localCatDetails[catId];
+                persistChanges();
+                refreshAllData();
+            }
+        }
+
+        // ==================== ZARZĄDZANIE KUPONAMI ====================
+        function renderAdminCoupons() {
+            const tbody = document.getElementById('admin-coupons-tbody');
+            tbody.innerHTML = Object.entries(localPromoCodes).map(([code, c]) => `
+                <tr class="hover:bg-surface-soft/40 transition-colors">
+                    <td class="py-3 px-4 font-mono font-bold text-primary">${code}</td>
+                    <td class="py-3 px-4">${c.type === 'percent' ? 'Procentowy (%)' : c.type === 'fixed' ? 'Kwotowy (zł)' : 'Darmowa dostawa'}</td>
+                    <td class="py-3 px-4 font-bold">${c.type === 'percent' ? c.value + '%' : c.type === 'fixed' ? c.value + ' zł' : '0 zł'}</td>
+                    <td class="py-3 px-4 text-steel">${c.label}</td>
+                    <td class="py-3 px-4 text-right">
+                        <button onclick="deleteCoupon('${code}')" class="btn-danger">Usuń</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openCouponModal() {
+            document.getElementById('coup-code').value = '';
+            document.getElementById('coup-val').value = '10';
+            document.getElementById('coup-label').value = '';
+            document.getElementById('coupon-modal').classList.remove('hidden');
+            document.getElementById('coupon-modal').classList.add('flex');
+        }
+
+        function closeCouponModal() {
+            document.getElementById('coupon-modal').classList.add('hidden');
+            document.getElementById('coupon-modal').classList.remove('flex');
+        }
+
+        function toggleCouponValueInput(val) {
+            document.getElementById('coup-val-container').style.display = val === 'free_shipping' ? 'none' : 'block';
+        }
+
+        function saveCoupon(e) {
+            e.preventDefault();
+            const code = document.getElementById('coup-code').value.trim().toUpperCase();
+            const type = document.getElementById('coup-type').value;
+            const val = parseFloat(document.getElementById('coup-val').value) || 0;
+            const label = document.getElementById('coup-label').value.trim();
+
+            localPromoCodes[code] = { type, value: val, label };
+            persistChanges();
+            closeCouponModal();
+            refreshAllData();
+            alert(`Kod ${code} został dodany!`);
+        }
+
+        function deleteCoupon(code) {
+            if (confirm(`Usunąć kod rabatowy ${code}?`)) {
+                delete localPromoCodes[code];
+                persistChanges();
+                refreshAllData();
+            }
+        }
+
+        // ==================== ZARZĄDZANIE USTAWIENIAMI ====================
+        function populateSettingsForm() {
+            const c = localShopConfig.company || {};
+            const f = localShopConfig.footer || {};
+            document.getElementById('set-company-name').value = c.name || '';
+            document.getElementById('set-company-nip').value = c.nip || '';
+            document.getElementById('set-company-address').value = c.address || '';
+            document.getElementById('set-company-email').value = c.email || '';
+            document.getElementById('set-company-phone').value = c.phone || '';
+            document.getElementById('set-bank-name').value = c.bankName || '';
+            document.getElementById('set-bank-iban').value = c.accountIban || '';
+            document.getElementById('set-free-shipping').value = localShopConfig.freeShippingThreshold || 500;
+            
+            // Nagłówek i Stopka
+            document.getElementById('set-banner-enabled').checked = localShopConfig.topBannerEnabled !== false;
+            document.getElementById('set-banner-text').value = localShopConfig.topBannerText || '🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Wysyłka w 24h';
+            document.getElementById('set-footer-about').value = f.aboutText || '';
+            document.getElementById('set-footer-hours').value = f.workingHours || '';
+            document.getElementById('set-footer-copyright').value = f.copyright || '© 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.';
+        }
+
+        function saveShopSettings(e) {
+            e.preventDefault();
+            localShopConfig.company = {
+                name: document.getElementById('set-company-name').value.trim(),
+                nip: document.getElementById('set-company-nip').value.trim(),
+                address: document.getElementById('set-company-address').value.trim(),
+                email: document.getElementById('set-company-email').value.trim(),
+                phone: document.getElementById('set-company-phone').value.trim(),
+                bankName: document.getElementById('set-bank-name').value.trim(),
+                accountIban: document.getElementById('set-bank-iban').value.trim(),
+                swift: "INGBPLPW"
+            };
+            localShopConfig.freeShippingThreshold = parseFloat(document.getElementById('set-free-shipping').value) || 500;
+            localShopConfig.topBannerEnabled = document.getElementById('set-banner-enabled').checked;
+            localShopConfig.topBannerText = document.getElementById('set-banner-text').value.trim();
+            localShopConfig.footer = {
+                aboutText: document.getElementById('set-footer-about').value.trim(),
+                workingHours: document.getElementById('set-footer-hours').value.trim(),
+                copyright: document.getElementById('set-footer-copyright').value.trim()
+            };
+
+            persistChanges();
+            alert("Ustawienia sklepu, nagłówka i stopki zostały pomyślnie zapisane!");
+        }
+
+
+        // ==================== PERSISTENCE & EKSPORT ====================
+        function persistChanges() {
+            localStorage.setItem('hdd_custom_products', JSON.stringify(localProducts));
+            localStorage.setItem('hdd_custom_shop_config', JSON.stringify({
+                CATEGORIES: localCategories,
+                CAT_DETAILS: localCatDetails,
+                FILTER_OPTIONS: FILTER_OPTIONS,
+                PROMO_CODES: localPromoCodes,
+                SHOP_CONFIG: localShopConfig
+            }));
+
+            // Próba wysłania do lokalnego serwera Pythona (jeśli uruchomiony admin_server.py)
+            fetch('/api/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    products: localProducts,
+                    shopConfig: {
+                        CATEGORIES: localCategories,
+                        CAT_DETAILS: localCatDetails,
+                        FILTER_OPTIONS: FILTER_OPTIONS,
+                        PROMO_CODES: localPromoCodes,
+                        SHOP_CONFIG: localShopConfig
+                    }
+                })
+            }).catch(() => {});
+        }
+
+        function exportDataFiles() {
+            // Generowanie treści products.js
+            const productsContent = `let PRODUCTS = ${JSON.stringify(localProducts, null, 4)};\n\n// Wczytaj niestandardowe produkty z panelu administratora (jeśli istnieją)\ntry {\n    const customData = localStorage.getItem('hdd_custom_products');\n    if (customData) {\n        const parsed = JSON.parse(customData);\n        if (Array.isArray(parsed) && parsed.length > 0) {\n            PRODUCTS = parsed;\n        }\n    }\n} catch(e) {}\n`;
+            
+            // Generowanie treści shop-config.js
+            const shopConfigContent = `/**\n * Centralna konfiguracja sklepu Narzędzia HDD PL\n */\n\nlet SHOP_CONFIG = ${JSON.stringify(localShopConfig, null, 4)};\n\nlet CATEGORIES = ${JSON.stringify(localCategories, null, 4)};\n\nlet CAT_DETAILS = ${JSON.stringify(localCatDetails, null, 4)};\n\nlet FILTER_OPTIONS = ${JSON.stringify(FILTER_OPTIONS, null, 4)};\n\nlet PROMO_CODES = ${JSON.stringify(localPromoCodes, null, 4)};\n\nlet POPULAR_PACZKOMATY = ${JSON.stringify(POPULAR_PACZKOMATY, null, 4)};\n\nlet POPULAR_BANKS = ${JSON.stringify(POPULAR_BANKS, null, 4)};\n\nfunction validateNIP(nip) {\n    if (!nip) return false;\n    const cleanNip = nip.replace(/[\\s-]/g, '');\n    if (cleanNip.length !== 10 || !/^\\d{10}$/.test(cleanNip)) return false;\n    const weights = [6, 5, 7, 2, 3, 4, 5, 6, 7];\n    let sum = 0;\n    for (let i = 0; i < 9; i++) sum += parseInt(cleanNip[i], 10) * weights[i];\n    const checkDigit = sum % 11;\n    return checkDigit === parseInt(cleanNip[9], 10) && checkDigit !== 10;\n}\n\ntry {\n    const customConfig = localStorage.getItem('hdd_custom_shop_config');\n    if (customConfig) {\n        const parsed = JSON.parse(customConfig);\n        if (parsed.CATEGORIES) CATEGORIES = parsed.CATEGORIES;\n        if (parsed.CAT_DETAILS) CAT_DETAILS = parsed.CAT_DETAILS;\n        if (parsed.FILTER_OPTIONS) FILTER_OPTIONS = parsed.FILTER_OPTIONS;\n        if (parsed.PROMO_CODES) PROMO_CODES = parsed.PROMO_CODES;\n        if (parsed.SHOP_CONFIG) Object.assign(SHOP_CONFIG, parsed.SHOP_CONFIG);\n    }\n} catch(e) {}\n`;
+
+            downloadTextFile("products.js", productsContent);
+            setTimeout(() => {
+                downloadTextFile("shop-config.js", shopConfigContent);
+            }, 400);
+
+            alert("Pobrano zaktualizowane pliki 'products.js' oraz 'shop-config.js'. Możesz je podmienić w folderze sklepu.");
+        }
+
+        function downloadTextFile(filename, text) {
+            const blob = new Blob([text], { type: 'text/javascript;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

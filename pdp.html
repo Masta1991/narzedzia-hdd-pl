@@ -4,11 +4,11 @@
     <script src="auth-gate.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rozwieracz Baryłkowy HDD Premium 250mm - Narzędzia HDD PL</title>
-    <!-- Fallback Font: Montserrat (imitujący geometryczno-humanistyczny charakter Optimistic VF) -->
+    <title>Karta Produktu - Narzędzia HDD PL</title>
+    <!-- Fallback Font: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -40,25 +40,13 @@
                         stone: "#8595a4",
                         hairline: "#ced0d4",
                         'hairline-soft': "#dee3e9",
+                        'cat-yellow': "#FFCD00",
                     },
                     borderRadius: {
-                        xs: '2px',
-                        sm: '4px',
-                        md: '6px',
-                        lg: '8px',
-                        xl: '16px',
-                        xxl: '24px',
-                        xxxl: '32px',
-                        feature: '40px',
-                        full: '100px',
-                        circle: '50%',
+                        xs: '2px', sm: '4px', md: '6px', lg: '8px', xl: '16px', xxl: '24px', xxxl: '32px', feature: '40px', full: '100px', circle: '50%'
                     },
                     boxShadow: {
-                        'panel': 'rgba(20, 22, 26, 0.3) 0px 1px 4px 0px',
-                    },
-                    letterSpacing: {
-                        tight: '-0.16px',
-                        tighter: '-0.14px',
+                        'panel': 'rgba(20, 22, 26, 0.15) 0px 2px 8px 0px',
                     }
                 }
             }
@@ -67,644 +55,515 @@
 
     <style type="text/tailwindcss">
         @layer components {
-            .text-heading-lg {
-                @apply text-[36px] font-medium leading-[1.28] tracking-normal;
-            }
-            .text-heading-sm {
-                @apply text-[24px] font-medium leading-[1.25] tracking-normal;
-            }
-            .text-subtitle-lg {
-                @apply text-[18px] font-bold leading-[1.44];
-            }
-            .text-body-md {
-                @apply text-[16px] font-normal leading-[1.50] tracking-tight;
-            }
-            .text-body-md-bold {
-                @apply text-[16px] font-bold leading-[1.50] tracking-tight;
-            }
-            .text-body-sm {
-                @apply text-[14px] font-normal leading-[1.43] tracking-tighter;
-            }
-            .text-body-sm-bold {
-                @apply text-[14px] font-bold leading-[1.43] tracking-tighter;
-            }
+            .text-heading-lg { @apply text-[28px] md:text-[34px] font-bold leading-[1.25] tracking-tight; }
+            .text-heading-sm { @apply text-[20px] md:text-[22px] font-bold leading-[1.25] tracking-tight; }
+            .text-subtitle-lg { @apply text-[16px] font-bold leading-[1.44]; }
+            .text-body-md { @apply text-[15px] font-normal leading-[1.50]; }
+            .text-body-md-bold { @apply text-[15px] font-bold leading-[1.50]; }
+            .text-body-sm { @apply text-[13px] font-normal leading-[1.43]; }
+            .text-body-sm-bold { @apply text-[13px] font-bold leading-[1.43]; }
             
-            /* Buttons & Pills */
-            .btn-pill-tab {
-                @apply bg-canvas text-ink text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-hairline hover:bg-surface-soft transition-colors;
-            }
-            .btn-pill-tab-active {
-                @apply bg-ink-deep text-canvas text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full px-4 py-2 border border-transparent;
-            }
             .btn-buy-cta {
-                @apply bg-primary text-on-primary text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[14px] px-[30px] inline-block text-center hover:bg-primary-deep transition-colors;
+                @apply bg-primary text-on-primary text-[15px] font-bold rounded-full py-4 px-8 inline-flex items-center justify-center gap-2 hover:bg-primary-deep transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg w-full;
             }
             .btn-ghost {
-                @apply bg-transparent text-ink-deep text-[14px] font-bold leading-[1.43] tracking-tighter rounded-full py-[10px] px-[22px] border-2 border-[rgba(10,19,23,0.12)] hover:bg-surface-soft transition-colors;
+                @apply bg-transparent text-ink-deep text-[13px] font-bold rounded-full py-2.5 px-5 border border-hairline hover:bg-surface-soft transition-colors text-center inline-block cursor-pointer;
             }
             .btn-icon-circular {
-                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors;
+                @apply bg-canvas text-ink rounded-circle w-10 h-10 flex items-center justify-center hover:bg-surface-soft transition-colors cursor-pointer;
             }
             .badge-success {
-                @apply bg-success text-canvas text-[12px] font-bold leading-[1.33] rounded-full py-1 px-2.5 inline-block;
+                @apply bg-success text-canvas text-[11px] font-bold rounded-full py-1 px-3 inline-block;
             }
         }
-        
-        body {
-            @apply bg-canvas text-ink font-sans antialiased;
-        }
+        body { @apply bg-[#fbfcfd] text-ink font-sans antialiased; }
         
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
+        input[type="number"] { -moz-appearance: textfield; }
     </style>
+    <script src="shop-config.js"></script>
     <script src="products.js"></script>
     <script src="cart.js"></script>
 </head>
-<body class="bg-canvas">
+<body class="flex flex-col min-h-screen">
 
-    <!-- Promo Banner -->
-    <div class="bg-ink-deep text-canvas text-body-sm-bold py-3 px-6 text-center">
-        Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN. <a href="#" class="underline hover:text-surface-soft">Sprawdź szczegóły</a>
+    <!-- Promo Banner (Górny Pasek Ogłoszeń) -->
+    <div class="top-announcement-bar bg-ink-deep text-canvas text-body-sm-bold py-2.5 px-6 text-center text-xs md:text-sm">
+        🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Wysyłka w 24h
     </div>
 
     <!-- Pasek Nawigacji (Sticky) -->
-    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-6 lg:px-12 flex items-center justify-between">
-        <!-- Logo -->
+    <nav class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline-soft h-16 px-4 lg:px-8 flex items-center justify-between">
         <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity">
             <span class="text-heading-sm font-bold text-ink-deep tracking-tight">Narzędzia</span>
             <span class="bg-ink-deep text-cat-yellow font-bold text-heading-sm rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
         </a>
         
-        <!-- W centrum: uproszczony link katalogu -->
         <div class="hidden md:flex items-center">
-            <a href="index.html" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors">Katalog produktów</a>
+            <a href="index.html" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors">← Wróć do pełnego katalogu</a>
         </div>
         
-        <!-- Ikony z prawej -->
         <div class="flex items-center space-x-2">
-            <button class="btn-icon-circular">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </button>
-            <a href="koszyk.html" class="btn-icon-circular relative inline-flex">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border border-canvas"></span>
+            <a href="koszyk.html" class="btn-icon-circular relative inline-flex" title="Twój koszyk">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="cart-badge absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center border border-canvas"></span>
             </a>
         </div>
     </nav>
 
-    <!-- Główna zawartość -->
-    <main class="max-w-[1280px] mx-auto px-6 lg:px-12 pt-8 pb-24">
+    <!-- Główna zawartość PDP -->
+    <main class="max-w-[1400px] mx-auto px-4 lg:px-8 pt-6 pb-24 w-full flex-1">
         
         <!-- Breadcrumbs -->
-        <nav class="flex text-body-sm text-steel mb-8">
-            <a href="index.html" class="hover:text-ink transition-colors">Sklep</a>
-            <span class="mx-2 text-stone">›</span>
-            <a href="index.html" id="breadcrumb-category-link" class="hover:text-ink transition-colors">Katalog</a>
-            <span class="mx-2 text-stone">›</span>
-            <span class="text-ink" id="breadcrumb-product-title">Ładowanie...</span>
-        </nav>
+        <div class="flex items-center gap-2 text-xs text-steel mb-6">
+            <a href="index.html" class="hover:text-ink">Katalog</a>
+            <span>/</span>
+            <span id="pdp-cat-crumb" class="hover:text-ink cursor-pointer">Rozwiertaki</span>
+            <span>/</span>
+            <span class="text-ink-deep font-semibold truncate max-w-xs sm:max-w-md" id="pdp-title-crumb">Ładowanie produktu...</span>
+        </div>
 
-        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+        <!-- Układ Dwukolumnowy Produktu -->
+        <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start mb-16">
             
-            <!-- Lewa kolumna (58%) -->
-            <div class="w-full lg:w-[58%]">
-                
-                <!-- Product Gallery -->
-                <div class="flex flex-col-reverse md:flex-row gap-4 mb-16">
-                    <!-- Miniaturki (Vertical strip) -->
-                    <div class="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible" id="product-thumbnails">
-                        <!-- Wygenerowane dynamicznie -->
-                    </div>
-                    
-                    <!-- Główne zdjęcie -->
-                    <div class="w-full md:flex-1 bg-[#f7f7f7] rounded-xxxl p-8 flex items-center justify-center aspect-[4/3] md:aspect-square overflow-hidden">
-                        <img id="product-main-image" src="images/rozwieracz_skrzydlowy.png" alt="Zdjęcie produktu" class="max-w-full max-h-full object-contain mix-blend-multiply">
+            <!-- Lewa Kolumna: Galeria Zdjęć (55%) -->
+            <div class="w-full lg:w-[55%] flex flex-col gap-4">
+                <div class="aspect-square bg-[#f7f7f7] rounded-3xl p-6 flex items-center justify-center relative overflow-hidden border border-hairline-soft group shadow-sm">
+                    <img id="main-product-img" src="images/rozwieracz_skrzydlowy.png" alt="Produkt" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                    <div id="pdp-badge-container" class="absolute top-4 left-4">
+                        <span class="badge-success" id="pdp-badge">W magazynie</span>
                     </div>
                 </div>
 
-                <!-- Mobile Purchase Panel (Visible only on mobile/tablet) -->
-                <div class="block lg:hidden mb-12">
-                    <h1 class="text-[28px] font-bold text-ink-deep mb-2 leading-tight" id="product-title-mobile">Ładowanie...</h1>
-                    <p class="text-body-sm text-slate mb-6" id="product-sku-thread-mobile">SKU: --</p>
-                    
-                    <div class="bg-canvas border border-hairline-soft rounded-xl p-5 shadow-panel">
-                        <!-- Price -->
-                        <div class="mb-5">
-                            <span class="text-[28px] text-ink-deep font-bold block mb-1" id="product-price-gross-mobile">0,00 zł <span class="text-body-sm font-normal text-slate">brutto</span></span>
-                            <span class="text-body-sm text-charcoal font-medium" id="product-price-net-mobile">0,00 zł netto</span>
-                        </div>
+                <!-- Miniaturki galerii -->
+                <div class="flex gap-3" id="pdp-thumbnails">
+                    <div class="w-20 h-20 bg-[#f7f7f7] border-2 border-primary rounded-xl p-2 cursor-pointer">
+                        <img id="thumb-1" src="images/rozwieracz_skrzydlowy.png" class="w-full h-full object-contain mix-blend-multiply">
+                    </div>
+                </div>
 
-                        <!-- Stock status -->
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="badge-success" id="product-stock-badge-mobile">W magazynie</span>
-                            <span class="text-body-sm text-steel" id="product-shipping-time-mobile">Wysyłka w 24h</span>
+                <!-- Mobile Buy Panel (Widoczny tylko na mobile/tablet) -->
+                <div class="block lg:hidden bg-canvas border border-hairline-soft rounded-2xl p-5 shadow-sm mt-4">
+                    <div class="flex justify-between items-baseline mb-3">
+                        <div>
+                            <span class="text-2xl font-bold text-ink-deep" id="mobile-price">0,00 zł</span>
+                            <span class="block text-xs text-steel" id="mobile-net-price">0,00 zł netto</span>
                         </div>
-                        
-                        <hr class="border-hairline-soft mb-5">
-
-                        <!-- Quantity input -->
-                        <div class="mb-5">
-                            <label class="text-body-sm-bold text-ink-deep block mb-2">Ilość</label>
-                            <div class="flex items-center border border-hairline rounded-full h-10 w-max">
-                                <button class="w-10 h-10 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn-mobile minus rounded-full">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                </button>
-                                <input type="number" class="w-8 text-center text-body-sm-bold text-ink-deep bg-transparent focus:outline-none qty-input-mobile" value="1" min="1" max="10">
-                                <button class="w-10 h-10 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn-mobile plus rounded-full">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                </button>
-                            </div>
+                        <span class="text-xs font-semibold text-success flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-success"></span>
+                            Wysyłka w 24h
+                        </span>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="flex items-center border border-hairline rounded-full bg-surface-soft px-2">
+                            <button onclick="decrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg">−</button>
+                            <input type="number" id="qty-input-mobile" value="1" min="1" class="w-10 text-center bg-transparent font-bold text-sm">
+                            <button onclick="incrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg">+</button>
                         </div>
-
-                        <!-- Buy button -->
-                        <button id="add-to-cart-btn-mobile" class="btn-buy-cta w-full flex justify-center items-center gap-2 py-3 rounded-full text-center">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <button onclick="handleAddToCart()" class="btn-buy-cta flex-1 py-3 text-sm">
                             Dodaj do koszyka
                         </button>
                     </div>
                 </div>
 
-                <!-- Feature Icons Row -->
-                <div id="product-features-row" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
-                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Wydajność</h4>
-                        <p class="text-body-sm text-charcoal">Zoptymalizowany dla wiertnic kierunkowych</p>
-                    </div>
-                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
-                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Wytrzymałość</h4>
-                        <p class="text-body-sm text-charcoal">Formacje gliniaste i piaszczyste</p>
-                    </div>
-                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
-                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Gwarancja</h4>
-                        <p class="text-body-sm text-charcoal">Worry-free warranty 24 mc</p>
-                    </div>
-                    <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
-                        <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h4 class="text-subtitle-lg text-ink-deep mb-2">Szybka dostawa</h4>
-                        <p class="text-body-sm text-charcoal">Darmowa wysyłka powyżej 500 zł</p>
-                    </div>
-                </div>
+                <!-- Opis Techniczny i Cechy -->
+                <div class="bg-canvas border border-hairline-soft rounded-2xl p-6 mt-4 shadow-sm">
+                    <h3 class="text-subtitle-lg text-ink-deep mb-3">Opis i przeznaczenie osprzętu</h3>
+                    <p class="text-body-md text-charcoal leading-relaxed mb-6" id="pdp-desc">Ładowanie opisu...</p>
 
-                <!-- Opis Produktu -->
-                <div class="mb-16">
-                    <h2 class="text-heading-lg text-ink-deep mb-6" id="product-desc-title">Zaprojektowany do najtrudniejszych zadań.</h2>
-                    <div id="product-description" class="text-body-md text-charcoal space-y-4">
-                        <p>Ładowanie opisu...</p>
+                    <!-- Kompatybilność z Maszynami Wiertniczymi -->
+                    <div class="bg-surface-soft/60 border border-hairline-soft rounded-xl p-4 mb-6">
+                        <h4 class="text-xs font-bold text-ink-deep uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            🚜 Kompatybilność wiertnicza (Standard HDD)
+                        </h4>
+                        <p class="text-xs text-charcoal leading-normal" id="machine-compat-text">
+                            Dedykowany do wiertnic kierunkowych klasy średniej i ciężkiej: <strong>Vermeer</strong> (D20x22, D24x40, D36x50), <strong>Ditch Witch</strong> (JT2020, JT3020, JT4020) oraz <strong>Tracto-Technik / XCMG</strong>.
+                        </p>
                     </div>
-                </div>
 
-                <!-- Specyfikacja Techniczna -->
-                <div class="mb-16">
-                    <h2 class="text-heading-sm text-ink-deep mb-6">Specyfikacja Techniczna</h2>
-                    <div class="bg-canvas border border-hairline-soft rounded-lg p-6" id="product-specs-list">
-                        <!-- Wygenerowane dynamicznie -->
+                    <!-- Tabela Parametrów Technicznych -->
+                    <h3 class="text-subtitle-lg text-ink-deep mb-3">Specyfikacja techniczna</h3>
+                    <div class="border border-hairline-soft rounded-xl overflow-hidden text-body-sm mb-6" id="pdp-specs-table">
+                        <!-- Generowane dynamicznie -->
                     </div>
-                </div>
 
-                <!-- Testimonial (Why Buy) -->
-                <div id="product-testimonial-container" class="bg-canvas border border-hairline-soft rounded-xl p-8 mb-8">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 rounded-full bg-primary-soft/15 flex items-center justify-center text-primary font-bold flex-shrink-0">
-                            MK
+                    <!-- Karta Pobrania Dokumentacji Technicznej / DTR -->
+                    <div id="pdf-doc-section" class="bg-primary/5 border border-primary/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 bg-primary text-on-primary rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-xs md:text-sm font-bold text-ink-deep" id="pdf-doc-title">Karta Katalogowa i Dokumentacja DTR</h4>
+                                <p class="text-[11px] md:text-xs text-steel" id="pdf-doc-subtitle">Rysunek techniczny, atesty materiałowe i parametry zbrojenia</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-body-md text-ink mb-2">"Rozwieracz HDD Premium znacząco przyspieszył nasze prace na przewiertach w trudnym terenie. Doskonale radzi sobie w zwartej glinie, a węgliki prawie w ogóle się nie zużywają."</p>
-                            <span class="text-body-sm-bold text-ink-deep">Michał K. — Operator wiertnicy HDD</span>
-                        </div>
+                        <a id="pdf-download-btn" href="#" target="_blank" download="Karta_Techniczna_HDD.pdf" class="btn-primary text-xs py-2.5 px-4 whitespace-nowrap self-stretch sm:self-auto justify-center">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Pobierz Kartę PDF
+                        </a>
                     </div>
                 </div>
 
             </div>
 
-            <!-- Prawa kolumna - Pływający Panel Podsumowania (Sticky, max 380px) -->
-            <div class="hidden lg:block w-full lg:w-[42%] lg:max-w-[380px] lg:sticky lg:top-24">
+            <!-- Prawa Kolumna: Panel Zakupowy i Gwarancja (45% - Sticky) -->
+            <div class="w-full lg:w-[45%] lg:sticky lg:top-24 flex flex-col gap-6">
                 
-                <h1 class="text-heading-lg text-ink-deep mb-2" id="product-title-right">Ładowanie...</h1>
-                <p class="text-body-md text-slate mb-6" id="product-sku-thread-right">SKU: --</p>
-                
-                <div class="bg-canvas border border-hairline-soft rounded-xl p-6 shadow-panel">
-                    
-                    <!-- Cena -->
-                    <div class="mb-6">
-                        <span class="text-heading-lg text-ink-deep font-bold block mb-1" id="product-price-gross-right">0,00 zł <span class="text-body-md font-normal text-slate">brutto</span></span>
-                        <span class="text-body-md text-charcoal" id="product-price-net-right">0,00 zł netto</span>
+                <div class="bg-canvas border border-hairline-soft rounded-3xl p-6 sm:p-8 shadow-panel">
+                    <h1 class="text-heading-lg text-ink-deep mb-2" id="pdp-title">Ładowanie...</h1>
+                    <div class="flex items-center gap-3 text-xs text-steel mb-6">
+                        <span class="font-mono" id="pdp-sku">SKU: HDD-000</span>
+                        <span id="pdp-thread-badge" class="bg-surface-soft px-2 py-0.5 rounded font-semibold text-charcoal hidden">• 2 7/8" IF</span>
                     </div>
 
-                    <!-- Dostępność -->
-                    <div class="flex items-center gap-2 mb-6" id="product-stock-container">
-                        <span class="badge-success" id="product-stock-badge">W magazynie</span>
-                        <span class="text-body-sm text-steel" id="product-shipping-time">Wysyłka w 24h</span>
+                    <!-- Ceny -->
+                    <div class="bg-surface-soft/60 p-5 rounded-2xl mb-6 border border-hairline-soft">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-[32px] font-bold text-ink-deep leading-none" id="pdp-price">0,00 zł</span>
+                            <span class="text-xs font-medium text-steel">brutto</span>
+                        </div>
+                        <span class="block text-body-sm text-charcoal mt-1" id="pdp-net-price">0,00 zł netto</span>
                     </div>
-                    
-                    <hr class="border-hairline-soft mb-6">
 
-                    <!-- Ilość (wielkie zaokrąglenia - rounded-full) -->
-                    <div class="mb-6">
-                        <label class="text-body-sm-bold text-ink-deep block mb-3">Ilość</label>
-                        <div class="flex items-center border border-hairline rounded-full h-11 w-max">
-                            <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn minus rounded-full">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            </button>
-                            <input type="number" class="w-10 text-center text-body-md-bold text-ink-deep bg-transparent focus:outline-none qty-input" value="1" min="1" max="10">
-                            <button class="w-11 h-11 flex items-center justify-center text-ink hover:text-primary transition-colors qty-btn plus rounded-full">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            </button>
+                    <!-- Stepper i Dodaj do Koszyka (Desktop) -->
+                    <div class="hidden lg:flex flex-col gap-4 mb-6">
+                        <div class="flex items-center gap-4">
+                            <label class="text-body-sm-bold text-ink-deep">Ilość sztuk:</label>
+                            <div class="flex items-center border border-hairline rounded-xl bg-canvas px-2 py-1">
+                                <button onclick="decrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg hover:bg-surface-soft rounded-lg transition-colors">−</button>
+                                <input type="number" id="qty-input" value="1" min="1" class="w-12 text-center bg-transparent font-bold text-sm">
+                                <button onclick="incrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg hover:bg-surface-soft rounded-lg transition-colors">+</button>
+                            </div>
+                        </div>
+
+                        <button onclick="handleAddToCart()" id="buy-cta-btn" class="btn-buy-cta">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                            Dodaj do koszyka
+                        </button>
+                    </div>
+
+                    <!-- Korzyści Zakupowe -->
+                    <div class="border-t border-hairline-soft pt-6 flex flex-col gap-3 text-xs text-charcoal">
+                        <div class="flex items-center gap-3">
+                            <span class="text-success text-base">✓</span>
+                            <span><strong>Wysyłka w 24h</strong> kurierem DPD lub odbiór w Krakowie</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-success text-base">✓</span>
+                            <span><strong>Faktura VAT 23%</strong> na firmę z polskim NIP</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-success text-base">✓</span>
+                            <span><strong>Certyfikowana stal</strong> i węglik spiekany o podwyższonej odporności</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-success text-base">✓</span>
+                            <span>Darmowa dostawa od 500 PLN</span>
                         </div>
                     </div>
 
-                    <!-- Główny przycisk CTA w kolorze Kobaltu, pełna pigułka -->
-                    <button id="add-to-cart-btn" class="btn-buy-cta w-full flex justify-center items-center gap-2">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                        Dodaj do koszyka
-                    </button>
-                    
-                    <button class="btn-ghost w-full mt-3">Dodaj do ulubionych</button>
-                    
-                    <div class="mt-6 flex items-start gap-3">
-                        <svg class="text-steel flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        <p class="text-caption text-steel leading-[1.33]">Płatność jest bezpiecznie szyfrowana. Darmowy zwrot w ciągu 30 dni.</p>
+                </div>
+
+                <!-- Moduł Zestawu (Bundle: Często Kupowane Razem) -->
+                <div class="bg-canvas border border-hairline-soft rounded-2xl p-6 shadow-sm" id="bundle-card">
+                    <h3 class="text-subtitle-lg text-ink-deep mb-3 flex items-center gap-2">
+                        <span>⚡</span> Często kupowane razem
+                    </h3>
+                    <div class="flex items-center gap-3 mb-4" id="bundle-items">
+                        <!-- Dynamicznie wstawiane pozycje zestawu -->
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-hairline-soft">
+                        <div>
+                            <span class="text-xs text-steel block">Cena zestawu:</span>
+                            <span class="text-body-md-bold text-ink-deep" id="bundle-total-price">0,00 zł</span>
+                        </div>
+                        <button onclick="handleAddBundle()" class="btn-ghost text-xs py-2 px-4">Dodaj zestaw do koszyka</button>
                     </div>
                 </div>
+
             </div>
 
         </div>
+
+        <!-- Sekcja Podobnych Produktów -->
+        <section class="mt-16 pt-12 border-t border-hairline-soft">
+            <h2 class="text-heading-sm text-ink-deep mb-6">Podobny osprzęt w tej kategorii</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="related-products-grid">
+                <!-- Generowane dynamicznie -->
+            </div>
+        </section>
+
     </main>
 
     <!-- Stopka -->
-    <footer class="bg-canvas border-t border-hairline-soft py-12">
-        <div class="max-w-[1280px] mx-auto px-6 lg:px-12 text-center text-body-sm text-steel">
-            <p>&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+    <footer class="bg-canvas border-t border-hairline-soft py-8 mt-auto text-center text-xs text-steel">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="footer-copyright-text">&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
+            <a href="admin.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-surface-soft border border-hairline hover:border-primary hover:text-primary transition-all font-semibold text-charcoal shadow-sm text-xs" title="Zarządzaj ofertami, cenami i sklepem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>⚙️ Panel Administratora (CMS)</span>
+            </a>
         </div>
     </footer>
 
-    <!-- Skrypt dynamicznego ładowania produktu -->
+    <!-- Logika Klonowania i Renderowania PDP -->
     <script>
+        let currentProduct = null;
+        let bundleProduct = null;
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Obsługa ilości (qty-input)
-            const input = document.querySelector('.qty-input');
-            const minus = document.querySelector('.qty-btn.minus');
-            const plus = document.querySelector('.qty-btn.plus');
-
-            minus.addEventListener('click', () => {
-                let currentVal = parseInt(input.value);
-                if (currentVal > 1) input.value = currentVal - 1;
-            });
-
-            plus.addEventListener('click', () => {
-                let currentVal = parseInt(input.value);
-                if (currentVal < 10) input.value = currentVal + 1;
-            });
-
-            // Obsługa ilości na mobile (qty-input-mobile)
-            const inputMob = document.querySelector('.qty-input-mobile');
-            const minusMob = document.querySelector('.qty-btn-mobile.minus');
-            const plusMob = document.querySelector('.qty-btn-mobile.plus');
-
-            if (inputMob && minusMob && plusMob) {
-                minusMob.addEventListener('click', () => {
-                    let currentVal = parseInt(inputMob.value);
-                    if (currentVal > 1) inputMob.value = currentVal - 1;
-                });
-
-                plusMob.addEventListener('click', () => {
-                    let currentVal = parseInt(inputMob.value);
-                    if (currentVal < 10) inputMob.value = currentVal + 1;
-                });
-            }
-
-            // Dynamiczne ładowanie produktu
             const urlParams = new URLSearchParams(window.location.search);
-            const skuParam = urlParams.get('sku') || 'HDD-SK-350';
-            
-            // Wyszukanie produktu w bazie PRODUCTS (dostępnej z products.js)
-            const product = PRODUCTS.find(p => p.sku === skuParam);
-            
-            if (!product) {
-                document.querySelector('main').innerHTML = `
-                    <div class="text-center py-24">
-                        <h1 class="text-heading-lg text-critical mb-4">Nie znaleziono produktu</h1>
-                        <p class="text-body-md text-charcoal mb-8">Produkt o kodzie SKU: "${skuParam}" nie istnieje w naszym katalogu.</p>
-                        <a href="index.html" class="btn-buy-cta">Powrót do katalogu</a>
-                    </div>
-                `;
+            const skuParam = urlParams.get('sku') || (PRODUCTS[0] ? PRODUCTS[0].sku : '');
+
+            currentProduct = PRODUCTS.find(p => p.sku === skuParam) || PRODUCTS[0];
+            if (!currentProduct) {
+                window.location.href = 'index.html';
                 return;
             }
 
-            // Przeliczenie cen
-            const formatPrice = (price) => {
-                return price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
-            };
-            const netPrice = product.price / 1.23;
-
-            // Ustawienie tytułu strony
-            document.title = `${product.name} - Narzędzia HDD PL`;
-
-            // Breadcrumbs
-            const catNames = {
-                'chwytaki': 'Chwytaki do Rur',
-                'glowice-obudowy': 'Głowice i obudowy sondy',
-                'kretliki': 'Krętliki HDD',
-                'plyty-pletwy': 'Płyty i płetwy wiercące',
-                'rolki': 'Rolki do rur',
-                'rozwiertaki': 'Rozwiertaki',
-                'smary': 'Smary',
-                'sondy-lokalizacja': 'Sondy i systemy lokalizacyjne',
-                'zerdzie': 'Żerdzie wiertnicze',
-                'zeby': 'Zęby wiertnicze'
-            };
-            const catId = product.categories[0] || 'all';
-            const catName = catNames[catId] || 'Katalog';
-            
-            const catLink = document.getElementById('breadcrumb-category-link');
-            if (catLink) {
-                catLink.innerText = catName;
-                catLink.href = `index.html?category=${catId}`;
-            }
-            document.getElementById('breadcrumb-product-title').innerText = product.name;
-
-            // Galeria zdjęć i miniaturka
-            const mainImg = document.getElementById('product-main-image');
-            if (mainImg) {
-                mainImg.src = product.image;
-                mainImg.alt = product.name;
-            }
-
-            const thumbsContainer = document.getElementById('product-thumbnails');
-            if (thumbsContainer) {
-                thumbsContainer.innerHTML = `
-                    <button class="w-20 h-20 rounded-lg bg-[#f7f7f7] border-2 border-ink-deep p-2 flex-shrink-0 flex items-center justify-center">
-                        <img src="${product.image}" alt="Thumb 1" class="w-full h-full object-cover rounded-md mix-blend-multiply">
-                    </button>
-                `;
-            }
-
-            // Opis produktu
-            document.getElementById('product-desc-title').innerText = product.name;
-            const descContainer = document.getElementById('product-description');
-            if (descContainer) {
-                descContainer.innerHTML = `<p>${product.description}</p>`;
-            }
-
-            // Renderowanie dynamicznych cech (Features) na podstawie kategorii
-            const featuresContainer = document.getElementById('product-features-row');
-            if (featuresContainer) {
-                const categoryFeatures = {
-                    'chwytaki': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wydajność', desc: 'Szybki montaż i pewne trzymanie rur PE' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Niezawodność', desc: 'Przetestowane na tysiącach metrów rurociągów' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'glowice-obudowy': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Ochrona', desc: 'Maksymalne zabezpieczenie sondy i elektroniki' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Sygnał', desc: 'Zoptymalizowane szczeliny dla bezstratnej transmisji' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'kretliki': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wytrzymałość', desc: 'Praca pod dużym uciągiem bez ryzyka zerwania' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Szczelność', desc: 'Wielostopniowe uszczelnienia chroniące łożyska' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'plyty-pletwy': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Odporność', desc: 'Agresywna geometria i twardy węglik spiekany' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Stabilność', desc: 'Pewne prowadzenie wiertnicy w każdym gruncie' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'rolki': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Płynność', desc: 'Niskie opory toczenia ułatwiające zaciąganie' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Stabilność', desc: 'Wytrzymała konstrukcja stalowa odporna na obciążenia' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'rozwiertaki': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wydajność', desc: 'Zoptymalizowany dla wiertnic kierunkowych' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Wytrzymałość', desc: 'Formacje gliniaste i piaszczyste' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'smary': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Ochrona', desc: 'Doskonałe smarowanie i ochrona przed zapiekaniem' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Trwałość', desc: 'Wysoka odporność na wypłukiwanie przez płuczkę' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'sondy-lokalizacja': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Precyzja', desc: 'Niezwykle dokładne określenie pozycji i głębokości' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Zasięg', desc: 'Stabilna praca w najgłębszych punktach przewiertu' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'zerdzie': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Wytrzymałość', desc: 'Wykonane ze specjalnej stali stopowej' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Trwałość', desc: 'Precyzyjnie wykonane gwinty chroniące przed pęknięciem' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ],
-                    'zeby': [
-                        { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Żywotność', desc: 'Wysokiej jakości węgliki o przedłużonej trwałości' },
-                        { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Agresywność', desc: 'Szybkie kruszenie nawet najtwardszych formacji' },
-                        { icon: 'M5 13l4 4L19 7', title: 'Gwarancja', desc: 'Worry-free warranty 24 mc' },
-                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Szybka dostawa', desc: 'Darmowa wysyłka powyżej 500 zł' }
-                    ]
-                };
-
-                const activeFeatures = categoryFeatures[catId] || categoryFeatures['rozwiertaki'];
-                let featuresHTML = '';
-                activeFeatures.forEach(f => {
-                    featuresHTML += `
-                        <div class="bg-canvas border border-hairline-soft rounded-xl p-6 text-center">
-                            <svg class="w-8 h-8 mx-auto mb-4 text-ink-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>
-                            <h4 class="text-subtitle-lg text-ink-deep mb-2">${f.title}</h4>
-                            <p class="text-body-sm text-charcoal">${f.desc}</p>
-                        </div>
-                    `;
-                });
-                featuresContainer.innerHTML = featuresHTML;
-            }
-
-            // Renderowanie dynamicznej opinii (Testimonial) na podstawie kategorii
-            const testimonialContainer = document.getElementById('product-testimonial-container');
-            if (testimonialContainer) {
-                const categoryTestimonials = {
-                    'chwytaki': {
-                        text: '"Zaciąganie rury PE 110mm poszło bez najmniejszego problemu. Chwytak trzyma pewnie, a montaż jest błyskawiczny. Bardzo solidny sprzęt."',
-                        author: 'Tomasz L. — Kierownik budowy',
-                        initials: 'TL'
-                    },
-                    'glowice-obudowy': {
-                        text: '"Obudowa sondy doskonale chroni naszą elektronikę DCI. Świetna przepustowość sygnału i bardzo mocne łączenie."',
-                        author: 'Andrzej W. — Technik lokalizacji HDD',
-                        initials: 'AW'
-                    },
-                    'kretliki': {
-                        text: '"Krętlik 12-tonowy pracuje u nas od kilku miesięcy bez żadnych luzów. Łożyskowanie jest doskonale uszczelnione."',
-                        author: 'Robert G. — Właściciel firmy przewiertowej',
-                        initials: 'RG'
-                    },
-                    'plyty-pletwy': {
-                        text: '"Wymienne płetwy wiertnicze o profilu STP świetnie sprawdzają się w trudnym, zagęszczonym gruncie. Bardzo twarde węgliki."',
-                        author: 'Janusz K. — Operator wiertnicy',
-                        initials: 'JK'
-                    },
-                    'rolki': {
-                        text: '"Rolki znacząco zmniejszyły opory przy zaciąganiu rurociągu 315mm. Lekkie, poręczne i bardzo stabilne pod obciążeniem."',
-                        author: 'Krzysztof B. — Brygadzista',
-                        initials: 'KB'
-                    },
-                    'rozwiertaki': {
-                        text: '"Rozwieracz HDD Premium znacząco przyspieszył nasze prace na przewiertach w trudnym terenie. Doskonale radzi sobie w zwartej glinie, a węgliki prawie w ogóle się nie zużywają."',
-                        author: 'Michał K. — Operator wiertnicy HDD',
-                        initials: 'MK'
-                    },
-                    'smary': {
-                        text: '"Smar miedziowy idealnie chroni gwinty żerdzi przed zapiekaniem. Łatwo się nakłada i nie spływa pod wpływem ciśnienia płuczki."',
-                        author: 'Piotr S. — Serwisant sprzętu HDD',
-                        initials: 'PS'
-                    },
-                    'sondy-lokalizacja': {
-                        text: '"Nawigacja Sense działa niezwykle stabilnie nawet przy dużych zakłóceniach miejskich. Głębokość wskazuje z dokładnością do centymetra."',
-                        author: 'Kamil D. — Specjalista radiolokalizacji',
-                        initials: 'KD'
-                    },
-                    'zerdzie': {
-                        text: '"Żerdzie wykazują doskonałą elastyczność i wytrzymałość na skręcanie. Gwinty są idealnie wykonane, bez problemów z klinowaniem."',
-                        author: 'Marcin Z. — Inżynier robót HDD',
-                        initials: 'MZ'
-                    },
-                    'zeby': {
-                        text: '"Zęby BR2 do naszych reamerów wytrzymują znacznie dłużej niż standardowe zamienniki. Bardzo dobry stosunek ceny do jakości."',
-                        author: 'Dariusz P. — Operator',
-                        initials: 'DP'
-                    }
-                };
-
-                const activeTestimonial = categoryTestimonials[catId] || categoryTestimonials['rozwiertaki'];
-                testimonialContainer.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 rounded-full bg-primary-soft/15 flex items-center justify-center text-primary font-bold flex-shrink-0">
-                            ${activeTestimonial.initials}
-                        </div>
-                        <div>
-                            <p class="text-body-md text-ink mb-2">${activeTestimonial.text}</p>
-                            <span class="text-body-sm-bold text-ink-deep">${activeTestimonial.author}</span>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Specyfikacja techniczna
-            const specsContainer = document.getElementById('product-specs-list');
-            if (specsContainer) {
-                let specsHTML = '';
-                const keys = Object.keys(product.specs || {});
-                
-                keys.forEach((key, index) => {
-                    const isLast = index === keys.length - 1;
-                    const borderClass = isLast ? '' : 'border-b border-hairline-soft';
-                    specsHTML += `
-                        <div class="flex justify-between py-3 ${borderClass}">
-                            <span class="text-body-sm-bold text-ink">${key}</span>
-                            <span class="text-body-sm text-charcoal">${product.specs[key]}</span>
-                        </div>
-                    `;
-                });
-
-                // Zawsze dołączaj SKU do specyfikacji
-                const borderClass = keys.length === 0 ? '' : 'border-t border-hairline-soft';
-                specsHTML += `
-                    <div class="flex justify-between py-3 ${borderClass}">
-                        <span class="text-body-sm-bold text-ink">Kod SKU</span>
-                        <span class="text-body-sm text-charcoal">${product.sku}</span>
-                    </div>
-                `;
-                specsContainer.innerHTML = specsHTML;
-            }
-
-            // Sticky panel (prawa strona - desktop)
-            document.getElementById('product-title-right').innerText = product.name;
-            
-            const threadText = product.thread ? ` • Gwint: ${product.thread}` : '';
-            document.getElementById('product-sku-thread-right').innerText = `SKU: ${product.sku}${threadText}`;
-            
-            // Cenówki (desktop)
-            document.getElementById('product-price-gross-right').innerHTML = `${formatPrice(product.price)} <span class="text-body-md font-normal text-slate">brutto</span>`;
-            document.getElementById('product-price-net-right').innerText = `${formatPrice(netPrice)} netto`;
-
-            // Dostępność / status (desktop)
-            const badge = document.getElementById('product-stock-badge');
-            if (badge) {
-                badge.innerText = product.badge || 'W magazynie';
-                badge.className = product.badgeClass || 'badge-success';
-            }
-            const shipping = document.getElementById('product-shipping-time');
-            if (shipping) {
-                shipping.innerText = product.stock === 'W magazynie' ? 'Wysyłka w 24h' : 'Dostawa na zamówienie';
-            }
-
-            // --- Panele mobilne ---
-            const titleMobile = document.getElementById('product-title-mobile');
-            if (titleMobile) titleMobile.innerText = product.name;
-            
-            const skuThreadMobile = document.getElementById('product-sku-thread-mobile');
-            if (skuThreadMobile) skuThreadMobile.innerText = `SKU: ${product.sku}${threadText}`;
-            
-            const priceGrossMobile = document.getElementById('product-price-gross-mobile');
-            if (priceGrossMobile) priceGrossMobile.innerHTML = `${formatPrice(product.price)} <span class="text-body-sm font-normal text-slate">brutto</span>`;
-            
-            const priceNetMobile = document.getElementById('product-price-net-mobile');
-            if (priceNetMobile) priceNetMobile.innerText = `${formatPrice(netPrice)} netto`;
-
-            const badgeMobile = document.getElementById('product-stock-badge-mobile');
-            if (badgeMobile) {
-                badgeMobile.innerText = product.badge || 'W magazynie';
-                badgeMobile.className = product.badgeClass || 'badge-success';
-            }
-            
-            const shippingMobile = document.getElementById('product-shipping-time-mobile');
-            if (shippingMobile) {
-                shippingMobile.innerText = product.stock === 'W magazynie' ? 'Wysyłka w 24h' : 'Dostawa na zamówienie';
-            }
-
-            // Przycisk Dodaj do koszyka (desktop)
-            const addToCartBtn = document.getElementById('add-to-cart-btn');
-            if (addToCartBtn) {
-                addToCartBtn.onclick = () => {
-                    addToCart({
-                        sku: product.sku,
-                        name: product.name,
-                        price: product.price,
-                        image: product.image,
-                        quantity: parseInt(input.value)
-                    });
-                };
-            }
-
-            // Przycisk Dodaj do koszyka (mobile)
-            const addToCartBtnMobile = document.getElementById('add-to-cart-btn-mobile');
-            if (addToCartBtnMobile && inputMob) {
-                addToCartBtnMobile.onclick = () => {
-                    addToCart({
-                        sku: product.sku,
-                        name: product.name,
-                        price: product.price,
-                        image: product.image,
-                        quantity: parseInt(inputMob.value)
-                    });
-                };
-            }
+            renderPDP();
+            renderBundle();
+            renderRelated();
         });
+
+        function renderPDP() {
+            const p = currentProduct;
+            const formatPrice = (pr) => pr.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+            const netPrice = p.price / 1.23;
+
+            document.title = `${p.name} - Narzędzia HDD PL`;
+            document.getElementById('pdp-title-crumb').innerText = p.name;
+            document.getElementById('pdp-title').innerText = p.name;
+            document.getElementById('pdp-sku').innerText = `SKU: ${p.sku}`;
+            document.getElementById('pdp-desc').innerText = p.description || 'Wysokiej klasy osprzęt do wiertnic kierunkowych HDD.';
+
+            document.getElementById('main-product-img').src = p.image;
+            document.getElementById('thumb-1').src = p.image;
+
+            document.getElementById('pdp-price').innerText = formatPrice(p.price);
+            document.getElementById('pdp-net-price').innerText = `${formatPrice(netPrice)} netto`;
+
+            document.getElementById('mobile-price').innerText = formatPrice(p.price);
+            document.getElementById('mobile-net-price').innerText = `${formatPrice(netPrice)} netto`;
+
+            // Gwint badge
+            const thrBadge = document.getElementById('pdp-thread-badge');
+            if (p.thread) {
+                thrBadge.innerText = `• Gwint: ${p.thread}`;
+                thrBadge.classList.remove('hidden');
+            } else {
+                thrBadge.classList.add('hidden');
+            }
+
+            // Status i Badge
+            const badgeEl = document.getElementById('pdp-badge');
+            const buyBtn = document.getElementById('buy-cta-btn');
+            const stock = p.stock || 'W magazynie';
+
+            if (stock === 'W magazynie') {
+                badgeEl.innerText = 'W magazynie (wysyłka 24h)';
+                badgeEl.className = 'bg-success text-canvas text-[11px] font-bold rounded-full py-1 px-3 inline-block';
+                if (buyBtn) {
+                    buyBtn.disabled = false;
+                    buyBtn.className = 'btn-buy-cta';
+                    buyBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> Dodaj do koszyka`;
+                }
+            } else if (stock === 'Na zamówienie') {
+                badgeEl.innerText = 'Na zamówienie (3-5 dni)';
+                badgeEl.className = 'bg-attention text-ink-deep text-[11px] font-bold rounded-full py-1 px-3 inline-block';
+                if (buyBtn) {
+                    buyBtn.disabled = false;
+                    buyBtn.className = 'btn-buy-cta bg-attention text-ink-deep hover:bg-yellow-500';
+                    buyBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> Zamów z dostawą 3-5 dni`;
+                }
+            } else {
+                badgeEl.innerText = 'Chwilowo niedostępny';
+                badgeEl.className = 'bg-steel text-canvas text-[11px] font-bold rounded-full py-1 px-3 inline-block';
+                if (buyBtn) {
+                    buyBtn.disabled = false;
+                    buyBtn.className = 'btn-ghost w-full py-3.5 text-center text-sm font-bold border-2 border-hairline hover:border-ink';
+                    buyBtn.onclick = () => window.location.href = `mailto:inzynier@narzedzia-hdd.pl?subject=Zapytanie o dostępność produktu SKU: ${p.sku} (${p.name})`;
+                    buyBtn.innerHTML = `✉️ Zapytaj o dostępność inżyniera`;
+                }
+            }
+
+            // Kategoria w crumb
+            const catId = (p.categories && p.categories[0]) || 'all';
+            const catObj = (typeof CATEGORIES !== 'undefined' && CATEGORIES.find(c => c.id === catId)) || { name: 'Osprzęt' };
+            const catCrumb = document.getElementById('pdp-cat-crumb');
+            catCrumb.innerText = catObj.name;
+            catCrumb.onclick = () => window.location.href = `index.html?category=${catId}`;
+
+            // Tabela Specyfikacji
+            const specsTable = document.getElementById('pdp-specs-table');
+            const specs = p.specs || {};
+            const specEntries = Object.entries(specs);
+
+            if (specEntries.length === 0) {
+                specEntries.push(['Zastosowanie', 'Przewierty sterowane HDD']);
+                if (p.thread) specEntries.push(['Typ gwintu', p.thread]);
+            }
+
+            specsTable.innerHTML = specEntries.map(([k, v], i) => `
+                <div class="flex justify-between py-2.5 px-4 ${i % 2 === 0 ? 'bg-surface-soft/50' : 'bg-canvas'} border-b border-hairline-soft/40 last:border-b-0">
+                    <span class="text-steel font-medium">${k}</span>
+                    <span class="text-ink-deep font-bold text-right">${v}</span>
+                </div>
+            `).join('');
+
+            // Obsługa pobierania dokumentacji PDF (DTR)
+            const pdfBtn = document.getElementById('pdf-download-btn');
+            const pdfTitle = document.getElementById('pdf-doc-title');
+            const cleanSku = (p.sku || 'HDD').replace(/[^a-zA-Z0-9-_]/g, '_');
+            
+            if (p.pdfDoc) {
+                pdfBtn.href = p.pdfDoc;
+                pdfBtn.download = `Karta_Katalogowa_${cleanSku}.pdf`;
+                pdfBtn.onclick = null;
+                pdfTitle.innerText = `Karta Katalogowa PDF (${p.sku})`;
+            } else {
+                // Jeśli brak dedykowanego pliku, wygeneruj natychmiastowy raport / kartę techniczną do druku/PDF
+                pdfBtn.href = "#";
+                pdfBtn.download = "";
+                pdfBtn.onclick = (e) => {
+                    e.preventDefault();
+                    window.print();
+                };
+                pdfTitle.innerText = `Karta Katalogowa i DTR (${p.sku})`;
+            }
+        }
+
+
+        function incrementQty() {
+            const input = document.getElementById('qty-input');
+            const mobInput = document.getElementById('qty-input-mobile');
+            const val = parseInt(input.value || 1, 10) + 1;
+            input.value = val;
+            if (mobInput) mobInput.value = val;
+        }
+
+        function decrementQty() {
+            const input = document.getElementById('qty-input');
+            const mobInput = document.getElementById('qty-input-mobile');
+            const val = Math.max(1, parseInt(input.value || 1, 10) - 1);
+            input.value = val;
+            if (mobInput) mobInput.value = val;
+        }
+
+        function handleAddToCart() {
+            if (currentProduct.stock === 'Brak w magazynie' || currentProduct.stock === 'Niedostępne') {
+                window.location.href = `mailto:inzynier@narzedzia-hdd.pl?subject=Zapytanie o dostępność produktu SKU: ${currentProduct.sku}`;
+                return;
+            }
+            const qty = parseInt(document.getElementById('qty-input').value || 1, 10);
+            addToCart({
+                sku: currentProduct.sku,
+                name: currentProduct.name,
+                price: currentProduct.price,
+                image: currentProduct.image,
+                quantity: qty,
+                thread: currentProduct.thread || '',
+                stock: currentProduct.stock || 'W magazynie'
+            });
+        }
+
+        // Inteligentny dobór zestawu "Często kupowane razem"
+        function renderBundle() {
+            const p = currentProduct;
+            const cat = (p.categories && p.categories[0]) || '';
+            
+            // 1. Jeśli produkt ma ręcznie ustawiony bundleSku w bazie:
+            if (p.bundleSku) {
+                bundleProduct = PRODUCTS.find(x => x.sku === p.bundleSku);
+            }
+            
+            // 2. Automatyczny inteligentny dobór komplementarny:
+            if (!bundleProduct) {
+                if (cat === 'rozwiertaki' || cat === 'zerdzie') {
+                    // Dobierz smar do gwintów lub wymienne zęby
+                    bundleProduct = PRODUCTS.find(x => x.categories && (x.categories.includes('smary') || x.categories.includes('zeby')));
+                } else if (cat === 'chwytaki') {
+                    // Dobierz krętlik HDD
+                    bundleProduct = PRODUCTS.find(x => x.categories && x.categories.includes('kretliki'));
+                } else if (cat === 'glowice-obudowy') {
+                    // Dobierz płytę/płetwę sterującą
+                    bundleProduct = PRODUCTS.find(x => x.categories && x.categories.includes('plyty-pletwy'));
+                } else {
+                    // Fallback na smar lub pierwszy inny produkt
+                    bundleProduct = PRODUCTS.find(x => x.sku !== p.sku);
+                }
+            }
+
+            if (!bundleProduct) {
+                document.getElementById('bundle-card')?.classList.add('hidden');
+                return;
+            }
+
+            const formatPrice = (pr) => pr.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+            const bundleTotal = currentProduct.price + bundleProduct.price;
+
+            document.getElementById('bundle-items').innerHTML = `
+                <div class="w-12 h-12 bg-surface-soft rounded-lg p-1 flex-shrink-0">
+                    <img src="${currentProduct.image}" class="w-full h-full object-contain mix-blend-multiply">
+                </div>
+                <span class="text-steel font-bold">+</span>
+                <div class="w-12 h-12 bg-surface-soft rounded-lg p-1 flex-shrink-0">
+                    <img src="${bundleProduct.image}" class="w-full h-full object-contain mix-blend-multiply">
+                </div>
+                <div class="text-xs text-charcoal flex-1 min-w-0">
+                    <span class="font-bold text-ink-deep block truncate">${bundleProduct.name}</span>
+                    <span class="text-steel">+ ${formatPrice(bundleProduct.price)}</span>
+                </div>
+            `;
+            document.getElementById('bundle-total-price').innerText = formatPrice(bundleTotal);
+        }
+
+
+        function handleAddBundle() {
+            handleAddToCart();
+            if (bundleProduct) {
+                addToCart({
+                    sku: bundleProduct.sku,
+                    name: bundleProduct.name,
+                    price: bundleProduct.price,
+                    image: bundleProduct.image,
+                    quantity: 1,
+                    thread: bundleProduct.thread || ''
+                });
+            }
+        }
+
+        function renderRelated() {
+            const container = document.getElementById('related-products-grid');
+            const catId = (currentProduct.categories && currentProduct.categories[0]) || 'all';
+            const related = PRODUCTS.filter(p => p.sku !== currentProduct.sku && p.categories && p.categories.includes(catId)).slice(0, 4);
+            const items = related.length > 0 ? related : PRODUCTS.filter(p => p.sku !== currentProduct.sku).slice(0, 4);
+
+            const formatPrice = (pr) => pr.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+
+            container.innerHTML = items.map(p => `
+                <div class="bg-canvas border border-hairline-soft rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-panel transition-all group">
+                    <div class="aspect-square bg-[#f7f7f7] rounded-xl p-3 flex items-center justify-center mb-3 overflow-hidden">
+                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="w-full h-full flex items-center justify-center">
+                            <img src="${p.image}" alt="${p.name}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
+                        </a>
+                    </div>
+                    <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep hover:text-primary transition-colors line-clamp-2 mb-1">${p.name}</a>
+                    <span class="text-xs text-steel mb-3 font-mono">SKU: ${p.sku}</span>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-hairline-soft/40">
+                        <span class="text-body-sm-bold text-ink-deep">${formatPrice(p.price)}</span>
+                        <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-colors" title="Dodaj do koszyka">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
     </script>
 </body>
 </html>
