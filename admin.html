@@ -87,7 +87,7 @@
             <h2 class="text-xl font-bold text-ink-deep mb-1">Panel Narzędzia HDD</h2>
             <p class="text-xs text-steel mb-6">Wprowadź kod PIN administratora, aby zarządzać sklepem.</p>
             <form onsubmit="handleAdminLogin(event)" class="flex flex-col gap-3">
-                <input type="password" id="admin-pin-input" placeholder="Wpisz hasło / PIN (domyślnie: admin2026)" class="input-admin text-center font-bold tracking-widest text-sm" autofocus>
+                <input type="password" id="admin-pin-input" placeholder="Wpisz token administratora" class="input-admin text-center font-bold tracking-widest text-sm" autocomplete="current-password" autofocus>
                 <button type="submit" class="btn-primary justify-center py-3">Zaloguj do panelu</button>
                 <p id="admin-login-error" class="text-xs text-critical font-semibold mt-1 hidden">Błędne hasło administratora.</p>
             </form>
@@ -132,6 +132,10 @@
         <button class="nav-tab" onclick="switchAdminTab('coupons')" id="tab-btn-coupons">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="M9 9h.01"></path><path d="M15 15h.01"></path></svg>
             Kody Rabatowe
+        </button>
+        <button class="nav-tab" onclick="switchAdminTab('orders')" id="tab-btn-orders">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            Zamówienia i Płatności (<span id="stat-orders-count">0</span>)
         </button>
         <button class="nav-tab" onclick="switchAdminTab('settings')" id="tab-btn-settings">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -348,6 +352,48 @@
             </div>
         </section>
 
+        <!-- ==================== TAB 5: ZAMÓWIENIA I PŁATNOŚCI ==================== -->
+        <section id="tab-content-orders" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-ink-deep flex items-center gap-2">
+                        📦 Zamówienia i Płatności
+                        <span id="orders-live-indicator" class="inline-flex items-center gap-1.5 text-xs font-bold text-success bg-success/10 px-2.5 py-0.5 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span> Na żywo
+                        </span>
+                    </h1>
+                    <p class="text-xs text-steel">Rejestr transakcji, weryfikacja płatności Stripe/BLIK, dane do faktur B2B i wysyłki.</p>
+                </div>
+                <button onclick="loadAdminOrders()" class="btn-secondary text-xs py-2.5 flex items-center gap-2 bg-canvas">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Odśwież Zamówienia
+                </button>
+            </div>
+
+            <!-- Tabela Zamówień -->
+            <div class="bg-canvas border border-hairline rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr class="bg-surface-soft text-steel uppercase text-[11px] font-bold tracking-wider border-b border-hairline">
+                                <th class="py-3.5 px-4">Nr Zamówienia & Data</th>
+                                <th class="py-3.5 px-4">Klient / Firma & NIP</th>
+                                <th class="py-3.5 px-4">Pozycje w koszyku</th>
+                                <th class="py-3.5 px-4">Dostawa & Paczkomat</th>
+                                <th class="py-3.5 px-4">Kwota Brutto</th>
+                                <th class="py-3.5 px-4">Status Płatności</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-orders-tbody" class="divide-y divide-hairline-soft">
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-steel">Ładowanie historii zamówień...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- ==================== MODAL PRODUKTU ==================== -->
@@ -544,7 +590,6 @@
 
     <!-- Logika CMS Panelu Administratora -->
     <script>
-        const ADMIN_PIN = "admin2026";
         let localProducts = [...PRODUCTS];
         let localCategories = [...CATEGORIES];
         let localCatDetails = { ...CAT_DETAILS };
@@ -560,20 +605,46 @@
             refreshAllData();
         });
 
-        function handleAdminLogin(e) {
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        async function handleAdminLogin(e) {
             e.preventDefault();
             const pin = document.getElementById('admin-pin-input').value;
             const err = document.getElementById('admin-login-error');
-            if (pin === ADMIN_PIN || pin === 'hdd2026') {
+            err.classList.add('hidden');
+
+            if (!pin) {
+                err.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/orders', {
+                    headers: { 'x-admin-token': pin }
+                });
+                if (!response.ok) throw new Error('Nieprawidłowy token administratora');
                 sessionStorage.setItem('hdd_admin_auth', 'true');
+                sessionStorage.setItem('hdd_admin_token', pin);
                 document.getElementById('admin-login-overlay').classList.add('hidden');
-            } else {
+                refreshAllData();
+            } catch (error) {
+                sessionStorage.removeItem('hdd_admin_auth');
+                sessionStorage.removeItem('hdd_admin_token');
                 err.classList.remove('hidden');
             }
         }
 
         function handleAdminLogout() {
             sessionStorage.removeItem('hdd_admin_auth');
+            sessionStorage.removeItem('hdd_admin_token');
             location.reload();
         }
 
@@ -582,7 +653,7 @@
             try {
                 const p = localStorage.getItem('hdd_custom_products');
                 if (p) localProducts = JSON.parse(p);
-                
+
                 const c = localStorage.getItem('hdd_custom_shop_config');
                 if (c) {
                     const parsed = JSON.parse(c);
@@ -615,6 +686,105 @@
             const btn = document.getElementById(`tab-btn-${tabId}`);
             if (content) content.classList.remove('hidden');
             if (btn) btn.classList.add('active');
+
+            if (tabId === 'orders') {
+                loadAdminOrders();
+            }
+        }
+
+        // ==================== MODUŁ ZAMÓWIEŃ I PŁATNOŚCI ====================
+        let adminOrders = [];
+
+        async function loadAdminOrders() {
+            const tbody = document.getElementById('admin-orders-tbody');
+            if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-steel">Pobieranie zamówień z serwera...</td></tr>`;
+
+            try {
+                const token = sessionStorage.getItem('hdd_admin_token');
+                if (!token) {
+                    document.getElementById('admin-login-overlay').classList.remove('hidden');
+                    return;
+                }
+                const res = await fetch('/api/orders', {
+                    headers: { 'x-admin-token': token }
+                });
+                const data = await res.json();
+                if (data.success && Array.isArray(data.orders)) {
+                    adminOrders = data.orders;
+                    document.getElementById('stat-orders-count').innerText = adminOrders.length;
+                    renderAdminOrdersTable(adminOrders);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-steel">Brak zarejestrowanych zamówień.</td></tr>`;
+                }
+            } catch (err) {
+                console.error('Błąd ładowania zamówień:', err);
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-critical">Nie udało się połączyć z serwerem zamówień (/api/orders). Upewnij się, że serwer Node.js działa.</td></tr>`;
+            }
+        }
+
+        function renderAdminOrdersTable(orders) {
+            const tbody = document.getElementById('admin-orders-tbody');
+            if (!tbody) return;
+
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-steel">Brak zamówień w bazie danych.</td></tr>`;
+                return;
+            }
+
+            const formatPrice = (pr) => (pr || 0).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+
+            tbody.innerHTML = orders.map(o => {
+                const dateStr = o.createdAt ? new Date(o.createdAt).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' }) : '—';
+                const isPaid = o.paymentStatus === 'PAID';
+
+                const itemsSummary = (o.items || []).map(i => `
+                    <div class="text-xs text-charcoal">
+                        <span class="font-bold">${parseInt(i.quantity, 10)}x</span> ${escapeHtml(i.name)} <span class="font-mono text-steel text-[10px]">(${escapeHtml(i.sku)})</span>
+                    </div>
+                `).join('');
+
+                let delInfo = escapeHtml(o.delivery?.methodName || o.delivery?.method || 'Kurier');
+                if (o.delivery?.inpostCode) {
+                    delInfo += ` <span class="font-mono bg-cat-yellow/20 text-ink-deep px-1.5 py-0.5 rounded font-bold text-[11px]">${escapeHtml(o.delivery.inpostCode)}</span>`;
+                }
+
+                return `
+                    <tr class="hover:bg-surface-soft/40 transition-colors">
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="font-mono font-bold text-ink-deep block">${escapeHtml(o.orderNumber || o.orderId)}</span>
+                            <span class="text-[11px] text-steel">${dateStr}</span>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <span class="font-bold text-ink-deep block">${escapeHtml(o.customer?.name || 'Klient')}</span>
+                            <span class="text-xs text-steel block">${escapeHtml(o.customer?.email || '')} ${o.customer?.phone ? '• ' + escapeHtml(o.customer.phone) : ''}</span>
+                            ${o.customer?.nip ? `<span class="inline-block mt-0.5 bg-primary/10 text-primary font-bold px-1.5 py-0.2 text-[10px] rounded">NIP: ${escapeHtml(o.customer.nip)} (${escapeHtml(o.customer.companyName || '')})</span>` : ''}
+                        </td>
+                        <td class="py-3.5 px-4 max-w-xs">
+                            ${itemsSummary || '<span class="text-steel text-xs">—</span>'}
+                        </td>
+                        <td class="py-3.5 px-4 text-xs">
+                            ${delInfo}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="font-bold text-ink-deep block">${formatPrice(o.totals?.total)}</span>
+                            <span class="text-[11px] text-steel">${formatPrice(o.totals?.netTotal)} netto</span>
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            ${isPaid ? `
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-success/15 text-success font-bold text-xs rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                    OPŁACONE (${escapeHtml(o.paymentMethod?.toUpperCase() || 'STRIPE')})
+                                </span>
+                            ` : `
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                    OCZEKUJE NA WPŁATĘ
+                                </span>
+                            `}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         // ==================== ZARZĄDZANIE PRODUKTAMI ====================
@@ -1100,10 +1270,18 @@
                 SHOP_CONFIG: localShopConfig
             }));
 
-            // Próba wysłania do lokalnego serwera Pythona (jeśli uruchomiony admin_server.py)
+            // Próba wysłania do lokalnego serwera (z autoryzacją x-admin-token)
+            const token = sessionStorage.getItem('hdd_admin_token');
+            if (!token) {
+                document.getElementById('admin-login-overlay').classList.remove('hidden');
+                return;
+            }
             fetch('/api/save', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-token': token
+                },
                 body: JSON.stringify({
                     products: localProducts,
                     shopConfig: {

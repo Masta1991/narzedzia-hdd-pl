@@ -6,11 +6,11 @@ Z sukcesem przeprowadziliśmy kompleksową modernizację platformy e-commerce **
 
 ## 1. Wdrożone Moduły i Usprawnienia
 
-### A. Nowy Skill QA ([.agents/skills/web_qa_payment_tester/](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/SKILL.md))
+### A. Wspólny Skill QA ([web_qa_payment_tester](file:///C:/Projects/.agents/skills/web_qa_payment_tester/SKILL.md))
 * Utworzono kompleksowy framework testów sklepów internetowych:
-  * **[SKILL.md](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/SKILL.md)** — Reguły testowania koszyka, bramek płatności, walidacji formularzy i RWD.
-  * **[scripts/smoke_test.js](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/scripts/smoke_test.js)** — Skrypt automatycznych testów w konsoli.
-  * **[references/ecommerce_checklist.md](file:///C:/Projects/Development/.agents/skills/web_qa_payment_tester/references/ecommerce_checklist.md)** — Checklista audytowa.
+  * **[SKILL.md](file:///C:/Projects/.agents/skills/web_qa_payment_tester/SKILL.md)** — Reguły testowania koszyka, bramek płatności, walidacji formularzy i RWD.
+  * **[scripts/smoke_test.js](file:///C:/Projects/.agents/skills/web_qa_payment_tester/scripts/smoke_test.js)** — Skrypt automatycznych testów w konsoli.
+  * **[references/ecommerce_checklist.md](file:///C:/Projects/.agents/skills/web_qa_payment_tester/references/ecommerce_checklist.md)** — Checklista audytowa.
 
 ### B. Interaktywny Checkout B2B i Bramki Płatności ([checkout.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/checkout.html))
 * **BLIK Interactive**: Pole wprowadzania 6 cyfr z formatowaniem (`XXX XXX`), timerem 120s i symulacją autoryzacji w aplikacji bankowej.
@@ -45,7 +45,9 @@ Z sukcesem przeprowadziliśmy kompleksową modernizację platformy e-commerce **
 ## 2. Raport z Testów End-to-End (Browser Subagent QA)
 
 Przeprowadzono pełny test E2E w przeglądarce:
-1. **Obejście bramki wejściowej**: Hasło `hdd2026` poprawnie odblokowało stronę.
+1. **Historyczny test bramki pre-release**: bramka kliencka została sprawdzona, ale nie
+   jest traktowana jako zabezpieczenie. Panel administratora wymaga serwerowego
+   `ADMIN_SECRET` i walidacji przez `/api/orders`.
 2. **Live Search**: Wpisanie `350` przefiltrowało katalog 37 produktów do 2 modeli 350mm. Wyczyszczenie wyszukiwarki przywróciło pełną listę.
 3. **Karta Produktu**: Produkt `HDD-SK-350` został dodany do koszyka, wywołując powiadomienie Toast oraz aktualizację licznika w nagłówku.
 4. **Koszyk**: Pasek darmowej dostawy osiągnął 100%. Zastosowanie kuponu `HDD2026` obniżyło kwotę z 6150,00 zł do 5535,00 zł brutto.

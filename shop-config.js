@@ -147,11 +147,12 @@ let POPULAR_BANKS = [
     { id: 'bnp', name: 'BNP Paribas', color: '#008a54' }
 ];
 
-// Helper walidacji polskiego NIP
+// Helper walidacji polskiego NIP (zgodny z algorytmem MF i sumą kontrolną)
 function validateNIP(nip) {
     if (!nip) return false;
-    const cleanNip = nip.replace(/[\s-]/g, '');
+    const cleanNip = String(nip).replace(/[\s-]/g, '');
     if (cleanNip.length !== 10 || !/^\d{10}$/.test(cleanNip)) return false;
+    if (/^(\d)\1{9}$/.test(cleanNip)) return false; // Odrzucenie 10 jednakowych cyfr
     
     const weights = [6, 5, 7, 2, 3, 4, 5, 6, 7];
     let sum = 0;

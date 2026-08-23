@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potwierdzenie zamówienia — Narzędzia HDD PL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#0064e0",
+                        'primary-deep': "#0457cb",
+                        success: "#31a24c",
+                        'ink-deep': "#0a1317",
+                        ink: "#1c1e21",
+                        steel: "#5d6c7b",
+                        canvas: "#ffffff",
+                        'surface-soft': "#f1f4f7",
+                        'cat-yellow': "#FFCD00",
+                        'hairline-soft': "#dee3e9"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#fbfcfd] text-ink font-sans min-h-screen flex flex-col antialiased">
+
+    <!-- Pasek Nawigacji -->
+    <nav class="bg-canvas border-b border-hairline-soft h-16 px-4 lg:px-8 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-1.5 hover:opacity-85 transition-opacity">
+            <span class="text-xl font-bold text-ink-deep tracking-tight">Narzędzia</span>
+            <span class="bg-ink-deep text-cat-yellow font-bold text-xl rounded-lg px-2 py-0.5 tracking-tight flex items-center justify-center leading-none mt-0.5">HDD</span>
+        </a>
+        <div class="text-sm font-semibold text-success flex items-center gap-1.5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Transakcja Zabezpieczona SSL
+        </div>
+    </nav>
+
+    <!-- Główny Kontener -->
+    <main class="max-w-[840px] mx-auto px-4 py-12 flex-1 w-full flex flex-col items-center">
+
+        <!-- Karta Sukcesu -->
+        <div class="bg-canvas border border-hairline-soft rounded-3xl p-8 md:p-12 shadow-sm w-full text-center relative overflow-hidden">
+
+            <!-- Ikona Sukcesu -->
+            <div class="w-20 h-20 bg-success/10 text-success rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-extrabold text-ink-deep mb-3 tracking-tight">Dziękujemy za zamówienie!</h1>
+            <p class="text-steel text-base mb-8 max-w-lg mx-auto">Twoja płatność została pomyślnie przetworzona, a zlecenie przekazane do działu logistyki w magazynie w Krakowie.</p>
+
+            <!-- Box Szczegółów Zamówienia -->
+            <div class="bg-surface-soft/60 border border-hairline-soft rounded-2xl p-6 mb-8 text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-steel block font-bold mb-1">Numer Zamówienia</span>
+                        <span id="order-number" class="text-xl font-mono font-bold text-ink-deep">#HDD-2026-ŁADOWANIE</span>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-steel block font-bold mb-1">Status Płatności</span>
+                        <span id="payment-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 bg-success/15 text-success font-bold text-sm rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-success"></span>
+                            OPŁACONE (Stripe / BLIK)
+                        </span>
+                    </div>
+                </div>
+
+                <div class="border-t border-hairline-soft my-5"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-steel block font-bold mb-1">Dostawa</span>
+                        <span id="delivery-info" class="text-ink-deep font-medium">Kurier DPD Express (24h)</span>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-steel block font-bold mb-1">Dokument Sprzedaży</span>
+                        <span id="invoice-info" class="text-ink-deep font-medium">Faktura VAT 23%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instrukcje dla przelewu tradycyjnego (jeśli dotyczy) -->
+            <div id="transfer-instructions" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-8 text-left text-sm">
+                <h3 class="font-bold text-amber-900 text-base mb-3 flex items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    Dane do przelewu tradycyjnego:
+                </h3>
+                <p class="mb-1 text-amber-800"><strong>Odbiorca:</strong> Narzędzia HDD Sp. z o.o.</p>
+                <p class="mb-1 text-amber-800"><strong>Nr konta IBAN:</strong> PL 42 1050 1445 1000 0090 8123 4567 (ING Bank Śląski)</p>
+                <p class="mb-1 text-amber-800"><strong>Tytuł przelewu:</strong> <span id="transfer-order-no" class="font-bold"></span></p>
+                <p class="text-amber-800"><strong>Kwota:</strong> <span id="transfer-amount" class="font-bold"></span></p>
+            </div>
+
+            <!-- Przyciski Akcji -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="index.html" class="w-full sm:w-auto bg-primary hover:bg-primary-deep text-white font-bold px-8 py-4 rounded-full text-sm transition-all shadow-md">
+                    Wróć do sklepu
+                </a>
+                <button onclick="window.print()" class="w-full sm:w-auto bg-surface-soft hover:bg-hairline-soft text-ink-deep font-bold px-6 py-4 rounded-full text-sm transition-colors border border-hairline-soft">
+                    Drukuj potwierdzenie
+                </button>
+            </div>
+        </div>
+
+        <!-- Stopka bezpieczeństwa -->
+        <p class="text-xs text-steel text-center mt-8">
+            Wiadomość z potwierdzeniem została wysłana na Twój adres e-mail. W razie pytań zadzwoń: +48 123 456 789 (Dyżur 24/7).
+        </p>
+    </main>
+
+    <script>
+        // Automatyczne wyczyszczenie koszyka po udanym zamówieniu
+        try {
+            localStorage.removeItem('hdd_cart');
+            localStorage.removeItem('hdd_coupon');
+        } catch(e) {}
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order_id');
+        const sessionId = urlParams.get('session_id');
+        const isMock = urlParams.get('mock');
+
+        if (orderId || sessionId) {
+            fetch(`/api/order-status?order_id=${orderId || ''}&session_id=${sessionId || ''}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.order) {
+                        const order = data.order;
+                        document.getElementById('order-number').innerText = order.orderNumber || order.orderId;
+
+                        if (order.paymentMethod === 'transfer' && order.paymentStatus === 'PENDING_PAYMENT') {
+                            const badge = document.getElementById('payment-status-badge');
+                            badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-800 font-bold text-sm rounded-full';
+                            badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500"></span> Oczekiwanie na przelew';
+
+                            const instr = document.getElementById('transfer-instructions');
+                            instr.classList.remove('hidden');
+                            document.getElementById('transfer-order-no').innerText = order.orderNumber || order.orderId;
+                            document.getElementById('transfer-amount').innerText = (order.totals?.total || 0).toFixed(2) + ' zł';
+                        }
+
+                        if (order.delivery) {
+                            let delText = order.delivery.methodName || 'Kurier DPD (24h)';
+                            if (order.delivery.inpostCode) {
+                                delText = `Paczkomat InPost (${order.delivery.inpostCode})`;
+                            }
+                            document.getElementById('delivery-info').innerText = delText;
+                        }
+
+                        if (order.customer && order.customer.nip) {
+                            document.getElementById('invoice-info').innerText = `Faktura VAT na NIP: ${order.customer.nip}`;
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.log('Nie udało się pobrać szczegółów zamówienia z API:', err);
+                });
+        } else {
+            document.getElementById('order-number').innerText = '#HDD-2026-GOTOWE';
+        }
+    </script>
+</body>
+</html>

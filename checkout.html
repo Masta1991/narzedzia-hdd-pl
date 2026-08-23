@@ -801,8 +801,8 @@
             input.value = val;
         }
 
-        // 10. Złożenie Zamówienia
-        function submitOrder(event) {
+        // 10. Złożenie Zamówienia (Integracja z Backendem i Stripe)
+        async function submitOrder(event) {
             event.preventDefault();
             
             // Walidacja Paczkomatu jeśli wybrano InPost
@@ -826,75 +826,103 @@
                 }
             }
 
-            // Pokazanie modala przetwarzania (BLIK / Karta / PayU)
+            const cart = getCart();
+            if (!cart || cart.length === 0) {
+                alert("Twój koszyk jest pusty!");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Przygotowanie danych zamówienia
+            const customerData = {
+                name: document.getElementById('cust-name')?.value || '',
+                email: document.getElementById('cust-email')?.value || '',
+                phone: document.getElementById('cust-phone')?.value || '',
+                street: document.getElementById('cust-street')?.value || '',
+                postalCode: document.getElementById('cust-postcode')?.value || '',
+                city: document.getElementById('cust-city')?.value || '',
+                isB2B: isB2B,
+                nip: isB2B ? document.getElementById('cust-nip')?.value : '',
+                companyName: isB2B ? document.getElementById('cust-company-name')?.value : ''
+            };
+
+            const deliveryNames = {
+                'dpd': 'Kurier DPD / DHL Express (24h)',
+                'inpost': 'Paczkomat InPost',
+                'pickup': 'Odbiór osobisty w Krakowie'
+            };
+
+            const deliveryData = {
+                method: selectedDeliveryMethod,
+                methodName: deliveryNames[selectedDeliveryMethod] || 'Kurier DPD',
+                inpostCode: selectedDeliveryMethod === 'inpost' ? document.getElementById('inpost-box-code')?.value : ''
+            };
+
+            const couponData = getAppliedCoupon();
+
+            // Pokazanie modala przetwarzania
             const procModal = document.getElementById('processing-modal');
             const procTitle = document.getElementById('processing-title');
             const procDesc = document.getElementById('processing-desc');
 
-            if (selectedPaymentMethod === 'blik') {
-                const blikCode = document.getElementById('blik-code').value.replace(/\s/g, '');
-                if (blikCode.length !== 6) {
-                    alert("Wprowadź poprawny 6-cyfrowy kod BLIK.");
-                    document.getElementById('blik-code').focus();
-                    return;
-                }
-                procTitle.innerText = "Potwierdź w aplikacji banku";
-                procDesc.innerText = "Wysłaliśmy żądanie płatności BLIK. Masz 120 sekund na zatwierdzenie PIN-em w telefonie.";
-            } else if (selectedPaymentMethod === 'card') {
-                procTitle.innerText = "Autoryzacja 3D-Secure...";
-                procDesc.innerText = "Trwa bezpieczna weryfikacja karty płatniczej w centrum autoryzacyjnym.";
+            if (selectedPaymentMethod === 'transfer') {
+                procTitle.innerText = "Rejestracja zamówienia...";
+                procDesc.innerText = "Generowanie faktury proforma i rezerwacja towaru w magazynie.";
             } else {
-                procTitle.innerText = "Przetwarzanie zamówienia...";
-                procDesc.innerText = "Generowanie dokumentów sprzedaży i rezerwacja towaru w magazynie.";
+                procTitle.innerText = "Łączenie z bramką płatności...";
+                procDesc.innerText = "Trwa bezpieczne szyfrowanie sesji transakcyjnej (SSL 256-bit).";
             }
 
             procModal.classList.remove('hidden');
             procModal.classList.add('flex');
 
-            // Symulacja autoryzacji w 1.8 sekundy
-            setTimeout(() => {
+            try {
+                if (selectedPaymentMethod === 'transfer') {
+                    // Przelew tradycyjny (Proforma)
+                    const response = await fetch('/api/create-manual-order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            cart,
+                            customer: customerData,
+                            delivery: deliveryData,
+                            coupon: couponData
+                        })
+                    });
+
+                    const result = await response.json();
+                    if (result.success && result.redirectUrl) {
+                        clearCart();
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        throw new Error(result.error || 'Błąd rejestracji zamówienia');
+                    }
+                } else {
+                    // Płatność elektroniczna (Stripe: BLIK, Karty, P24, Google/Apple Pay)
+                    const response = await fetch('/api/create-checkout-session', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            cart,
+                            customer: customerData,
+                            delivery: deliveryData,
+                            coupon: couponData
+                        })
+                    });
+
+                    const result = await response.json();
+                    if (result.success && result.url) {
+                        window.location.href = result.url;
+                    } else {
+                        throw new Error(result.error || 'Nie udało się zainicjować płatności');
+                    }
+                }
+            } catch (err) {
+                console.error('Błąd checkout:', err);
                 procModal.classList.remove('flex');
                 procModal.classList.add('hidden');
-                completeOrderSuccess();
-            }, 1800);
-        }
-
-        function completeOrderSuccess() {
-            const randomNum = Math.floor(1000 + Math.random() * 9000);
-            const date = new Date();
-            const orderNo = `#HDD-${date.getFullYear()}-${randomNum}`;
-
-            document.getElementById('order-number-text').innerText = orderNo;
-            
-            const deliveryNames = {
-                'dpd': 'Kurier DPD / DHL Express (24h)',
-                'inpost': `Paczkomat InPost (${document.getElementById('inpost-box-code')?.value || 'Wybrany'})`,
-                'pickup': 'Odbiór osobisty w Krakowie'
-            };
-            document.getElementById('order-delivery-text').innerText = deliveryNames[selectedDeliveryMethod] || 'Kurier DPD';
-
-            const paymentNames = {
-                'blik': 'BLIK (opłacono)',
-                'card': 'Karta płatnicza (opłacono)',
-                'payu': 'Szybki przelew PayU (opłacono)',
-                'transfer': 'Przelew tradycyjny (do zapłaty)'
-            };
-            document.getElementById('order-payment-text').innerText = paymentNames[selectedPaymentMethod] || 'BLIK';
-
-            const modal = document.getElementById('success-modal');
-            const modalContent = modal.querySelector('.bg-canvas');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            }, 20);
-        }
-
-        function closeSuccessModal() {
-            clearCart();
-            window.location.href = 'index.html';
+                alert(`Wystąpił błąd podczas składania zamówienia: ${err.message}`);
+            }
         }
     </script>
 </body>

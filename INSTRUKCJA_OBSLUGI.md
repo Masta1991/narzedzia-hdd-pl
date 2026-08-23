@@ -9,7 +9,8 @@ Kompletny przewodnik po obsłudze, edycji ofert, zmianie statusów magazynowych,
 1. W przeglądarce otwórz stronę panelu:
    * Wpisz adres: `admin.html` (np. `http://localhost:8080/admin.html` lub `twojadomena.pl/admin.html`).
    * Albo zjedź na sam dół strony głównej sklepu i w stopce kliknij: **[Panel Zarządzania (CMS)](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/admin.html)**.
-2. Na ekranie blokady wpisz kod PIN: **`admin2026`** i kliknij *Zaloguj do panelu*.
+2. Wpisz token administratora ustawiony lokalnie jako `ADMIN_SECRET` w `.env` i kliknij
+   *Zaloguj do panelu*. Projekt nie ma publicznego hasła domyślnego.
 
 ---
 
@@ -161,14 +162,41 @@ Każde kliknięcie *"Zapisz"* w panelu administracyjnym **automatycznie i bezpo�
 
 ---
 
-## 9. Usunięcie Hasła Przedpremierowego przed Sprzedażą / Premierą
+---
 
-Strona posiada zabezpieczenie hasłem wstępnym (**`hdd2026`**) w pliku [auth-gate.js](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/auth-gate.js).
+## 10. Produkcyjne Płatności Stripe (BLIK, Karty, P24) — Jak Podpiąć Swoje Konto Bankowe
 
-Gdy sklep jest gotowy do oddania klientowi / publikacji w sieci:
-1. Usuń plik `auth-gate.js`.
-2. Z plików `index.html`, `pdp.html`, `koszyk.html`, `checkout.html` usuń linijkę na samej górze:
-   ```html
-   <script src="auth-gate.js"></script>
-   ```
-Sklep będzie wtedy natychmiast dostępny publicznie dla wszystkich kupujących.
+Sklep posiada wdrożony, w pełni zabezpieczony produkcyjny backend transakcyjny (`server.js`) z obsługą **BLIK-a, Kart płatniczych, Przelewów24, Google Pay i Apple Pay**.
+
+Aby pieniądze z transakcji trafiały bezpośrednio na Twoje konto bankowe:
+
+### Krok 1: Załóż bezpłatne konto na [Stripe.com](https://dashboard.stripe.com/register)
+1. Zarejestruj się jako firma lub osoba prowadząca działalność.
+2. W panelu Stripe w zakładce **Settings > Bank accounts** podaj numer swojego polskiego konta bankowego (IBAN w PLN), na które Stripe ma przelewać środki.
+
+### Krok 2: Pobierz klucze API ze Stripe Dashboard
+1. W panelu Stripe wejdź w: **Developers > API keys** (https://dashboard.stripe.com/apikeys).
+2. Skopiuj dwa klucze:
+   * **Publishable key** (`pk_live_...` do testów `pk_test_...`)
+   * **Secret key** (`sk_live_...` do testów `sk_test_...`)
+3. Wejdź w: **Developers > Webhooks** i dodaj endpoint: `https://twoja-domena.pl/api/webhook`, zaznaczając zdarzenie `checkout.session.completed`. Skopiuj wygenerowany **Signing secret** (`whsec_...`).
+
+### Krok 3: Wklej klucze do pliku `.env` w folderze sklepu
+Otwórz plik `.env` w folderze `C:\Projects\Development\Narzedzia HDD PL\` i uzupełnij:
+```env
+PORT=8080
+BASE_URL=https://twoja-domena.pl
+STRIPE_SECRET_KEY=sk_live_twoj_klucz_ze_stripe
+STRIPE_PUBLISHABLE_KEY=pk_live_twoj_klucz_ze_stripe
+STRIPE_WEBHOOK_SECRET=whsec_twoj_klucz_webhooka
+SHOP_OWNER_EMAIL=twoj-email@domena.pl
+```
+
+### Krok 4: Uruchomienie serwera
+```bash
+npm start
+```
+Sklep będzie natychmiast przyjmował płatności, a po każdej udanej transakcji:
+- Stripe zaksięguje środki i automatycznie wyśle przelew na Twoje konto bankowe,
+- Serwer zapisze zamówienie w `data/orders.json`,
+- Otrzymasz powiadomienie e-mail, a zamówienie pojawi się w panelu `admin.html` w zakładce **„📦 Zamówienia i Płatności”**.

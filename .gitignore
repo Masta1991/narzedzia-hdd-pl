@@ -9,6 +9,17 @@ __pycache__/
 # Logs
 *.log
 
+# Node / local runtime
+node_modules/
+
+# Secrets — keep only the sanitized template
+.env
+.env.*
+!.env.example
+
+# Local order/customer data
+data/
+
 # OS
 .DS_Store
 Thumbs.db
