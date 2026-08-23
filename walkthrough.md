@@ -1,6 +1,6 @@
 # Podsumowanie Modernizacji i Testów — Narzędzia HDD PL
 
-Z sukcesem przeprowadziliśmy kompleksową modernizację platformy e-commerce **Narzędzia HDD PL** (`C:\Projects\Development\Narzedzia HDD PL`), stworzyliśmy dedykowany skill QA do testowania sklepów internetowych i bramek płatności, a także zweryfikowaliśmy całą ścieżkę zakupową za pomocą automatycznego subagenta przeglądarkowego.
+Z sukcesem przeprowadziliśmy kompleksową modernizację platformy e-commerce **Narzędzia HDD PL** (`C:\Projects\Websites\Narzedzia HDD PL`), stworzyliśmy dedykowany skill QA do testowania sklepów internetowych i bramek płatności, a także zweryfikowaliśmy całą ścieżkę zakupową za pomocą automatycznego subagenta przeglądarkowego.
 
 ---
 

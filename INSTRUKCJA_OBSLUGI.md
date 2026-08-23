@@ -182,7 +182,7 @@ Aby pieniądze z transakcji trafiały bezpośrednio na Twoje konto bankowe:
 3. Wejdź w: **Developers > Webhooks** i dodaj endpoint: `https://twoja-domena.pl/api/webhook`, zaznaczając zdarzenie `checkout.session.completed`. Skopiuj wygenerowany **Signing secret** (`whsec_...`).
 
 ### Krok 3: Wklej klucze do pliku `.env` w folderze sklepu
-Otwórz plik `.env` w folderze `C:\Projects\Development\Narzedzia HDD PL\` i uzupełnij:
+Otwórz plik `.env` w folderze `C:\Projects\Websites\Narzedzia HDD PL\` i uzupełnij:
 ```env
 PORT=8080
 BASE_URL=https://twoja-domena.pl
