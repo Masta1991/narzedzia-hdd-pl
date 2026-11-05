@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <script src="auth-gate.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizacja zamówienia - Narzędzia HDD PL</title>
@@ -10,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/tailwind-runtime.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,10 +24,10 @@
                         'on-primary': "#ffffff",
                         'ink-button': "#000000",
                         'on-ink-button': "#ffffff",
-                        success: "#31a24c",
+                        success: "#247a39",
                         attention: "#f2a918",
                         warning: "#f7b928",
-                        critical: "#e41e3f",
+                        critical: "#c71b38",
                         'critical-strong': "#f0284a",
                         canvas: "#ffffff",
                         'surface-soft': "#f1f4f7",
@@ -96,6 +95,8 @@
     <script src="shop-config.js"></script>
     <script src="products.js"></script>
     <script src="cart.js"></script>
+<script src="ui-safety.js"></script>
+<style>button:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:3px solid #d66b14;outline-offset:3px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:400px){nav{gap:8px!important}nav .flex-1{min-width:0}nav input{padding-right:24px!important}nav>a span{font-size:17px!important}} </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
@@ -114,7 +115,7 @@
         <div class="flex items-center gap-2 text-body-sm text-steel">
             <span class="hidden sm:inline-flex items-center gap-1.5 text-success font-medium">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Bezpieczne szyfrowanie SSL
+                Formularz zamówienia
             </span>
         </div>
         
@@ -138,7 +139,7 @@
             <span class="text-ink-deep font-semibold">Finalizacja zamówienia</span>
         </div>
 
-        <h1 class="text-heading-lg text-ink-deep mb-8">Dostawa i płatność</h1>
+        <h1 class="text-heading-lg text-ink-deep mb-8">Dostawa i zamówienie</h1>
 
         <form id="checkout-form" onsubmit="submitOrder(event)">
             <div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
@@ -154,19 +155,19 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="text-body-sm-bold text-ink-deep block mb-1.5">Imię *</label>
+                                <label for="cust-firstname" class="text-body-sm-bold text-ink-deep block mb-1.5">Imię *</label>
                                 <input type="text" class="input-field" required id="cust-firstname" placeholder="Jan">
                             </div>
                             <div>
-                                <label class="text-body-sm-bold text-ink-deep block mb-1.5">Nazwisko *</label>
+                                <label for="cust-lastname" class="text-body-sm-bold text-ink-deep block mb-1.5">Nazwisko *</label>
                                 <input type="text" class="input-field" required id="cust-lastname" placeholder="Kowalski">
                             </div>
                             <div>
-                                <label class="text-body-sm-bold text-ink-deep block mb-1.5">Adres e-mail *</label>
+                                <label for="cust-email" class="text-body-sm-bold text-ink-deep block mb-1.5">Adres e-mail *</label>
                                 <input type="email" class="input-field" required id="cust-email" placeholder="jan.kowalski@firma.pl">
                             </div>
                             <div>
-                                <label class="text-body-sm-bold text-ink-deep block mb-1.5">Numer telefonu *</label>
+                                <label for="cust-phone" class="text-body-sm-bold text-ink-deep block mb-1.5">Numer telefonu *</label>
                                 <input type="tel" class="input-field" required id="cust-phone" placeholder="+48 600 100 200">
                             </div>
                         </div>
@@ -181,16 +182,16 @@
                         <div class="flex flex-col gap-4">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="md:col-span-2">
-                                    <label class="text-body-sm-bold text-ink-deep block mb-1.5">Ulica i numer lokalu / budowy *</label>
+                                    <label for="cust-address" class="text-body-sm-bold text-ink-deep block mb-1.5">Ulica i numer lokalu / budowy *</label>
                                     <input type="text" class="input-field" required id="cust-address" placeholder="ul. Przemysłowa 12B">
                                 </div>
                                 <div>
-                                    <label class="text-body-sm-bold text-ink-deep block mb-1.5">Kod pocztowy *</label>
+                                    <label for="cust-zip" class="text-body-sm-bold text-ink-deep block mb-1.5">Kod pocztowy *</label>
                                     <input type="text" class="input-field" required id="cust-zip" placeholder="00-000" maxlength="6">
                                 </div>
                             </div>
                             <div>
-                                <label class="text-body-sm-bold text-ink-deep block mb-1.5">Miejscowość *</label>
+                                <label for="cust-city" class="text-body-sm-bold text-ink-deep block mb-1.5">Miejscowość *</label>
                                 <input type="text" class="input-field" required id="cust-city" placeholder="Kraków">
                             </div>
 
@@ -203,15 +204,15 @@
 
                                 <div id="b2b-fields-container" class="hidden flex-col gap-4 mt-4 p-4 bg-surface-soft/60 rounded-xl border border-hairline-soft">
                                     <div>
-                                        <label class="text-body-sm-bold text-ink-deep block mb-1.5">NIP firmy *</label>
+                                        <label for="cust-nip" class="text-body-sm-bold text-ink-deep block mb-1.5">NIP firmy *</label>
                                         <div class="relative">
-                                            <input type="text" class="input-field bg-canvas" id="cust-nip" placeholder="np. 1234563218" maxlength="13" oninput="handleNIPInput(this.value)">
+                                            <input type="text" class="input-field bg-canvas" id="cust-nip" aria-describedby="nip-error-msg nip-status-icon" placeholder="np. 1234563218" maxlength="13" oninput="handleNIPInput(this.value)">
                                             <span id="nip-status-icon" class="absolute right-3 top-3.5 hidden"></span>
                                         </div>
                                         <p id="nip-error-msg" class="text-xs text-critical font-medium mt-1 hidden">Wprowadzono niepoprawny numer NIP (błędna suma kontrolna).</p>
                                     </div>
                                     <div>
-                                        <label class="text-body-sm-bold text-ink-deep block mb-1.5">Pełna nazwa firmy *</label>
+                                        <label for="cust-company-name" class="text-body-sm-bold text-ink-deep block mb-1.5">Pełna nazwa firmy *</label>
                                         <input type="text" class="input-field bg-canvas" id="cust-company-name" placeholder="Wiercenia HDD Sp. z o.o.">
                                     </div>
                                 </div>
@@ -233,7 +234,7 @@
                                         <span class="text-body-md-bold text-ink-deep">Kurier DPD / DHL Express</span>
                                         <span class="text-body-md-bold text-ink-deep" id="dpd-cost-text">20,00 zł</span>
                                     </div>
-                                    <span class="block text-body-sm text-charcoal">Dostawa pod adres budowy lub bazy sprzętowej (24h)</span>
+                                    <span class="block text-body-sm text-charcoal">Dostawa pod wskazany adres</span>
                                 </div>
                             </label>
                             
@@ -248,8 +249,8 @@
 
                                     <!-- Interaktywny selektor Paczkomatu -->
                                     <div id="paczkomat-selector-box" class="hidden mt-3 pt-3 border-t border-hairline-soft">
-                                        <label class="text-body-sm-bold text-ink-deep block mb-1">Wpisz kod lub miasto paczkomatu *</label>
-                                        <input type="text" class="input-field bg-canvas mb-2" id="inpost-box-code" placeholder="np. KRA01M lub Kraków Pawia" oninput="filterPaczkomaty(this.value)">
+                                        <label for="inpost-box-code" class="text-body-sm-bold text-ink-deep block mb-1">Kod paczkomatu InPost *</label>
+                                        <input type="text" class="input-field bg-canvas mb-2" id="inpost-box-code" placeholder="np. KRA01M" oninput="filterPaczkomaty(this.value)">
                                         
                                         <!-- Podpowiedzi paczkomatów -->
                                         <div class="flex flex-wrap gap-1.5" id="paczkomaty-chips">
@@ -266,126 +267,18 @@
                                         <span class="text-body-md-bold text-ink-deep">Odbiór osobisty w Magazynie Centralnym</span>
                                         <span class="text-body-md-bold text-success">Darmowy</span>
                                     </div>
-                                    <span class="block text-body-sm text-charcoal">ul. Wiertnicza 44, 30-001 Kraków (gotowe w 2h)</span>
+                                    <span class="block text-body-sm text-charcoal"><span class="company-address-text">Adres odbioru zostanie podany przed uruchomieniem sprzedaży</span></span>
                                 </div>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Sekcja 4: Interaktywne Metody Płatności -->
-                    <div class="bg-canvas border border-hairline-soft rounded-2xl p-6 md:p-8 shadow-sm">
-                        <div class="flex items-center gap-3 mb-6">
-                            <span class="w-8 h-8 rounded-full bg-ink-deep text-canvas flex items-center justify-center text-body-sm-bold">4</span>
-                            <h2 class="text-subtitle-lg text-ink-deep">Metoda płatności</h2>
-                        </div>
-                        <div class="flex flex-col gap-3">
-                            
-                            <!-- BLIK -->
-                            <div class="radio-box active flex-col gap-3" onclick="selectPayment('blik')">
-                                <div class="flex items-start gap-4 w-full">
-                                    <input type="radio" name="payment-method" value="blik" checked class="accent-primary w-4 h-4 mt-1">
-                                    <div class="flex-1 flex justify-between items-center">
-                                        <div>
-                                            <span class="text-body-md-bold text-ink-deep">Płatność kodem BLIK</span>
-                                            <span class="block text-body-sm text-charcoal">Błyskawiczna autoryzacja 6-cyfrowym kodem z banku</span>
-                                        </div>
-                                        <span class="bg-[#1c1e21] text-canvas font-black text-xs px-2.5 py-1 rounded">BLIK</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Interaktywny Formularz BLIK -->
-                                <div id="blik-input-panel" class="w-full pt-3 border-t border-hairline-soft">
-                                    <label class="text-body-sm-bold text-ink-deep block mb-1.5">Wpisz 6-cyfrowy kod BLIK:</label>
-                                    <div class="flex items-center gap-3 max-w-[280px]">
-                                        <input type="text" id="blik-code" class="input-field text-center tracking-[8px] font-bold text-lg text-ink-deep" maxlength="7" placeholder="___ ___" oninput="formatBlikCode(this)">
-                                        <div id="blik-timer-badge" class="hidden text-xs bg-surface-soft text-charcoal px-3 py-2 rounded-lg font-medium whitespace-nowrap">
-                                            ⏳ <span id="blik-seconds">120</span>s
-                                        </div>
-                                    </div>
-                                    <p class="text-xs text-steel mt-2">Po kliknięciu "Zamawiam i płacę" zatwierdź transakcję w swojej aplikacji bankowej.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Karta Płatnicza -->
-                            <div class="radio-box flex-col gap-3" onclick="selectPayment('card')">
-                                <div class="flex items-start gap-4 w-full">
-                                    <input type="radio" name="payment-method" value="card" class="accent-primary w-4 h-4 mt-1">
-                                    <div class="flex-1 flex justify-between items-center">
-                                        <div>
-                                            <span class="text-body-md-bold text-ink-deep">Karta płatnicza (Visa / Mastercard)</span>
-                                            <span class="block text-body-sm text-charcoal">Bezpieczna płatność z autoryzacją 3D-Secure</span>
-                                        </div>
-                                        <div class="flex gap-1">
-                                            <span class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">VISA</span>
-                                            <span class="text-xs font-bold bg-red-100 text-red-800 px-2 py-0.5 rounded">MC</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Interaktywny Formularz Karty -->
-                                <div id="card-input-panel" class="hidden w-full pt-3 border-t border-hairline-soft flex-col gap-3">
-                                    <div>
-                                        <label class="text-body-sm-bold text-ink-deep block mb-1">Numer karty *</label>
-                                        <div class="relative">
-                                            <input type="text" id="card-number" class="input-field pr-12 font-mono" placeholder="4000 1234 5678 9010" maxlength="19" oninput="formatCardNumber(this)">
-                                            <span id="card-brand-icon" class="absolute right-3 top-3.5 text-xs font-bold text-steel"></span>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label class="text-body-sm-bold text-ink-deep block mb-1">Ważność (MM/RR) *</label>
-                                            <input type="text" id="card-expiry" class="input-field font-mono" placeholder="MM/RR" maxlength="5" oninput="formatCardExpiry(this)">
-                                        </div>
-                                        <div>
-                                            <label class="text-body-sm-bold text-ink-deep block mb-1">Kod CVV / CVC *</label>
-                                            <input type="password" id="card-cvv" class="input-field font-mono" placeholder="123" maxlength="4">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Szybki Przelew Online / Banki -->
-                            <div class="radio-box flex-col gap-3" onclick="selectPayment('payu')">
-                                <div class="flex items-start gap-4 w-full">
-                                    <input type="radio" name="payment-method" value="payu" class="accent-primary w-4 h-4 mt-1">
-                                    <div class="flex-1 flex justify-between items-center">
-                                        <div>
-                                            <span class="text-body-md-bold text-ink-deep">Szybki przelew online (PayU / P24)</span>
-                                            <span class="block text-body-sm text-charcoal">Wybierz swój bank i zapłać natychmiastowo</span>
-                                        </div>
-                                        <span class="text-xs bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded">PayU</span>
-                                    </div>
-                                </div>
-
-                                <!-- Siatka Banków -->
-                                <div id="payu-banks-panel" class="hidden w-full pt-3 border-t border-hairline-soft">
-                                    <label class="text-body-sm-bold text-ink-deep block mb-2">Wybierz swój bank:</label>
-                                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="banks-grid">
-                                        <!-- Generowane z shop-config -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Przelew Tradycyjny / Faktura Proforma -->
-                            <div class="radio-box flex-col gap-3" onclick="selectPayment('transfer')">
-                                <div class="flex items-start gap-4 w-full">
-                                    <input type="radio" name="payment-method" value="transfer" class="accent-primary w-4 h-4 mt-1">
-                                    <div class="flex-1">
-                                        <span class="text-body-md-bold text-ink-deep">Przelew tradycyjny / Faktura Proforma B2B</span>
-                                        <span class="block text-body-sm text-charcoal">Dane do przelewu i fakturę proforma prześlemy e-mailem</span>
-                                    </div>
-                                </div>
-
-                                <div id="transfer-info-panel" class="hidden w-full pt-3 border-t border-hairline-soft text-body-sm text-charcoal bg-surface-soft/60 p-4 rounded-xl">
-                                    <p class="font-bold text-ink-deep mb-1">Dane rachunku do wpłaty:</p>
-                                    <p class="font-mono text-xs mb-1">PL 42 1050 1445 1000 0090 8123 4567 (ING Bank Śląski)</p>
-                                    <p class="text-xs text-steel">Narzędzia HDD Sp. z o.o., ul. Wiertnicza 44, 30-001 Kraków</p>
-                                    <p class="text-xs text-steel mt-2">Towar wysyłamy niezwłocznie po zaksięgowaniu wpłaty lub przesłaniu potwierdzenia PDF.</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    <section class="bg-canvas border border-hairline-soft rounded-2xl p-6 md:p-8 shadow-sm" aria-labelledby="proforma-heading">
+                        <h2 id="proforma-heading" class="text-subtitle-lg text-ink-deep mb-4">4. Przelew po otrzymaniu pro formy</h2>
+                        <p class="text-body-sm text-charcoal">Po sprawdzeniu możliwości realizacji sprzedawca wyśle pro formę z danymi do przelewu. Poczekaj na ten dokument przed zapłatą.</p>
+                        <p class="text-body-sm text-charcoal mt-3">Kwota w podsumowaniu jest ostateczna. Realizacja nastąpi po potwierdzeniu wpłaty przez sprzedawcę.</p>
+                        <p id="payment-availability" class="text-xs text-critical mt-3" role="status" aria-live="polite"></p>
+                    </section>
 
                 </div>
 
@@ -401,7 +294,7 @@
 
                         <!-- Moduł Kuponu Rabatowego -->
                         <div class="mb-6 pt-4 border-t border-hairline-soft">
-                            <label class="text-body-sm-bold text-ink-deep block mb-1.5">Kod rabatowy:</label>
+                            <label for="coupon-code-input" class="text-body-sm-bold text-ink-deep block mb-1.5">Kod rabatowy:</label>
                             <div class="flex gap-2">
                                 <input type="text" id="coupon-code-input" class="input-field h-10 uppercase text-xs font-bold tracking-wider" placeholder="np. HDD2026">
                                 <button type="button" onclick="handleApplyCoupon()" class="bg-ink-deep text-canvas text-xs font-bold px-4 rounded-xl hover:bg-ink transition-colors">Dodaj</button>
@@ -442,10 +335,11 @@
                             <span class="text-[26px] text-ink-deep font-bold leading-none" id="summary-total">0,00 zł</span>
                         </div>
 
+                        <label class="flex gap-2 text-xs mb-4"><input type="checkbox" required id="terms-accepted"> <span>Akceptuję <a id="terms-link" class="underline" target="_blank" rel="noopener">regulamin sprzedaży</a> i zapoznałem się z <a id="privacy-link" class="underline" target="_blank" rel="noopener">informacją o prywatności</a>.</span></label>
                         <!-- CTA Zamówienia -->
-                        <button type="submit" id="submit-order-btn" class="btn-buy-cta w-full">
+                        <button type="submit" id="submit-order-btn" disabled class="btn-buy-cta w-full">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
-                            Zamawiam i płacę
+                            Zamawiam z obowiązkiem zapłaty
                         </button>
                         
                         <a href="koszyk.html" class="btn-ghost w-full block mt-3 text-xs">← Wróć do edycji koszyka</a>
@@ -456,51 +350,15 @@
         </form>
     </main>
 
-    <!-- Modal Symulacji 3D-Secure / BLIK Confirmation -->
-    <div id="processing-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4">
+    <!-- Informacja o zapisywaniu zamówienia -->
+    <div id="processing-modal" role="status" aria-live="polite" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-ink-deep/70 backdrop-blur-sm"></div>
         <div class="bg-canvas max-w-sm w-full rounded-2xl shadow-modal border border-hairline p-8 text-center relative z-10">
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4 animate-spin">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
             </div>
-            <h3 class="text-heading-sm text-ink-deep mb-2" id="processing-title">Przetwarzanie płatności...</h3>
-            <p class="text-body-sm text-charcoal mb-4" id="processing-desc">Potwierdź transakcję w swojej aplikacji mobilnej.</p>
-        </div>
-    </div>
-
-    <!-- Sukces Modal -->
-    <div id="success-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-ink-deep/75 backdrop-blur-sm"></div>
-        <div class="bg-canvas max-w-lg w-full rounded-3xl shadow-modal border border-hairline p-8 text-center relative z-10 transform scale-95 opacity-0 transition-all duration-300">
-            <div class="w-16 h-16 bg-success/15 text-success rounded-full flex items-center justify-center mx-auto mb-5">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-            </div>
-            <h3 class="text-heading-sm text-ink-deep mb-2">Dziękujemy za złożenie zamówienia!</h3>
-            <p class="text-body-sm text-charcoal mb-4">Zamówienie zostało pomyślnie przyjęte do realizacji w magazynie.</p>
-            
-            <div class="bg-surface-soft/80 p-4 rounded-xl mb-6 text-left text-xs text-charcoal space-y-1.5 border border-hairline-soft">
-                <div class="flex justify-between font-bold text-ink-deep text-sm pb-1 border-b border-hairline-soft">
-                    <span>Numer zamówienia:</span>
-                    <span id="order-number-text" class="text-primary">#HDD-2026-0000</span>
-                </div>
-                <div class="flex justify-between pt-1">
-                    <span>Wybrana metoda dostawy:</span>
-                    <span id="order-delivery-text" class="font-semibold">Kurier DPD</span>
-                </div>
-                <div class="flex justify-between">
-                    <span>Metoda płatności:</span>
-                    <span id="order-payment-text" class="font-semibold">BLIK</span>
-                </div>
-                <div class="flex justify-between">
-                    <span>Status płatności:</span>
-                    <span class="text-success font-bold">Opłacono pomyślnie</span>
-                </div>
-            </div>
-
-            <p class="text-body-sm text-steel mb-6">Potwierdzenie oraz fakturę / dokument sprzedaży przesłaliśmy na podany adres e-mail.</p>
-            <button onclick="closeSuccessModal()" class="btn-buy-cta w-full">Wróć do sklepu głównego</button>
+            <h3 class="text-heading-sm text-ink-deep mb-2" id="processing-title">Zapisywanie zamówienia…</h3>
+            <p class="text-body-sm text-charcoal mb-4" id="processing-desc">Poczekaj na potwierdzenie zapisania zamówienia.</p>
         </div>
     </div>
 
@@ -512,10 +370,9 @@
     <!-- Logika Checkout -->
     <script>
         let currentDeliveryCost = 20;
-        let selectedPaymentMethod = 'blik';
+        let selectedPaymentMethod = 'proforma';
         let selectedDeliveryMethod = 'dpd';
-        let selectedBankId = 'mbank';
-        let blikTimerInterval = null;
+        let paymentAvailability = {proforma:false};
 
         document.addEventListener('DOMContentLoaded', () => {
             const cart = getCart();
@@ -525,10 +382,21 @@
             }
 
             renderPaczkomatyChips();
-            renderBanksGrid();
             renderSummary();
             initCouponState();
+            loadPaymentOptions();
         });
+
+        async function loadPaymentOptions() {
+            try {
+                const response = await fetch('/api/payment-options');
+                if (!response.ok) throw new Error('Zamówienia są niedostępne.');
+                paymentAvailability = await response.json();
+            } catch (_) { paymentAvailability = {proforma:false}; }
+            for(const [key,id] of [['termsUrl','terms-link'],['privacyUrl','privacy-link']]) if(paymentAvailability[key]) document.getElementById(id).href=paymentAvailability[key];
+            document.getElementById('submit-order-btn').disabled = !paymentAvailability.proforma;
+            document.getElementById('payment-availability').textContent = paymentAvailability.proforma ? '' : 'Składanie zamówień jest chwilowo wyłączone. Skontaktuj się ze sprzedawcą.';
+        }
 
         // 1. Zmiana Sposobu Dostawy
         function selectDelivery(method, cost) {
@@ -557,31 +425,6 @@
             renderSummary();
         }
 
-        // 2. Zmiana Metody Płatności
-        function selectPayment(method) {
-            selectedPaymentMethod = method;
-            document.querySelectorAll('input[name="payment-method"]').forEach(input => {
-                const box = input.closest('.radio-box');
-                if (input.value === method) {
-                    input.checked = true;
-                    box.classList.add('active');
-                } else {
-                    box.classList.remove('active');
-                }
-            });
-
-            // Toggle dedykowanych paneli
-            const blikPanel = document.getElementById('blik-input-panel');
-            const cardPanel = document.getElementById('card-input-panel');
-            const payuPanel = document.getElementById('payu-banks-panel');
-            const transferPanel = document.getElementById('transfer-info-panel');
-
-            if (blikPanel) blikPanel.classList.toggle('hidden', method !== 'blik');
-            if (cardPanel) cardPanel.classList.toggle('hidden', method !== 'card');
-            if (payuPanel) payuPanel.classList.toggle('hidden', method !== 'payu');
-            if (transferPanel) transferPanel.classList.toggle('hidden', method !== 'transfer');
-        }
-
         // 3. Renderowanie Podsumowania
         function renderSummary() {
             const totals = calculateCartTotals(currentDeliveryCost);
@@ -604,10 +447,10 @@
                 itemDiv.className = 'flex items-center gap-3 py-2 border-b border-hairline-soft/30 last:border-b-0';
                 itemDiv.innerHTML = `
                     <div class="w-12 h-12 bg-surface-soft rounded-lg p-1 flex-shrink-0 flex items-center justify-center">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain mix-blend-multiply">
+                        <img src="${htmlText(item.image)}" alt="${htmlText(item.name)}" class="w-full h-full object-contain mix-blend-multiply">
                     </div>
                     <div class="flex-1 min-w-0">
-                        <span class="block text-body-sm-bold text-ink-deep truncate" title="${item.name}">${item.name}</span>
+                        <span class="block text-body-sm-bold text-ink-deep truncate" title="${htmlText(item.name)}">${htmlText(item.name)}</span>
                         <span class="block text-xs text-steel">Ilość: ${item.quantity} • ${formatPrice(item.price * item.quantity)}</span>
                     </div>
                 `;
@@ -656,7 +499,7 @@
             const feedback = document.getElementById('coupon-feedback');
             if (coupon && input && feedback) {
                 input.value = coupon.code;
-                feedback.innerHTML = `<span class="text-success">Aktywny kupon: ${coupon.label}</span>`;
+                feedback.innerHTML = `<span class="text-success">Aktywny kupon: ${htmlText(coupon.label)}</span>`;
                 feedback.classList.remove('hidden');
             }
         }
@@ -668,10 +511,10 @@
             
             feedback.classList.remove('hidden');
             if (res.success) {
-                feedback.innerHTML = `<span class="text-success">${res.coupon.label}</span>`;
+                feedback.innerHTML = `<span class="text-success">${htmlText(res.coupon.label)}</span>`;
                 showToast("Zastosowano kod rabatowy!");
             } else {
-                feedback.innerHTML = `<span class="text-critical">${res.message}</span>`;
+                feedback.innerHTML = `<span class="text-critical">${htmlText(res.message)}</span>`;
             }
             renderSummary();
         }
@@ -743,67 +586,12 @@
             if (input) input.value = val.toUpperCase();
         }
 
-        // 7. Siatka Banków PayU
-        function renderBanksGrid() {
-            const container = document.getElementById('banks-grid');
-            if (!container || typeof POPULAR_BANKS === 'undefined') return;
-
-            container.innerHTML = POPULAR_BANKS.filter(b => !b.isBlik).map(b => `
-                <button type="button" onclick="selectBank('${b.id}')" id="bank-btn-${b.id}" class="bank-item border border-hairline-soft rounded-lg p-2 text-center text-xs font-bold hover:border-primary transition-all flex items-center justify-center min-h-[44px]">
-                    <span style="color: ${b.color || '#000'}">${b.name}</span>
-                </button>
-            `).join('');
-
-            selectBank('mbank');
-        }
-
-        function selectBank(bankId) {
-            selectedBankId = bankId;
-            document.querySelectorAll('.bank-item').forEach(btn => {
-                btn.classList.remove('border-primary', 'bg-primary-soft/10', 'ring-2', 'ring-primary/20');
-            });
-            const activeBtn = document.getElementById(`bank-btn-${bankId}`);
-            if (activeBtn) {
-                activeBtn.classList.add('border-primary', 'bg-primary-soft/10', 'ring-2', 'ring-primary/20');
-            }
-        }
-
-        // 8. Formatowanie Kodu BLIK
-        function formatBlikCode(input) {
-            let val = input.value.replace(/\D/g, '');
-            if (val.length > 3) {
-                val = val.substring(0, 3) + ' ' + val.substring(3, 6);
-            }
-            input.value = val;
-        }
-
-        // 9. Formatowanie Karty
-        function formatCardNumber(input) {
-            let val = input.value.replace(/\D/g, '').substring(0, 16);
-            val = val.replace(/(\d{4})(?=\d)/g, '$1 ');
-            input.value = val;
-
-            const brandIcon = document.getElementById('card-brand-icon');
-            if (val.startsWith('4')) {
-                brandIcon.innerText = 'VISA';
-            } else if (val.startsWith('5')) {
-                brandIcon.innerText = 'MASTERCARD';
-            } else {
-                brandIcon.innerText = '';
-            }
-        }
-
-        function formatCardExpiry(input) {
-            let val = input.value.replace(/\D/g, '').substring(0, 4);
-            if (val.length >= 2) {
-                val = val.substring(0, 2) + '/' + val.substring(2);
-            }
-            input.value = val;
-        }
-
-        // 10. Złożenie Zamówienia (Integracja z Backendem i Stripe)
+        // 10. Złożenie Zamówienia (Zapis na serwerze)
+        let submitting=false;
         async function submitOrder(event) {
             event.preventDefault();
+            if(submitting || !paymentAvailability.proforma) return;
+            if(!document.getElementById('checkout-form').reportValidity()) return;
             
             // Walidacja Paczkomatu jeśli wybrano InPost
             if (selectedDeliveryMethod === 'inpost') {
@@ -835,11 +623,11 @@
 
             // Przygotowanie danych zamówienia
             const customerData = {
-                name: document.getElementById('cust-name')?.value || '',
+                name: `${document.getElementById('cust-firstname').value.trim()} ${document.getElementById('cust-lastname').value.trim()}`.trim(),
                 email: document.getElementById('cust-email')?.value || '',
                 phone: document.getElementById('cust-phone')?.value || '',
-                street: document.getElementById('cust-street')?.value || '',
-                postalCode: document.getElementById('cust-postcode')?.value || '',
+                street: document.getElementById('cust-address')?.value || '',
+                postalCode: document.getElementById('cust-zip')?.value || '',
                 city: document.getElementById('cust-city')?.value || '',
                 isB2B: isB2B,
                 nip: isB2B ? document.getElementById('cust-nip')?.value : '',
@@ -847,9 +635,9 @@
             };
 
             const deliveryNames = {
-                'dpd': 'Kurier DPD / DHL Express (24h)',
+                'dpd': 'Kurier',
                 'inpost': 'Paczkomat InPost',
-                'pickup': 'Odbiór osobisty w Krakowie'
+                'pickup': 'Odbiór osobisty'
             };
 
             const deliveryData = {
@@ -860,65 +648,35 @@
 
             const couponData = getAppliedCoupon();
 
+            const expectedTotalCents=Math.round(calculateCartTotals(currentDeliveryCost).total*100);
+            const fingerprint=JSON.stringify({expectedTotalCents,cart:cart.map(i=>({sku:i.sku,quantity:i.quantity})),customerData,deliveryData,coupon:couponData?.code,selectedPaymentMethod});
+            let attempt;
+            try {attempt=JSON.parse(sessionStorage.getItem('hdd_checkout_attempt'));}catch(_){}
+            if(!attempt || attempt.fingerprint!==fingerprint) attempt={fingerprint,id:crypto.randomUUID()};
+            sessionStorage.setItem('hdd_checkout_attempt',JSON.stringify(attempt));
+            submitting=true;document.getElementById('submit-order-btn').disabled=true;
             // Pokazanie modala przetwarzania
             const procModal = document.getElementById('processing-modal');
             const procTitle = document.getElementById('processing-title');
             const procDesc = document.getElementById('processing-desc');
 
-            if (selectedPaymentMethod === 'transfer') {
-                procTitle.innerText = "Rejestracja zamówienia...";
-                procDesc.innerText = "Generowanie faktury proforma i rezerwacja towaru w magazynie.";
-            } else {
-                procTitle.innerText = "Łączenie z bramką płatności...";
-                procDesc.innerText = "Trwa bezpieczne szyfrowanie sesji transakcyjnej (SSL 256-bit).";
-            }
-
+            procTitle.innerText = "Zapisywanie zamówienia…";
+            procDesc.innerText = "Proszę poczekać na potwierdzenie zapisania zamówienia.";
             procModal.classList.remove('hidden');
             procModal.classList.add('flex');
 
             try {
-                if (selectedPaymentMethod === 'transfer') {
-                    // Przelew tradycyjny (Proforma)
-                    const response = await fetch('/api/create-manual-order', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            cart,
-                            customer: customerData,
-                            delivery: deliveryData,
-                            coupon: couponData
-                        })
-                    });
-
-                    const result = await response.json();
-                    if (result.success && result.redirectUrl) {
-                        clearCart();
-                        window.location.href = result.redirectUrl;
-                    } else {
-                        throw new Error(result.error || 'Błąd rejestracji zamówienia');
-                    }
-                } else {
-                    // Płatność elektroniczna (Stripe: BLIK, Karty, P24, Google/Apple Pay)
-                    const response = await fetch('/api/create-checkout-session', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            cart,
-                            customer: customerData,
-                            delivery: deliveryData,
-                            coupon: couponData
-                        })
-                    });
-
-                    const result = await response.json();
-                    if (result.success && result.url) {
-                        window.location.href = result.url;
-                    } else {
-                        throw new Error(result.error || 'Nie udało się zainicjować płatności');
-                    }
-                }
+                const response = await fetch('/api/create-manual-order', {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({requestId:attempt.id,termsAccepted:document.getElementById('terms-accepted').checked,
+                        cart,customer:customerData,delivery:deliveryData,coupon:couponData,expectedTotalCents})
+                });
+                const result = await response.json();
+                if(!response.ok || !result.success || !result.redirectUrl) throw new Error(result.error || 'Nie udało się zapisać zamówienia.');
+                clearCart();sessionStorage.removeItem('hdd_checkout_attempt');
+                window.location.href=result.redirectUrl;
             } catch (err) {
-                console.error('Błąd checkout:', err);
+                submitting=false;document.getElementById('submit-order-btn').disabled=false;
                 procModal.classList.remove('flex');
                 procModal.classList.add('hidden');
                 alert(`Wystąpił błąd podczas składania zamówienia: ${err.message}`);

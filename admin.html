@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+    <meta name="robots" content="noindex, nofollow, noarchive">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Zarządzania Sklepem - Narzędzia HDD PL</title>
@@ -9,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/tailwind-runtime.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -24,10 +25,10 @@
                         'on-primary': "#ffffff",
                         'ink-button': "#000000",
                         'on-ink-button': "#ffffff",
-                        success: "#31a24c",
+                        success: "#206b32",
                         attention: "#f2a918",
                         warning: "#f7b928",
-                        critical: "#e41e3f",
+                        critical: "#c71b38",
                         'critical-strong': "#f0284a",
                         canvas: "#ffffff",
                         'surface-soft': "#f1f4f7",
@@ -75,7 +76,13 @@
     
     <script src="shop-config.js"></script>
     <script src="products.js"></script>
-</head>
+<script src="ui-safety.js"></script>
+<style>button:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:3px solid #d66b14;outline-offset:3px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:400px){nav{gap:8px!important}nav .flex-1{min-width:0}nav input{padding-right:24px!important}nav>a span{font-size:17px!important}} </style>
+<style>
+header>div{min-width:0}
+nav .nav-tab{flex-shrink:0;white-space:nowrap}
+@media(max-width:767px){header{height:auto!important;min-height:64px;flex-wrap:wrap;gap:12px;padding-top:12px;padding-bottom:12px}header>div{width:100%;justify-content:space-between}header button,header a{flex-shrink:0}header>div:last-child{gap:8px}header>div:last-child .btn-primary{max-width:145px}main{min-width:0}}
+</style><style>@media(max-width:767px){header>div:last-child{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 32px}header>div:last-child .btn-primary,header>div:last-child .btn-secondary{max-width:none;padding-left:8px;padding-right:8px;white-space:normal;justify-content:center}header>div:last-child svg{flex-shrink:0}}</style></head>
 <body class="flex flex-col min-h-screen">
 
     <!-- Ekran Logowania PIN (Widoczny jeśli brak autoryzacji sesji) -->
@@ -85,9 +92,9 @@
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </div>
             <h2 class="text-xl font-bold text-ink-deep mb-1">Panel Narzędzia HDD</h2>
-            <p class="text-xs text-steel mb-6">Wprowadź kod PIN administratora, aby zarządzać sklepem.</p>
+            <p class="text-xs text-steel mb-6">Wprowadź sekret administratora, aby zarządzać sklepem.</p>
             <form onsubmit="handleAdminLogin(event)" class="flex flex-col gap-3">
-                <input type="password" id="admin-pin-input" placeholder="Wpisz token administratora" class="input-admin text-center font-bold tracking-widest text-sm" autocomplete="current-password" autofocus>
+                <input type="password" aria-label="Sekret administratora" id="admin-pin-input" placeholder="Wpisz token administratora" class="input-admin text-center font-bold tracking-widest text-sm" autocomplete="current-password" autofocus>
                 <button type="submit" class="btn-primary justify-center py-3">Zaloguj do panelu</button>
                 <p id="admin-login-error" class="text-xs text-critical font-semibold mt-1 hidden">Błędne hasło administratora.</p>
             </form>
@@ -135,7 +142,7 @@
         </button>
         <button class="nav-tab" onclick="switchAdminTab('orders')" id="tab-btn-orders">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-            Zamówienia i Płatności (<span id="stat-orders-count">0</span>)
+            Zamówienia i wpłaty (<span id="stat-orders-count">0</span>)
         </button>
         <button class="nav-tab" onclick="switchAdminTab('settings')" id="tab-btn-settings">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -166,7 +173,7 @@
                     <input type="text" id="admin-product-search" placeholder="Szukaj po nazwie lub SKU..." class="input-admin" oninput="renderAdminProductsTable()">
                 </div>
                 <div class="w-48">
-                    <select id="admin-category-filter" class="input-admin cursor-pointer" onchange="renderAdminProductsTable()">
+                    <select id="admin-category-filter" aria-label="Filtr kategorii produktów" class="input-admin cursor-pointer" onchange="renderAdminProductsTable()">
                         <option value="">Wszystkie kategorie</option>
                     </select>
                 </div>
@@ -255,41 +262,41 @@
                 <form onsubmit="saveShopSettings(event)" class="bg-canvas border border-hairline rounded-2xl p-6 md:p-8 shadow-sm flex flex-col gap-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs font-bold text-ink-deep block mb-1">Pełna nazwa firmy</label>
-                            <input type="text" id="set-company-name" class="input-admin" required>
+                            <label for="set-company-name" class="text-xs font-bold text-ink-deep block mb-1">Pełna nazwa firmy</label>
+                            <input type="text" id="set-company-name" class="input-admin">
                         </div>
                         <div>
-                            <label class="text-xs font-bold text-ink-deep block mb-1">NIP Firmy</label>
-                            <input type="text" id="set-company-nip" class="input-admin" required>
+                            <label for="set-company-nip" class="text-xs font-bold text-ink-deep block mb-1">NIP Firmy</label>
+                            <input type="text" id="set-company-nip" class="input-admin">
                         </div>
                     </div>
 
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Adres siedziby / Magazynu</label>
-                        <input type="text" id="set-company-address" class="input-admin" required>
+                        <label for="set-company-address" class="text-xs font-bold text-ink-deep block mb-1">Adres siedziby / Magazynu</label>
+                        <input type="text" id="set-company-address" class="input-admin">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs font-bold text-ink-deep block mb-1">E-mail kontaktowy</label>
-                            <input type="email" id="set-company-email" class="input-admin" required>
+                            <label for="set-company-email" class="text-xs font-bold text-ink-deep block mb-1">E-mail kontaktowy</label>
+                            <input type="email" id="set-company-email" class="input-admin">
                         </div>
                         <div>
-                            <label class="text-xs font-bold text-ink-deep block mb-1">Telefon</label>
-                            <input type="tel" id="set-company-phone" class="input-admin" required>
+                            <label for="set-company-phone" class="text-xs font-bold text-ink-deep block mb-1">Telefon</label>
+                            <input type="tel" id="set-company-phone" class="input-admin">
                         </div>
                     </div>
 
                     <div class="pt-4 border-t border-hairline-soft">
-                        <h3 class="text-sm font-bold text-ink-deep mb-3">Dane do płatności przelewem tradycyjnym</h3>
+                        <h3 class="text-sm font-bold text-ink-deep mb-3">Dane bankowe firmy (niewykorzystywane w potwierdzeniu)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="text-xs font-bold text-ink-deep block mb-1">Nazwa Banku</label>
-                                <input type="text" id="set-bank-name" class="input-admin" required>
+                                <label for="set-bank-name" class="text-xs font-bold text-ink-deep block mb-1">Nazwa Banku</label>
+                                <input type="text" id="set-bank-name" class="input-admin">
                             </div>
                             <div>
-                                <label class="text-xs font-bold text-ink-deep block mb-1">Numer konta IBAN (PL)</label>
-                                <input type="text" id="set-bank-iban" class="input-admin font-mono" required>
+                                <label for="set-bank-iban" class="text-xs font-bold text-ink-deep block mb-1">Numer konta IBAN (PL)</label>
+                                <input type="text" id="set-bank-iban" class="input-admin font-mono">
                             </div>
                         </div>
                     </div>
@@ -305,7 +312,7 @@
                                 <span>Wyświetlaj pasek informacyjny na samej górze sklepu</span>
                             </label>
                             <div>
-                                <label class="text-xs font-bold text-ink-deep block mb-1">Treść komunikatu (np. o darmowej dostawie / promocji)</label>
+                                <label for="set-banner-text" class="text-xs font-bold text-ink-deep block mb-1">Treść komunikatu (np. o darmowej dostawie / promocji)</label>
                                 <input type="text" id="set-banner-text" class="input-admin" placeholder="🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Wysyłka w 24h">
                             </div>
                         </div>
@@ -315,7 +322,7 @@
                     <div class="pt-4 border-t border-hairline-soft">
                         <h3 class="text-sm font-bold text-ink-deep mb-3">Dostawy i Próg Darmowej Wysyłki</h3>
                         <div>
-                            <label class="text-xs font-bold text-ink-deep block mb-1">Próg kwotowy darmowej dostawy (PLN brutto)</label>
+                            <label for="set-free-shipping" class="text-xs font-bold text-ink-deep block mb-1">Próg kwotowy darmowej dostawy (PLN brutto)</label>
                             <input type="number" id="set-free-shipping" class="input-admin max-w-xs" step="10" required>
                         </div>
                     </div>
@@ -327,16 +334,16 @@
                         </h3>
                         <div class="flex flex-col gap-3">
                             <div>
-                                <label class="text-xs font-bold text-ink-deep block mb-1">Krótki opis firmy / misji w stopce</label>
+                                <label for="set-footer-about" class="text-xs font-bold text-ink-deep block mb-1">Krótki opis firmy / misji w stopce</label>
                                 <textarea id="set-footer-about" rows="2" class="input-admin h-auto py-2" placeholder="Specjalistyczny sklep osprzętu do przewiertów sterowanych HDD..."></textarea>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="text-xs font-bold text-ink-deep block mb-1">Godziny pracy / Obsługa infolinii</label>
+                                    <label for="set-footer-hours" class="text-xs font-bold text-ink-deep block mb-1">Godziny pracy / Obsługa infolinii</label>
                                     <input type="text" id="set-footer-hours" class="input-admin" placeholder="Pn - Pt: 7:00 - 17:00 | Dyżur: 24/7">
                                 </div>
                                 <div>
-                                    <label class="text-xs font-bold text-ink-deep block mb-1">Tekst praw autorskich (Copyright)</label>
+                                    <label for="set-footer-copyright" class="text-xs font-bold text-ink-deep block mb-1">Tekst praw autorskich (Copyright)</label>
                                     <input type="text" id="set-footer-copyright" class="input-admin" placeholder="© 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.">
                                 </div>
                             </div>
@@ -357,12 +364,12 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 class="text-xl md:text-2xl font-bold text-ink-deep flex items-center gap-2">
-                        📦 Zamówienia i Płatności
+                        📦 Zamówienia i wpłaty
                         <span id="orders-live-indicator" class="inline-flex items-center gap-1.5 text-xs font-bold text-success bg-success/10 px-2.5 py-0.5 rounded-full">
                             <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span> Na żywo
                         </span>
                     </h1>
-                    <p class="text-xs text-steel">Rejestr transakcji, weryfikacja płatności Stripe/BLIK, dane do faktur B2B i wysyłki.</p>
+                    <p class="text-xs text-steel">Pro formy wystawiaj i wysyłaj poza sklepem. Tutaj sprawdzisz zamówienia, potwierdzisz wpłaty i zmienisz etap realizacji.</p>
                 </div>
                 <button onclick="loadAdminOrders()" class="btn-secondary text-xs py-2.5 flex items-center gap-2 bg-canvas">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
@@ -381,7 +388,7 @@
                                 <th class="py-3.5 px-4">Pozycje w koszyku</th>
                                 <th class="py-3.5 px-4">Dostawa & Paczkomat</th>
                                 <th class="py-3.5 px-4">Kwota Brutto</th>
-                                <th class="py-3.5 px-4">Status Płatności</th>
+                                <th class="py-3.5 px-4">Realizacja i wpłata</th>
                             </tr>
                         </thead>
                         <tbody id="admin-orders-tbody" class="divide-y divide-hairline-soft">
@@ -409,36 +416,36 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="md:col-span-2">
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Nazwa produktu *</label>
+                        <label for="prod-name" class="text-xs font-bold text-ink-deep block mb-1">Nazwa produktu *</label>
                         <input type="text" id="prod-name" class="input-admin" placeholder="np. Rozwieracz Baryłkowy 300mm" required oninput="autoSuggestSku(this.value)">
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">SKU (Identyfikator) *</label>
+                        <label for="prod-sku" class="text-xs font-bold text-ink-deep block mb-1">SKU (Identyfikator) *</label>
                         <input type="text" id="prod-sku" class="input-admin uppercase font-mono" placeholder="HDD-RB-300" required>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Kategoria *</label>
+                        <label for="prod-category" class="text-xs font-bold text-ink-deep block mb-1">Kategoria *</label>
                         <select id="prod-category" class="input-admin cursor-pointer" required>
                             <!-- Generowane dynamicznie -->
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Cena Brutto (zł) *</label>
+                        <label for="prod-price" class="text-xs font-bold text-ink-deep block mb-1">Cena Brutto (zł) *</label>
                         <input type="number" id="prod-price" class="input-admin font-bold" step="0.01" min="0" placeholder="2500.00" required oninput="calcModalNetPrice(this.value)">
                         <span class="text-[11px] text-steel mt-0.5 block" id="modal-net-preview">0,00 zł netto</span>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Typ gwintu</label>
+                        <label for="prod-thread" class="text-xs font-bold text-ink-deep block mb-1">Typ gwintu</label>
                         <input type="text" id="prod-thread" class="input-admin" placeholder='np. 2 7/8" IF'>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Status magazynowy</label>
+                        <label for="prod-stock" class="text-xs font-bold text-ink-deep block mb-1">Status magazynowy</label>
                         <select id="prod-stock" class="input-admin cursor-pointer">
                             <option value="W magazynie">W magazynie (Dostępny od ręki - 24h)</option>
                             <option value="Na zamówienie">Na zamówienie (Czas realizacji 3-5 dni)</option>
@@ -446,7 +453,7 @@
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-ink-deep block mb-1">Powiązany produkt w zestawie (Opcjonalne SKU)</label>
+                        <label for="prod-bundle-sku" class="text-xs font-bold text-ink-deep block mb-1">Powiązany produkt w zestawie (Opcjonalne SKU)</label>
                         <input type="text" id="prod-bundle-sku" class="input-admin uppercase font-mono" placeholder="np. HDD-ZB_105 (lub puste = dobór automatyczny)">
                     </div>
                 </div>
@@ -456,7 +463,7 @@
                     <label class="text-xs font-bold text-ink-deep block mb-2">Zdjęcie główne produktu</label>
                     <div class="flex flex-col sm:flex-row items-center gap-4">
                         <div class="w-24 h-24 bg-[#f7f7f7] border border-hairline rounded-xl flex items-center justify-center p-2 overflow-hidden flex-shrink-0 relative">
-                            <img id="modal-img-preview" src="images/rozwieracz_skrzydlowy.png" class="max-w-full max-h-full object-contain mix-blend-multiply">
+                            <img alt="" id="modal-img-preview" src="images/rozwieracz_skrzydlowy.png" class="max-w-full max-h-full object-contain mix-blend-multiply">
                         </div>
                         <div class="flex-1 w-full flex flex-col gap-2">
                             <div class="flex items-center gap-2">
@@ -496,7 +503,7 @@
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Opis produktu</label>
+                    <label for="prod-description" class="text-xs font-bold text-ink-deep block mb-1">Opis produktu</label>
                     <textarea id="prod-description" rows="3" class="input-admin h-auto py-2.5" placeholder="Opis zastosowania i parametrów narzędzia..."></textarea>
                 </div>
 
@@ -529,19 +536,19 @@
             <form onsubmit="saveCategory(event)" class="flex flex-col gap-3">
                 <input type="hidden" id="cat-edit-id" value="">
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Identyfikator (ID / URL slug) *</label>
+                    <label for="cat-id-input" class="text-xs font-bold text-ink-deep block mb-1">Identyfikator (ID / URL slug) *</label>
                     <input type="text" id="cat-id-input" class="input-admin lowercase font-mono" placeholder="np. adaptery" required>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Nazwa wyświetlana *</label>
+                    <label for="cat-name-input" class="text-xs font-bold text-ink-deep block mb-1">Nazwa wyświetlana *</label>
                     <input type="text" id="cat-name-input" class="input-admin" placeholder="np. Adaptery i Redukcje" required>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Tytuł sekcji (nagłówek H1)</label>
+                    <label for="cat-title-input" class="text-xs font-bold text-ink-deep block mb-1">Tytuł sekcji (nagłówek H1)</label>
                     <input type="text" id="cat-title-input" class="input-admin" placeholder="np. Adaptery gwintów wiertniczych">
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Opis kategorii</label>
+                    <label for="cat-desc-input" class="text-xs font-bold text-ink-deep block mb-1">Opis kategorii</label>
                     <textarea id="cat-desc-input" rows="2" class="input-admin h-auto py-2" placeholder="Krótki opis asortymentu w tej kategorii..."></textarea>
                 </div>
                 <div class="pt-3 border-t border-hairline-soft flex justify-end gap-2">
@@ -561,23 +568,24 @@
             </div>
             <form onsubmit="saveCoupon(event)" class="flex flex-col gap-3">
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Kod kuponu (np. RABAT20) *</label>
+                    <label for="coup-code" class="text-xs font-bold text-ink-deep block mb-1">Kod kuponu (np. RABAT20) *</label>
                     <input type="text" id="coup-code" class="input-admin uppercase font-mono font-bold" placeholder="RABAT20" required>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Typ zniżki</label>
+                    <label for="coup-type" class="text-xs font-bold text-ink-deep block mb-1">Typ zniżki</label>
                     <select id="coup-type" class="input-admin cursor-pointer" onchange="toggleCouponValueInput(this.value)">
                         <option value="percent">Procentowy (%)</option>
                         <option value="fixed">Kwotowy (zł brutto)</option>
                         <option value="free_shipping">Darmowa dostawa</option>
                     </select>
                 </div>
+                <label class="block text-xs">Minimalna wartość produktów (zł)<input type="number" min="0" step="0.01" id="coup-min" value="0" class="input-admin"></label>
                 <div id="coup-val-container">
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Wartość zniżki (np. 10 dla 10%)</label>
+                    <label for="coup-val" class="text-xs font-bold text-ink-deep block mb-1">Wartość zniżki (np. 10 dla 10%)</label>
                     <input type="number" id="coup-val" class="input-admin" placeholder="10" min="0">
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-ink-deep block mb-1">Etykieta wyświetlana klientowi</label>
+                    <label for="coup-label" class="text-xs font-bold text-ink-deep block mb-1">Etykieta wyświetlana klientowi</label>
                     <input type="text" id="coup-label" class="input-admin" placeholder="np. Rabat -10% na całe zamówienie" required>
                 </div>
                 <div class="pt-3 border-t border-hairline-soft flex justify-end gap-2">
@@ -649,21 +657,6 @@
         }
 
         function refreshAllData() {
-            // Wczytaj z localStorage jeśli były zmiany
-            try {
-                const p = localStorage.getItem('hdd_custom_products');
-                if (p) localProducts = JSON.parse(p);
-
-                const c = localStorage.getItem('hdd_custom_shop_config');
-                if (c) {
-                    const parsed = JSON.parse(c);
-                    if (parsed.CATEGORIES) localCategories = parsed.CATEGORIES;
-                    if (parsed.CAT_DETAILS) localCatDetails = parsed.CAT_DETAILS;
-                    if (parsed.PROMO_CODES) localPromoCodes = parsed.PROMO_CODES;
-                    if (parsed.SHOP_CONFIG) Object.assign(localShopConfig, parsed.SHOP_CONFIG);
-                }
-            } catch(e) {}
-
             updateStats();
             populateCategoryFilter();
             renderAdminProductsTable();
@@ -709,6 +702,11 @@
                     headers: { 'x-admin-token': token }
                 });
                 const data = await res.json();
+                if (res.status === 401 || res.status === 503) {
+                    document.getElementById('admin-login-overlay').classList.remove('hidden');
+                    throw new Error(data.error || 'Brak autoryzacji.');
+                }
+                if (!res.ok) throw new Error(data.error || 'Nie udało się odczytać zamówień.');
                 if (data.success && Array.isArray(data.orders)) {
                     adminOrders = data.orders;
                     document.getElementById('stat-orders-count').innerText = adminOrders.length;
@@ -720,6 +718,49 @@
                 console.error('Błąd ładowania zamówień:', err);
                 tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-critical">Nie udało się połączyć z serwerem zamówień (/api/orders). Upewnij się, że serwer Node.js działa.</td></tr>`;
             }
+        }
+
+        async function markManualPaid(orderId) {
+            if (!confirm('Potwierdź tylko wpłatę widoczną na rachunku bankowym. Czy oznaczyć ten przelew jako opłacony?')) return;
+            try {
+                const response = await fetch('/api/orders/'+encodeURIComponent(orderId)+'/mark-paid',{
+                    method:'POST',headers:{'x-admin-token':sessionStorage.getItem('hdd_admin_token') || '', 'Content-Type':'application/json'},body:JSON.stringify({confirmed:true})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) throw new Error(result.error || 'Nie udało się zmienić statusu.');
+                await loadAdminOrders();
+            } catch (error) { alert(error.message); }
+        }
+
+        const stageLabels={NEW:'Nowe',PROFORMA_SENT:'Pro forma wysłana',IN_PROGRESS:'W realizacji',COMPLETED:'Zrealizowane',CANCELLED:'Anulowane'};
+        async function orderAction(id,action,status) {
+            const prompt=action==='retry-notifications'?'Ponowić niewysłane potwierdzenia zamówienia?':status==='PROFORMA_SENT'?'Czy pro forma została już wysłana klientowi poza sklepem?':status==='CANCELLED'?'Anulować nieopłacone zamówienie?':'Zapisać zmianę etapu realizacji?';
+            if(!confirm(prompt)) return;
+            try {
+                const response=await fetch('/api/orders/'+encodeURIComponent(id)+'/'+action,{method:'POST',headers:{'Content-Type':'application/json','x-admin-token':sessionStorage.getItem('hdd_admin_token')||''},body:JSON.stringify({status})});
+                const result=await response.json();
+                if(!response.ok || !result.success) throw new Error(result.error||'Operacja nie powiodła się.');
+                await loadAdminOrders();
+            } catch(error) {alert(error.message);}
+        }
+        function orderControls(o) {
+            if(!/^[0-9a-f-]{36}$/.test(o.orderId||'')) return '';
+            const button=(text,action,status)=>`<button type="button" class="btn-edit mt-1" onclick="orderAction('${o.orderId}','${action}','${status||''}')">${text}</button>`;
+            let html='';
+            if(o.paymentMethod==='proforma') {
+                if(o.orderStatus==='NEW') html+=button('Pro forma wysłana','status','PROFORMA_SENT');
+                if(o.orderStatus==='PROFORMA_SENT'&&o.paymentStatus==='PAID') html+=button('Rozpocznij realizację','status','IN_PROGRESS');
+                if(o.orderStatus==='IN_PROGRESS') html+=button('Oznacz jako zrealizowane','status','COMPLETED');
+                if(['NEW','PROFORMA_SENT'].includes(o.orderStatus)&&o.paymentStatus!=='PAID') html+=button('Anuluj','status','CANCELLED');
+                const notifications=o.notifications||{};
+                for(const [key,label] of [['customer','Klient'],['owner','Właściciel']]) {
+                    const n=notifications[key]||{};
+                    html+=`<div class="text-xs mt-1">${label}: ${n.status==='SENT'?'potwierdzenie wysłane':'potwierdzenie niewysłane'}${n.sentAt?' · '+htmlText(new Date(n.sentAt).toLocaleString('pl-PL')):''}</div>`;
+                }
+                if(o.orderStatus!=='CANCELLED'&&Object.values(notifications).some(n=>n.status!=='SENT')) html+=button('Ponów niewysłane potwierdzenia','retry-notifications');
+            }
+            if(o.paymentStatus!=='PAID'&&(o.paymentMethod==='transfer'||(o.paymentMethod==='proforma'&&o.orderStatus==='PROFORMA_SENT'))) html+=`<button type="button" class="btn-edit mt-1" onclick="markManualPaid('${o.orderId}')">Potwierdź otrzymaną wpłatę</button>`;
+            return html;
         }
 
         function renderAdminOrdersTable(orders) {
@@ -757,6 +798,7 @@
                         <td class="py-3.5 px-4">
                             <span class="font-bold text-ink-deep block">${escapeHtml(o.customer?.name || 'Klient')}</span>
                             <span class="text-xs text-steel block">${escapeHtml(o.customer?.email || '')} ${o.customer?.phone ? '• ' + escapeHtml(o.customer.phone) : ''}</span>
+                            <span class="text-xs text-steel block">${escapeHtml([o.customer?.street,o.customer?.postalCode,o.customer?.city].filter(Boolean).join(', '))}</span>
                             ${o.customer?.nip ? `<span class="inline-block mt-0.5 bg-primary/10 text-primary font-bold px-1.5 py-0.2 text-[10px] rounded">NIP: ${escapeHtml(o.customer.nip)} (${escapeHtml(o.customer.companyName || '')})</span>` : ''}
                         </td>
                         <td class="py-3.5 px-4 max-w-xs">
@@ -770,17 +812,11 @@
                             <span class="text-[11px] text-steel">${formatPrice(o.totals?.netTotal)} netto</span>
                         </td>
                         <td class="py-3.5 px-4 whitespace-nowrap">
-                            ${isPaid ? `
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-success/15 text-success font-bold text-xs rounded-full">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-                                    OPŁACONE (${escapeHtml(o.paymentMethod?.toUpperCase() || 'STRIPE')})
-                                </span>
-                            ` : `
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                                    OCZEKUJE NA WPŁATĘ
-                                </span>
-                            `}
+                            <span class="block font-bold text-xs">${htmlText(o.paymentMethod==='proforma' ? (o.orderStatus==='PROFORMA_SENT'&&isPaid?'Opłacone':stageLabels[o.orderStatus]||'Wymaga sprawdzenia') : 'Zamówienie historyczne')}</span>
+                            <span class="block text-xs mt-1">${isPaid?'Wpłata potwierdzona':htmlText(({UNPAID:'Nieopłacone',PENDING_PAYMENT:'Oczekuje na wpłatę',PAYMENT_FAILED:'Płatność odrzucona',EXPIRED:'Sesja wygasła'})[o.paymentStatus]||o.paymentStatus||'Brak statusu')}</span>
+                            ${orderControls(o)}
+                            <details class="text-xs mt-2"><summary>Historia statusów</summary>${(o.statusHistory||[]).map(h=>`<div>${htmlText(new Date(h.at).toLocaleString('pl-PL'))}: ${htmlText(h.event==='PAYMENT_CONFIRMED'?'Wpłata potwierdzona':stageLabels[h.orderStatus]||h.event||'Zmiana')}</div>`).join('')||'Brak zapisanej historii'}</details>
+
                         </td>
                     </tr>
                 `;
@@ -796,9 +832,9 @@
             const nonAll = localCategories.filter(c => c.id !== 'all');
             
             select.innerHTML = '<option value="">Wszystkie kategorie</option>' + 
-                nonAll.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                nonAll.map(c => `<option value="${c.id}">${htmlText(c.name)}</option>`).join('');
                 
-            modalSelect.innerHTML = nonAll.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            modalSelect.innerHTML = nonAll.map(c => `<option value="${c.id}">${htmlText(c.name)}</option>`).join('');
         }
 
         function renderAdminProductsTable() {
@@ -820,7 +856,7 @@
             }
 
             tbody.innerHTML = filtered.map(p => {
-                const netPrice = p.price / 1.23;
+                const netPrice = p.price / (1 + SHOP_CONFIG.vatRate);
                 const catObj = localCategories.find(c => p.categories && p.categories.includes(c.id)) || { name: p.categories?.[0] || 'Inne' };
                 const realIndex = localProducts.findIndex(x => x.sku === p.sku);
 
@@ -828,15 +864,15 @@
                     <tr class="hover:bg-surface-soft/40 transition-colors">
                         <td class="py-3 px-4">
                             <div class="w-12 h-12 bg-[#f7f7f7] rounded-lg p-1 flex items-center justify-center overflow-hidden border border-hairline-soft">
-                                <img src="${p.image}" class="max-w-full max-h-full object-contain mix-blend-multiply">
+                                <img alt="" src="${htmlText(p.image)}" class="max-w-full max-h-full object-contain mix-blend-multiply">
                             </div>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="font-bold text-ink-deep block truncate max-w-xs" title="${p.name}">${p.name}</span>
+                            <span class="font-bold text-ink-deep block truncate max-w-xs" title="${htmlText(p.name)}">${htmlText(p.name)}</span>
                             <span class="font-mono text-[11px] text-steel">SKU: ${p.sku}</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="bg-surface-soft text-charcoal px-2 py-1 rounded text-xs font-medium">${catObj.name}</span>
+                            <span class="bg-surface-soft text-charcoal px-2 py-1 rounded text-xs font-medium">${htmlText(catObj.name)}</span>
                         </td>
                         <td class="py-3 px-4 font-mono text-xs text-charcoal">
                             ${p.thread || '—'}
@@ -846,7 +882,7 @@
                             <span class="text-[11px] text-steel">${formatPrice(netPrice)} netto</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="text-xs ${p.stock === 'W magazynie' ? 'text-success font-semibold' : 'text-attention font-medium'}">${p.stock || 'W magazynie'}</span>
+                            <span class="text-xs ${p.stock === 'W magazynie' ? 'text-success font-semibold' : 'text-attention font-medium'}">${htmlText(p.stock || 'W magazynie')}</span>
                         </td>
                         <td class="py-3 px-4 text-right whitespace-nowrap">
                             <button onclick="editProduct(${realIndex})" class="btn-edit mr-1">Edytuj</button>
@@ -996,14 +1032,14 @@
             const row = document.createElement('div');
             row.className = 'flex items-center gap-2 spec-row';
             row.innerHTML = `
-                <input type="text" class="input-admin flex-1 spec-key" placeholder="Nazwa (np. Waga)" value="${key}">
-                <input type="text" class="input-admin flex-1 spec-val" placeholder="Wartość (np. 35 kg)" value="${val}">
+                <input type="text" class="input-admin flex-1 spec-key" placeholder="Nazwa (np. Waga)" value="${htmlText(key)}">
+                <input type="text" class="input-admin flex-1 spec-val" placeholder="Wartość (np. 35 kg)" value="${htmlText(val)}">
                 <button type="button" onclick="this.parentElement.remove()" class="text-steel hover:text-critical font-bold p-1">×</button>
             `;
             container.appendChild(row);
         }
 
-        function saveProduct(e) {
+        async function saveProduct(e) {
             e.preventDefault();
             const index = parseInt(document.getElementById('prod-edit-index').value, 10);
             
@@ -1041,7 +1077,7 @@
             }
 
 
-            persistChanges();
+            if (!await persistChanges()) return;
             closeProductModal();
             refreshAllData();
             alert("Produkt został pomyślnie zapisany!");
@@ -1051,19 +1087,19 @@
             openProductModal(index);
         }
 
-        function duplicateProduct(index) {
+        async function duplicateProduct(index) {
             const p = { ...localProducts[index] };
             p.sku = p.sku + '-KOPIA';
             p.name = p.name + ' (Kopia)';
             localProducts.splice(index + 1, 0, p);
-            persistChanges();
+            if (!await persistChanges()) return;
             refreshAllData();
         }
 
-        function deleteProduct(index) {
+        async function deleteProduct(index) {
             if (confirm(`Czy na pewno chcesz usunąć produkt "${localProducts[index].name}"?`)) {
                 localProducts.splice(index, 1);
-                persistChanges();
+                if (!await persistChanges()) return;
                 refreshAllData();
             }
         }
@@ -1081,8 +1117,8 @@
                                 <span class="font-mono text-xs font-bold text-primary bg-primary-soft/10 px-2 py-0.5 rounded">${c.id}</span>
                                 <span class="text-xs bg-surface-soft px-2 py-0.5 rounded-full font-bold text-steel">${count} ofert</span>
                             </div>
-                            <h3 class="font-bold text-ink-deep text-base mb-1">${c.name}</h3>
-                            <p class="text-xs text-charcoal mb-4 line-clamp-2">${details.desc || 'Brak opisu.'}</p>
+                            <h3 class="font-bold text-ink-deep text-base mb-1">${htmlText(c.name)}</h3>
+                            <p class="text-xs text-charcoal mb-4 line-clamp-2">${htmlText(details.desc || 'Brak opisu.')}</p>
                         </div>
                         <div class="flex justify-end gap-2 pt-3 border-t border-hairline-soft">
                             <button onclick="editCategory('${c.id}')" class="btn-edit">Edytuj</button>
@@ -1121,7 +1157,7 @@
             document.getElementById('category-modal').classList.remove('flex');
         }
 
-        function saveCategory(e) {
+        async function saveCategory(e) {
             e.preventDefault();
             const editId = document.getElementById('cat-edit-id').value;
             const newId = document.getElementById('cat-id-input').value.trim().toLowerCase().replace(/[\s_]+/g, '-');
@@ -1138,7 +1174,7 @@
                 localCatDetails[newId] = { title: newTitle, desc: newDesc };
             }
 
-            persistChanges();
+            if (!await persistChanges()) return;
             closeCategoryModal();
             refreshAllData();
             alert("Kategoria została zapisana!");
@@ -1148,11 +1184,13 @@
             openCategoryModal(catId);
         }
 
-        function deleteCategory(catId) {
+        async function deleteCategory(catId) {
             if (confirm(`Czy na pewno chcesz usunąć kategorię "${catId}"? Produkty w tej kategorii nie zostaną skasowane.`)) {
                 localCategories = localCategories.filter(c => c.id !== catId);
                 delete localCatDetails[catId];
-                persistChanges();
+                localProducts=localProducts.map(p=>({...p,categories:p.categories.filter(id=>id!==catId)}));
+                delete FILTER_OPTIONS[catId];
+                if (!await persistChanges()) return;
                 refreshAllData();
             }
         }
@@ -1165,7 +1203,7 @@
                     <td class="py-3 px-4 font-mono font-bold text-primary">${code}</td>
                     <td class="py-3 px-4">${c.type === 'percent' ? 'Procentowy (%)' : c.type === 'fixed' ? 'Kwotowy (zł)' : 'Darmowa dostawa'}</td>
                     <td class="py-3 px-4 font-bold">${c.type === 'percent' ? c.value + '%' : c.type === 'fixed' ? c.value + ' zł' : '0 zł'}</td>
-                    <td class="py-3 px-4 text-steel">${c.label}</td>
+                    <td class="py-3 px-4 text-steel">${htmlText(c.label)}</td>
                     <td class="py-3 px-4 text-right">
                         <button onclick="deleteCoupon('${code}')" class="btn-danger">Usuń</button>
                     </td>
@@ -1190,24 +1228,24 @@
             document.getElementById('coup-val-container').style.display = val === 'free_shipping' ? 'none' : 'block';
         }
 
-        function saveCoupon(e) {
+        async function saveCoupon(e) {
             e.preventDefault();
             const code = document.getElementById('coup-code').value.trim().toUpperCase();
             const type = document.getElementById('coup-type').value;
             const val = parseFloat(document.getElementById('coup-val').value) || 0;
             const label = document.getElementById('coup-label').value.trim();
 
-            localPromoCodes[code] = { type, value: val, label };
-            persistChanges();
+            localPromoCodes[code] = { type, value: val, label, minSubtotal:Number(document.getElementById('coup-min').value) };
+            if (!await persistChanges()) return;
             closeCouponModal();
             refreshAllData();
             alert(`Kod ${code} został dodany!`);
         }
 
-        function deleteCoupon(code) {
+        async function deleteCoupon(code) {
             if (confirm(`Usunąć kod rabatowy ${code}?`)) {
                 delete localPromoCodes[code];
-                persistChanges();
+                if (!await persistChanges()) return;
                 refreshAllData();
             }
         }
@@ -1223,7 +1261,7 @@
             document.getElementById('set-company-phone').value = c.phone || '';
             document.getElementById('set-bank-name').value = c.bankName || '';
             document.getElementById('set-bank-iban').value = c.accountIban || '';
-            document.getElementById('set-free-shipping').value = localShopConfig.freeShippingThreshold || 500;
+            document.getElementById('set-free-shipping').value = localShopConfig.freeShippingThreshold ?? 500;
             
             // Nagłówek i Stopka
             document.getElementById('set-banner-enabled').checked = localShopConfig.topBannerEnabled !== false;
@@ -1233,7 +1271,7 @@
             document.getElementById('set-footer-copyright').value = f.copyright || '© 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.';
         }
 
-        function saveShopSettings(e) {
+        async function saveShopSettings(e) {
             e.preventDefault();
             localShopConfig.company = {
                 name: document.getElementById('set-company-name').value.trim(),
@@ -1243,9 +1281,9 @@
                 phone: document.getElementById('set-company-phone').value.trim(),
                 bankName: document.getElementById('set-bank-name').value.trim(),
                 accountIban: document.getElementById('set-bank-iban').value.trim(),
-                swift: "INGBPLPW"
+                swift: localShopConfig.company?.swift || ""
             };
-            localShopConfig.freeShippingThreshold = parseFloat(document.getElementById('set-free-shipping').value) || 500;
+            localShopConfig.freeShippingThreshold = Number(document.getElementById('set-free-shipping').value);
             localShopConfig.topBannerEnabled = document.getElementById('set-banner-enabled').checked;
             localShopConfig.topBannerText = document.getElementById('set-banner-text').value.trim();
             localShopConfig.footer = {
@@ -1254,60 +1292,47 @@
                 copyright: document.getElementById('set-footer-copyright').value.trim()
             };
 
-            persistChanges();
+            if (!await persistChanges()) return;
             alert("Ustawienia sklepu, nagłówka i stopki zostały pomyślnie zapisane!");
         }
 
 
         // ==================== PERSISTENCE & EKSPORT ====================
-        function persistChanges() {
-            localStorage.setItem('hdd_custom_products', JSON.stringify(localProducts));
-            localStorage.setItem('hdd_custom_shop_config', JSON.stringify({
-                CATEGORIES: localCategories,
-                CAT_DETAILS: localCatDetails,
-                FILTER_OPTIONS: FILTER_OPTIONS,
-                PROMO_CODES: localPromoCodes,
-                SHOP_CONFIG: localShopConfig
-            }));
-
-            // Próba wysłania do lokalnego serwera (z autoryzacją x-admin-token)
+        async function persistChanges() {
             const token = sessionStorage.getItem('hdd_admin_token');
             if (!token) {
                 document.getElementById('admin-login-overlay').classList.remove('hidden');
-                return;
+                return false;
             }
-            fetch('/api/save', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-admin-token': token
-                },
-                body: JSON.stringify({
-                    products: localProducts,
-                    shopConfig: {
-                        CATEGORIES: localCategories,
-                        CAT_DETAILS: localCatDetails,
-                        FILTER_OPTIONS: FILTER_OPTIONS,
-                        PROMO_CODES: localPromoCodes,
-                        SHOP_CONFIG: localShopConfig
-                    }
-                })
-            }).catch(() => {});
+            try {
+                const response = await fetch('/api/save', {
+                    method:'POST',
+                    headers:{'Content-Type':'application/json','x-admin-token':token},
+                    body:JSON.stringify({products:localProducts,shopConfig:{
+                        CATEGORIES:localCategories,CAT_DETAILS:localCatDetails,FILTER_OPTIONS,
+                        PROMO_CODES:localPromoCodes,SHOP_CONFIG:localShopConfig
+                    }})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) throw new Error(result.error || 'Nie udało się zapisać zmian.');
+                localStorage.removeItem('hdd_custom_products');
+                localStorage.removeItem('hdd_custom_shop_config');
+                return true;
+            } catch (error) {
+                alert('Zmiany nie zostały zapisane na serwerze: '+error.message);
+                location.reload();
+                return false;
+            }
         }
 
-        function exportDataFiles() {
-            // Generowanie treści products.js
-            const productsContent = `let PRODUCTS = ${JSON.stringify(localProducts, null, 4)};\n\n// Wczytaj niestandardowe produkty z panelu administratora (jeśli istnieją)\ntry {\n    const customData = localStorage.getItem('hdd_custom_products');\n    if (customData) {\n        const parsed = JSON.parse(customData);\n        if (Array.isArray(parsed) && parsed.length > 0) {\n            PRODUCTS = parsed;\n        }\n    }\n} catch(e) {}\n`;
-            
-            // Generowanie treści shop-config.js
-            const shopConfigContent = `/**\n * Centralna konfiguracja sklepu Narzędzia HDD PL\n */\n\nlet SHOP_CONFIG = ${JSON.stringify(localShopConfig, null, 4)};\n\nlet CATEGORIES = ${JSON.stringify(localCategories, null, 4)};\n\nlet CAT_DETAILS = ${JSON.stringify(localCatDetails, null, 4)};\n\nlet FILTER_OPTIONS = ${JSON.stringify(FILTER_OPTIONS, null, 4)};\n\nlet PROMO_CODES = ${JSON.stringify(localPromoCodes, null, 4)};\n\nlet POPULAR_PACZKOMATY = ${JSON.stringify(POPULAR_PACZKOMATY, null, 4)};\n\nlet POPULAR_BANKS = ${JSON.stringify(POPULAR_BANKS, null, 4)};\n\nfunction validateNIP(nip) {\n    if (!nip) return false;\n    const cleanNip = nip.replace(/[\\s-]/g, '');\n    if (cleanNip.length !== 10 || !/^\\d{10}$/.test(cleanNip)) return false;\n    const weights = [6, 5, 7, 2, 3, 4, 5, 6, 7];\n    let sum = 0;\n    for (let i = 0; i < 9; i++) sum += parseInt(cleanNip[i], 10) * weights[i];\n    const checkDigit = sum % 11;\n    return checkDigit === parseInt(cleanNip[9], 10) && checkDigit !== 10;\n}\n\ntry {\n    const customConfig = localStorage.getItem('hdd_custom_shop_config');\n    if (customConfig) {\n        const parsed = JSON.parse(customConfig);\n        if (parsed.CATEGORIES) CATEGORIES = parsed.CATEGORIES;\n        if (parsed.CAT_DETAILS) CAT_DETAILS = parsed.CAT_DETAILS;\n        if (parsed.FILTER_OPTIONS) FILTER_OPTIONS = parsed.FILTER_OPTIONS;\n        if (parsed.PROMO_CODES) PROMO_CODES = parsed.PROMO_CODES;\n        if (parsed.SHOP_CONFIG) Object.assign(SHOP_CONFIG, parsed.SHOP_CONFIG);\n    }\n} catch(e) {}\n`;
-
-            downloadTextFile("products.js", productsContent);
-            setTimeout(() => {
-                downloadTextFile("shop-config.js", shopConfigContent);
-            }, 400);
-
-            alert("Pobrano zaktualizowane pliki 'products.js' oraz 'shop-config.js'. Możesz je podmienić w folderze sklepu.");
+        async function exportDataFiles() {
+            try {
+                for (const file of ['products.js','shop-config.js']) {
+                    const response = await fetch('/'+file);
+                    if (!response.ok) throw new Error('Nie udało się pobrać '+file);
+                    downloadTextFile(file,await response.text());
+                }
+            } catch (error) { alert(error.message); }
         }
 
         function downloadTextFile(filename, text) {

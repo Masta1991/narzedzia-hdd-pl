@@ -8,9 +8,22 @@ Kompletny przewodnik po obsłudze, edycji ofert, zmianie statusów magazynowych,
 
 1. W przeglądarce otwórz stronę panelu:
    * Wpisz adres: `admin.html` (np. `http://localhost:8080/admin.html` lub `twojadomena.pl/admin.html`).
-   * Albo zjedź na sam dół strony głównej sklepu i w stopce kliknij: **[Panel Zarządzania (CMS)](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/admin.html)**.
+   * Zapisz ten adres w zakładkach. Publiczny sklep nie pokazuje przycisku panelu.
 2. Wpisz token administratora ustawiony lokalnie jako `ADMIN_SECRET` w `.env` i kliknij
    *Zaloguj do panelu*. Projekt nie ma publicznego hasła domyślnego.
+
+3. Po pracy użyj przycisku **Wyloguj** w górnym pasku. Sekret przechowuj prywatnie; nie przesyłaj go klientom.
+
+### Zamówienia z pro formą
+
+1. W zakładce **Zamówienia i wpłaty** otwórz nowe zamówienie i sprawdź możliwość realizacji. Kwota produktów, rabatu i dostawy jest ostateczna — nie zmieniaj jej na pro formie.
+2. Wystaw pro formę we własnym programie i wyślij ją z własnej poczty. Dopiero po wysłaniu kliknij **Pro forma wysłana**.
+3. Sprawdź wpływ pieniędzy na rachunek. Kliknij **Potwierdź otrzymaną wpłatę** i zaakceptuj osobne potwierdzenie. Samo wystawienie pro formy nie oznacza zapłaty.
+4. Wybierz **Rozpocznij realizację**, a po zakończeniu **Oznacz jako zrealizowane**. Panel zapisuje historię zmian.
+5. Nieopłacone zamówienie można anulować. Przy braku dostępności najpierw skontaktuj się z klientem. Opłaconych zamówień nie anuluj tym procesem; zwrot wymaga osobnej obsługi sprzedawcy.
+6. Status potwierdzeń pokazuje osobno klienta i właściciela. **Ponów niewysłane potwierdzenia** wysyła tylko brakujące wiadomości. „Wysłane” oznacza przyjęcie przez serwer poczty, nie gwarantuje obecności w skrzynce odbiorczej.
+
+Klient nie otrzymuje automatycznie danych bankowych. Dane do przelewu podajesz wyłącznie na pro formie. Sklep nie wystawia ani nie wysyła tych dokumentów. Historyczne zamówienia pozostają oznaczone jako historyczne.
 
 ---
 
@@ -20,7 +33,7 @@ W sklepie wdrożono **3 niezależne statusy dostępności**, dopasowane do specy
 
 | Status w Panelu | Wygląd na Karcie Produktu (PDP) | Zachowanie Przycisku Zakupu | Filtrowanie w Katalogu |
 | :--- | :--- | :--- | :--- |
-| **`W magazynie`** *(Domyślny)* | 🟢 **Zielona etykieta:** <br>`W magazynie (wysyłka 24h)` | Niebieski przycisk: **`Dodaj do koszyka`** (klient zamawia od ręki). | Wyświetla się przy zaznaczeniu checkboxa *"Tylko w magazynie"*. |
+| **`W magazynie`** *(Domyślny)* | 🟢 **Zielona etykieta:** <br>`W magazynie` | Niebieski przycisk: **`Dodaj do koszyka`** (klient zamawia od ręki). | Wyświetla się przy zaznaczeniu checkboxa *"Tylko w magazynie"*. |
 | **`Na zamówienie`** | 🟡 **Bursztynowa etykieta:** <br>`Na zamówienie (3-5 dni)` | Żółty przycisk: **`Zamów z dostawą 3-5 dni`** (klient zamawia ze świadomością czasu sprowadzenia). | Ukrywany przy filtrze "Tylko w magazynie", widoczny w katalogu ogólnym. |
 | **`Brak w magazynie`** <br>*(Niedostępny)* | ⚪ **Szara etykieta:** <br>`Chwilowo niedostępny` | Przycisk kontaktowy: **`✉️ Zapytaj o dostępność inżyniera`** (otwiera gotowy e-mail z numerem SKU). | Ukrywany przy filtrze "Tylko w magazynie". |
 
@@ -37,7 +50,7 @@ W sklepie wdrożono **3 niezależne statusy dostępności**, dopasowane do specy
 
 ## 3. Mechanizm „Często Kupowane Razem” (Bundle Recommendations)
 
-Na karcie każdego produktu ([pdp.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/pdp.html)) znajduje się moduł rekomendacji zestawu z wyliczoną łączną ceną i przyciskiem *"Dodaj zestaw do koszyka"*.
+Na karcie każdego produktu ([pdp.html](pdp.html)) znajduje się moduł rekomendacji zestawu z wyliczoną łączną ceną i przyciskiem *"Dodaj zestaw do koszyka"*.
 
 ### Czy to działa automatycznie?
 **TAK, w 100% automatycznie i inteligentnie.** 
@@ -68,10 +81,10 @@ W obiekcie produktu możesz opcjonalnie podać parametr `bundleSku` (np. `"bundl
    * **Status magazynowy**: wybierz dostępność (*W magazynie*, *Na zamówienie*, *Brak w magazynie*).
    * **Zdjęcie produktu z dysku (Upload)**:
      * Kliknij przycisk **`Wybierz plik z dysku`** i wybierz zdjęcie (JPG / PNG / WEBP) ze swojego komputera.
-     * Zdjęcie automatycznie załaduje się do podglądu i zostanie zapisane w ofercie (możesz też wkleić link lub ścieżkę do pliku).
+     * Zdjęcie automatycznie załaduje się do podglądu i zostanie zapisane w ofercie (obsługiwane są PNG/JPEG/WebP i lokalne ścieżki images/).
    * **Dokumentacja Techniczna (Karta Katalogowa PDF / DTR)**:
      * Kliknij przycisk **`Załącz plik PDF`** i wskaż plik karty technicznej ze swojego dysku.
-     * Na karcie produktu ([pdp.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/pdp.html)) pojawi się wtedy profesjonalna sekcja **„📄 Pobierz Kartę PDF”**, skąd klienci pobiorą rysunek techniczny i atesty materiałowe.
+     * Na karcie produktu ([pdp.html](pdp.html)) pojawi się wtedy profesjonalna sekcja **„📄 Pobierz Kartę PDF”**, skąd klienci pobiorą rysunek techniczny i atesty materiałowe.
    * **Powiązany produkt w zestawie (Opcjonalne SKU)**:
      * Wpisz SKU produktu, z którym ma być tworzony zestaw (np. `HDD-ZB_105`), lub pozostaw puste, aby system sam dobrał pasujący osprzęt.
    * **Opis**: krótki opis techniczny przeznaczenia narzędzia.
@@ -111,7 +124,7 @@ Chcesz dodać nową kategorię osprzętu (np. *Płyny i Polimery płuczkowe*, *A
    * **Procentowy (%)**: np. kod `WIOSNA10` z wartością `10` da 10% rabatu na cały koszyk.
    * **Kwotowy (zł)**: np. kod `RABAT100` z wartością `100` obniży zamówienie o 100 zł.
    * **Darmowa dostawa**: kod `FREESHIP` wyzeruje koszty wysyłki niezależnie od kwoty.
-4. Klient wpisuje kod w koszyku ([koszyk.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/koszyk.html)) lub podczas kasy ([checkout.html](file:///C:/Projects/Development/Narzedzia%20HDD%20PL/checkout.html)). Rabat nalicza się natychmiastowo.
+4. Klient wpisuje kod w koszyku ([koszyk.html](koszyk.html)) lub podczas kasy ([checkout.html](checkout.html)). Rabat nalicza się natychmiastowo.
 
 ---
 
@@ -136,67 +149,19 @@ W panelu administracyjnym w zakładce **`Dane Firmy i Sklepu`** możesz w pełni
 
 ### D. Dane Rozliczeniowe i Bankowe
 * **Nazwa firmy, NIP, adres siedziby, e-mail i telefon**.
-* **Numer konta bankowego IBAN i nazwa Banku** (wyświetlane przy wyborze przelewu tradycyjnego / proformy).
+* **Numer konta bankowego IBAN i nazwa Banku** (wyświetlane przy wyborze przelewu tradycyjnego).
 
 
 ---
 
-## 8. Jak Zapisywać Zmiany — 3 Wygodne Metody
+## 8. Zapis, płatności i uruchomienie
 
-Strona została stworzona tak, aby działała na każdym hostingu:
+Kliknięcie „Zapisz” wysyła dane do autoryzowanego serwera. Dopiero poprawna odpowiedź potwierdza zapis. Produkty i ustawienia są przechowywane razem w prywatnym pliku `data/catalog.json`. Przeglądarka nie nadpisuje już oferty przez localStorage.
 
-### Metoda 1: Zmiany na żywo w przeglądarce (Najprostsza)
-Wszystkie zmiany wprowadzone w `admin.html` zapisują się natychmiast w pamięci przeglądarki (`localStorage`). Gdy otworzysz sklep, od razu widzisz nowe produkty i ceny.
+Eksport pobiera aktualne `products.js` i `shop-config.js`; służy do przenoszenia oferty, a nie do archiwizacji zamówień. Po pierwszym zapisie CMS nadrzędny jest `data/catalog.json`.
 
-### Metoda 2: Pobranie zaktualizowanych plików bazy (Eksport 1-kliknięciem)
-W prawym górnym rogu panelu kliknij zielony przycisk: **`Zapisz / Pobierz pliki bazy`**.
-* Przeglądarka pobierze 2 zaktualizowane pliki: `products.js` oraz `shop-config.js`.
-* Wystarczy wkleić je do głównego folderu ze stroną (lub wgrać przez FTP/Git na serwer).
+Zamówienia i płatności wymagają działającego serwera Node.js. Statyczny hosting plików oraz dawny serwer Python nie obsługują bezpiecznie tego przepływu. Szczegółowe przygotowanie, konfiguracja, kopie i lista odbioru znajdują się w [Konfiguracji i odbiorze sklepu](docs/KONFIGURACJA_I_ODBIOR.md).
 
-### Metoda 3: Autozapis na dysku (Lokalny serwer Python)
-Jeśli uruchomisz stronę za pomocą dostarczonego skryptu:
-```bash
-python admin-server.py
-```
-Każde kliknięcie *"Zapisz"* w panelu administracyjnym **automatycznie i bezpośrednio nadpisuje pliki na Twoim dysku twardym** bez konieczności ręcznego pobierania plików!
+W zakładce zamówień „Potwierdź otrzymaną wpłatę” oznacza ręczne potwierdzenie po sprawdzeniu rachunku bankowego. Wcześniej oznacz pro formę jako wysłaną. Płatności online nie są obsługiwane.
 
----
-
----
-
-## 10. Produkcyjne Płatności Stripe (BLIK, Karty, P24) — Jak Podpiąć Swoje Konto Bankowe
-
-Sklep posiada wdrożony, w pełni zabezpieczony produkcyjny backend transakcyjny (`server.js`) z obsługą **BLIK-a, Kart płatniczych, Przelewów24, Google Pay i Apple Pay**.
-
-Aby pieniądze z transakcji trafiały bezpośrednio na Twoje konto bankowe:
-
-### Krok 1: Załóż bezpłatne konto na [Stripe.com](https://dashboard.stripe.com/register)
-1. Zarejestruj się jako firma lub osoba prowadząca działalność.
-2. W panelu Stripe w zakładce **Settings > Bank accounts** podaj numer swojego polskiego konta bankowego (IBAN w PLN), na które Stripe ma przelewać środki.
-
-### Krok 2: Pobierz klucze API ze Stripe Dashboard
-1. W panelu Stripe wejdź w: **Developers > API keys** (https://dashboard.stripe.com/apikeys).
-2. Skopiuj dwa klucze:
-   * **Publishable key** (`pk_live_...` do testów `pk_test_...`)
-   * **Secret key** (`sk_live_...` do testów `sk_test_...`)
-3. Wejdź w: **Developers > Webhooks** i dodaj endpoint: `https://twoja-domena.pl/api/webhook`, zaznaczając zdarzenie `checkout.session.completed`. Skopiuj wygenerowany **Signing secret** (`whsec_...`).
-
-### Krok 3: Wklej klucze do pliku `.env` w folderze sklepu
-Otwórz plik `.env` w folderze `C:\Projects\Websites\Narzedzia HDD PL\` i uzupełnij:
-```env
-PORT=8080
-BASE_URL=https://twoja-domena.pl
-STRIPE_SECRET_KEY=sk_live_twoj_klucz_ze_stripe
-STRIPE_PUBLISHABLE_KEY=pk_live_twoj_klucz_ze_stripe
-STRIPE_WEBHOOK_SECRET=whsec_twoj_klucz_webhooka
-SHOP_OWNER_EMAIL=twoj-email@domena.pl
-```
-
-### Krok 4: Uruchomienie serwera
-```bash
-npm start
-```
-Sklep będzie natychmiast przyjmował płatności, a po każdej udanej transakcji:
-- Stripe zaksięguje środki i automatycznie wyśle przelew na Twoje konto bankowe,
-- Serwer zapisze zamówienie w `data/orders.json`,
-- Otrzymasz powiadomienie e-mail, a zamówienie pojawi się w panelu `admin.html` w zakładce **„📦 Zamówienia i Płatności”**.
+Sklep nie wystawia automatycznie faktur ani proform i nie rezerwuje ilości magazynowych. Właściciel obsługuje dokumenty, wysyłkę i zwroty. Przed włączeniem zamówień należy potwierdzić dane firmy, ofertę, dokumenty i dostawę oraz wykonać odbiór rzeczywistej poczty i hostingu.

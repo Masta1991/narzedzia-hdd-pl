@@ -1,11 +1,13 @@
 {
   "name": "narzedzia-hdd-pl",
   "version": "2.0.0",
-  "description": "Profesjonalna platforma e-commerce dla Narzędzia HDD PL z produkcyjnym backendem płatności Stripe (BLIK, Karty, P24)",
+  "description": "Sklep Narzędzia HDD PL — katalog, CMS i zamówienia z pro formą",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "test": "node --test tests/security.test.cjs",
+    "test:browser": "node tests/browser.cjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -13,16 +15,13 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
-    "nodemailer": "^9.0.5",
-    "stripe": "^17.7.0"
+    "nodemailer": "^9.0.5"
   },
   "keywords": [
     "hdd",
     "ecommerce",
-    "stripe",
-    "blik",
-    "p24"
+    "proforma"
   ],
-  "author": "Narzędzia HDD PL",
+  "author": "NarzÄ™dzia HDD PL",
   "license": "ISC"
 }

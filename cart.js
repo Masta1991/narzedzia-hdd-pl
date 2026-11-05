@@ -6,7 +6,16 @@ const COUPON_KEY = 'hdd_shop_coupon';
 function getCart() {
     try {
         const cartData = localStorage.getItem(CART_KEY);
-        return cartData ? JSON.parse(cartData) : [];
+        const parsed = cartData ? JSON.parse(cartData) : [];
+        if (!Array.isArray(parsed)) return [];
+        const seen=new Set();
+        return parsed.filter(item=>item && typeof item.sku==='string' && /^[A-Za-z0-9_-]{1,80}$/.test(item.sku) && Number.isSafeInteger(item.quantity) && item.quantity>0 && item.quantity<=1000).map(item => {
+            const current = typeof PRODUCTS !== 'undefined' ? PRODUCTS.find(product => product.sku === item.sku) : null;
+            if(typeof PRODUCTS!=='undefined' && !current) return null;
+            if(seen.has(item.sku)) return null;
+            seen.add(item.sku);
+            return current ? {...current,quantity:item.quantity,price:Number(current.price)} : item;
+        }).filter(Boolean);
     } catch (e) {
         console.error('Błąd podczas odczytu koszyka:', e);
         return [];
@@ -26,18 +35,25 @@ function saveCart(cart) {
 
 // Dodaj produkt do koszyka
 function addToCart(product) {
+    if(typeof PRODUCTS!=='undefined') {
+        const canonical=PRODUCTS.find(p=>p.sku===product?.sku);
+        if(!canonical) return;
+        product={...canonical,quantity:product.quantity??1};
+    }
+    if(['Brak w magazynie','Niedostępne'].includes(product.stock)) {showToast('Produkt jest niedostępny.');return;}
+    if (!Number.isSafeInteger(product.quantity ?? 1) || (product.quantity ?? 1) < 1 || (product.quantity ?? 1)>1000) return;
     let cart = getCart();
     const existingIndex = cart.findIndex(item => item.sku === product.sku);
 
     if (existingIndex > -1) {
-        cart[existingIndex].quantity += (product.quantity || 1);
+        cart[existingIndex].quantity = Math.min(1000,cart[existingIndex].quantity + (product.quantity || 1));
     } else {
         cart.push({
             sku: product.sku,
             name: product.name,
             price: parseFloat(product.price),
             image: product.image,
-            quantity: product.quantity || 1,
+            quantity: Math.min(1000,product.quantity || 1),
             thread: product.thread || '',
             stock: product.stock || 'W magazynie'
         });
@@ -60,11 +76,11 @@ function updateQuantity(sku, quantity) {
     let cart = getCart();
     const index = cart.findIndex(item => item.sku === sku);
     if (index > -1) {
-        const parsed = parseInt(quantity, 10);
-        if (isNaN(parsed) || parsed < 1) {
+        const parsed = Number(quantity);
+        if (!Number.isSafeInteger(parsed) || parsed < 1) {
             cart[index].quantity = 1;
         } else {
-            cart[index].quantity = parsed;
+            cart[index].quantity = Math.min(1000,parsed);
         }
         saveCart(cart);
     }
@@ -83,7 +99,8 @@ function getAppliedCoupon() {
     try {
         const coupon = localStorage.getItem(COUPON_KEY);
         if (!coupon) return null;
-        if (typeof PROMO_CODES !== 'undefined' && PROMO_CODES[coupon]) {
+        const subtotal = getCart().reduce((sum,item) => sum + item.price * item.quantity,0);
+        if (typeof PROMO_CODES !== 'undefined' && Object.hasOwn(PROMO_CODES,coupon) && subtotal >= (PROMO_CODES[coupon].minSubtotal || 0)) {
             return { code: coupon, ...PROMO_CODES[coupon] };
         }
         return null;
@@ -94,12 +111,13 @@ function getAppliedCoupon() {
 
 function applyCoupon(code) {
     const cleanCode = (code || '').trim().toUpperCase();
-    if (typeof PROMO_CODES !== 'undefined' && PROMO_CODES[cleanCode]) {
+    const subtotal = getCart().reduce((sum,item) => sum + item.price * item.quantity,0);
+    if (typeof PROMO_CODES !== 'undefined' && Object.hasOwn(PROMO_CODES,cleanCode) && subtotal >= (PROMO_CODES[cleanCode].minSubtotal || 0)) {
         localStorage.setItem(COUPON_KEY, cleanCode);
         window.dispatchEvent(new Event('cartUpdated'));
         return { success: true, coupon: PROMO_CODES[cleanCode] };
     }
-    return { success: false, message: "Niepoprawny kod rabatowy." };
+    return { success: false, message: "Niepoprawny kod lub zbyt mała wartość koszyka." };
 }
 
 function removeCoupon() {
@@ -110,15 +128,16 @@ function removeCoupon() {
 // Obliczenia Koszyka
 function calculateCartTotals(deliveryCost = 20) {
     const cart = getCart();
-    const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0) * (parseInt(item.quantity, 10) || 1), 0);
+    const subtotalCents = cart.reduce((sum, item) => sum + Math.round(Number(item.price)*100) * Number(item.quantity), 0);
+    const subtotal = subtotalCents / 100;
     const coupon = getAppliedCoupon();
-    
+
     let discount = 0;
     let isFreeShippingCoupon = false;
 
     if (coupon) {
         if (coupon.type === 'percent') {
-            discount = subtotal * (parseFloat(coupon.value) / 100);
+            discount = Math.round(subtotalCents * (parseFloat(coupon.value) / 100)) / 100;
         } else if (coupon.type === 'fixed') {
             discount = Math.min(parseFloat(coupon.value), subtotal);
         } else if (coupon.type === 'free_shipping') {
@@ -126,21 +145,21 @@ function calculateCartTotals(deliveryCost = 20) {
         }
     }
 
-    const freeThreshold = (typeof SHOP_CONFIG !== 'undefined' && SHOP_CONFIG.freeShippingThreshold) 
-        ? parseFloat(SHOP_CONFIG.freeShippingThreshold) 
+    const freeThreshold = (typeof SHOP_CONFIG !== 'undefined' && SHOP_CONFIG.freeShippingThreshold !== undefined)
+        ? parseFloat(SHOP_CONFIG.freeShippingThreshold)
         : 500;
-        
+
     const qualifiesForFreeThreshold = subtotal >= freeThreshold && subtotal > 0;
-    
+
     let shipping = parseFloat(deliveryCost) || 0;
     if (qualifiesForFreeThreshold || isFreeShippingCoupon || deliveryCost === 0) {
         shipping = 0;
     }
 
-    const total = Math.max(0, subtotal - discount + shipping);
-    const vatRate = (typeof SHOP_CONFIG !== 'undefined' && SHOP_CONFIG.vatRate) ? parseFloat(SHOP_CONFIG.vatRate) : 0.23;
-    const netTotal = total / (1 + vatRate);
-    const vatAmount = total - netTotal;
+    const total = Math.max(0,Math.round(subtotalCents - Math.round(discount * 100) + Math.round(shipping * 100)) / 100);
+    const vatRate = (typeof SHOP_CONFIG !== 'undefined' && SHOP_CONFIG.vatRate !== undefined) ? parseFloat(SHOP_CONFIG.vatRate) : 0.23;
+    const netTotal = Math.round((total / (1 + vatRate)) * 100) / 100;
+    const vatAmount = Math.round((total - netTotal) * 100) / 100;
 
     return {
         subtotal,
@@ -166,14 +185,14 @@ function getCartRecommendations(limit = 4) {
     if (typeof PRODUCTS === 'undefined') return [];
     const cart = getCart();
     const cartSkus = new Set(cart.map(i => i.sku));
-    
+
     // Priorytetyzuj smary, zęby i akcesoria
     const priorityCats = ['smary', 'zeby', 'kretliki'];
     const candidates = PRODUCTS.filter(p => !cartSkus.has(p.sku));
-    
+
     const prioritized = candidates.filter(p => p.categories && p.categories.some(c => priorityCats.includes(c)));
     const others = candidates.filter(p => !p.categories || !p.categories.some(c => priorityCats.includes(c)));
-    
+
     return [...prioritized, ...others].slice(0, limit);
 }
 
@@ -181,12 +200,12 @@ function getCartRecommendations(limit = 4) {
 function updateCartBadge() {
     const cart = getCart();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
+
     const cartLinks = document.querySelectorAll('a[href*="koszyk.html"], a[href*="checkout.html"]');
-    
+
     cartLinks.forEach(link => {
         let badge = link.querySelector('.cart-badge');
-        
+
         if (!badge) {
             const existingDot = link.querySelector('span');
             if (existingDot) {
@@ -222,13 +241,8 @@ function showToast(message) {
 
     const toast = document.createElement('div');
     toast.className = 'bg-ink-deep text-canvas text-body-sm-bold py-3.5 px-6 rounded-xl shadow-panel border border-hairline/10 flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto';
-    
-    toast.innerHTML = `
-        <svg class="text-success" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <span>${message}</span>
-    `;
+
+    toast.textContent = message;
 
     container.appendChild(toast);
 

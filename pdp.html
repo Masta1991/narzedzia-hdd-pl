@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <script src="auth-gate.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karta Produktu - Narzędzia HDD PL</title>
@@ -10,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/tailwind-runtime.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,10 +24,10 @@
                         'on-primary': "#ffffff",
                         'ink-button': "#000000",
                         'on-ink-button': "#ffffff",
-                        success: "#31a24c",
+                        success: "#247a39",
                         attention: "#f2a918",
                         warning: "#f7b928",
-                        critical: "#e41e3f",
+                        critical: "#c71b38",
                         'critical-strong': "#f0284a",
                         canvas: "#ffffff",
                         'surface-soft': "#f1f4f7",
@@ -88,12 +87,14 @@
     <script src="shop-config.js"></script>
     <script src="products.js"></script>
     <script src="cart.js"></script>
+<script src="ui-safety.js"></script>
+<style>button:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:3px solid #d66b14;outline-offset:3px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:400px){nav{gap:8px!important}nav .flex-1{min-width:0}nav input{padding-right:24px!important}nav>a span{font-size:17px!important}} </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <!-- Promo Banner (Górny Pasek Ogłoszeń) -->
     <div class="top-announcement-bar bg-ink-deep text-canvas text-body-sm-bold py-2.5 px-6 text-center text-xs md:text-sm">
-        🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Wysyłka w 24h
+        🚚 Darmowa dostawa dla wszystkich zamówień powyżej 500 PLN | Magazyn Kraków • Dostawa kurierska
     </div>
 
     <!-- Pasek Nawigacji (Sticky) -->
@@ -142,7 +143,7 @@
                 <!-- Miniaturki galerii -->
                 <div class="flex gap-3" id="pdp-thumbnails">
                     <div class="w-20 h-20 bg-[#f7f7f7] border-2 border-primary rounded-xl p-2 cursor-pointer">
-                        <img id="thumb-1" src="images/rozwieracz_skrzydlowy.png" class="w-full h-full object-contain mix-blend-multiply">
+                        <img id="thumb-1" alt="Miniatura produktu" src="images/rozwieracz_skrzydlowy.png" class="w-full h-full object-contain mix-blend-multiply">
                     </div>
                 </div>
 
@@ -155,13 +156,13 @@
                         </div>
                         <span class="text-xs font-semibold text-success flex items-center gap-1">
                             <span class="w-2 h-2 rounded-full bg-success"></span>
-                            Wysyłka w 24h
+                            Dostawa kurierska
                         </span>
                     </div>
                     <div class="flex gap-3">
                         <div class="flex items-center border border-hairline rounded-full bg-surface-soft px-2">
                             <button onclick="decrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg">−</button>
-                            <input type="number" id="qty-input-mobile" value="1" min="1" class="w-10 text-center bg-transparent font-bold text-sm">
+                            <input type="number" id="qty-input-mobile" aria-label="Ilość produktu" value="1" min="1" max="1000" step="1" oninput="syncQty(this)" class="w-10 text-center bg-transparent font-bold text-sm">
                             <button onclick="incrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg">+</button>
                         </div>
                         <button onclick="handleAddToCart()" class="btn-buy-cta flex-1 py-3 text-sm">
@@ -236,7 +237,7 @@
                             <label class="text-body-sm-bold text-ink-deep">Ilość sztuk:</label>
                             <div class="flex items-center border border-hairline rounded-xl bg-canvas px-2 py-1">
                                 <button onclick="decrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg hover:bg-surface-soft rounded-lg transition-colors">−</button>
-                                <input type="number" id="qty-input" value="1" min="1" class="w-12 text-center bg-transparent font-bold text-sm">
+                                <input type="number" id="qty-input" aria-label="Ilość produktu" value="1" min="1" max="1000" step="1" oninput="syncQty(this)" class="w-12 text-center bg-transparent font-bold text-sm">
                                 <button onclick="incrementQty()" class="w-8 h-8 font-bold text-ink-deep text-lg hover:bg-surface-soft rounded-lg transition-colors">+</button>
                             </div>
                         </div>
@@ -251,7 +252,7 @@
                     <div class="border-t border-hairline-soft pt-6 flex flex-col gap-3 text-xs text-charcoal">
                         <div class="flex items-center gap-3">
                             <span class="text-success text-base">✓</span>
-                            <span><strong>Wysyłka w 24h</strong> kurierem DPD lub odbiór w Krakowie</span>
+                            <span><strong>Dostawa kurierska</strong> lub odbiór pod adresem sprzedawcy</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-success text-base">✓</span>
@@ -304,10 +305,6 @@
     <footer class="bg-canvas border-t border-hairline-soft py-8 mt-auto text-center text-xs text-steel">
         <div class="max-w-[1600px] mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p class="footer-copyright-text">&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
-            <a href="admin.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-surface-soft border border-hairline hover:border-primary hover:text-primary transition-all font-semibold text-charcoal shadow-sm text-xs" title="Zarządzaj ofertami, cenami i sklepem">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                <span>⚙️ Panel Administratora (CMS)</span>
-            </a>
         </div>
     </footer>
 
@@ -334,7 +331,7 @@
         function renderPDP() {
             const p = currentProduct;
             const formatPrice = (pr) => pr.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
-            const netPrice = p.price / 1.23;
+            const netPrice = p.price / (1 + SHOP_CONFIG.vatRate);
 
             document.title = `${p.name} - Narzędzia HDD PL`;
             document.getElementById('pdp-title-crumb').innerText = p.name;
@@ -366,7 +363,7 @@
             const stock = p.stock || 'W magazynie';
 
             if (stock === 'W magazynie') {
-                badgeEl.innerText = 'W magazynie (wysyłka 24h)';
+                badgeEl.innerText = 'W magazynie';
                 badgeEl.className = 'bg-success text-canvas text-[11px] font-bold rounded-full py-1 px-3 inline-block';
                 if (buyBtn) {
                     buyBtn.disabled = false;
@@ -387,7 +384,7 @@
                 if (buyBtn) {
                     buyBtn.disabled = false;
                     buyBtn.className = 'btn-ghost w-full py-3.5 text-center text-sm font-bold border-2 border-hairline hover:border-ink';
-                    buyBtn.onclick = () => window.location.href = `mailto:inzynier@narzedzia-hdd.pl?subject=Zapytanie o dostępność produktu SKU: ${p.sku} (${p.name})`;
+                    buyBtn.onclick = () => contactShop(currentProduct.sku);
                     buyBtn.innerHTML = `✉️ Zapytaj o dostępność inżyniera`;
                 }
             }
@@ -411,8 +408,8 @@
 
             specsTable.innerHTML = specEntries.map(([k, v], i) => `
                 <div class="flex justify-between py-2.5 px-4 ${i % 2 === 0 ? 'bg-surface-soft/50' : 'bg-canvas'} border-b border-hairline-soft/40 last:border-b-0">
-                    <span class="text-steel font-medium">${k}</span>
-                    <span class="text-ink-deep font-bold text-right">${v}</span>
+                    <span class="text-steel font-medium">${htmlText(k)}</span>
+                    <span class="text-ink-deep font-bold text-right">${htmlText(v)}</span>
                 </div>
             `).join('');
 
@@ -434,15 +431,19 @@
                     e.preventDefault();
                     window.print();
                 };
-                pdfTitle.innerText = `Karta Katalogowa i DTR (${p.sku})`;
+                pdfTitle.innerText = `Drukuj informacje o produkcie (${p.sku})`;
             }
         }
 
 
+        function syncQty(source) {
+    document.getElementById('qty-input').value=source.value;
+    document.getElementById('qty-input-mobile').value=source.value;
+}
         function incrementQty() {
             const input = document.getElementById('qty-input');
             const mobInput = document.getElementById('qty-input-mobile');
-            const val = parseInt(input.value || 1, 10) + 1;
+            const val = Math.min(1000,parseInt(input.value || 1, 10) + 1);
             input.value = val;
             if (mobInput) mobInput.value = val;
         }
@@ -457,10 +458,11 @@
 
         function handleAddToCart() {
             if (currentProduct.stock === 'Brak w magazynie' || currentProduct.stock === 'Niedostępne') {
-                window.location.href = `mailto:inzynier@narzedzia-hdd.pl?subject=Zapytanie o dostępność produktu SKU: ${currentProduct.sku}`;
+                contactShop(currentProduct.sku);
                 return;
             }
-            const qty = parseInt(document.getElementById('qty-input').value || 1, 10);
+            const qty = Number(document.getElementById('qty-input').value);
+            if(!Number.isSafeInteger(qty)||qty<1||qty>1000) {alert('Wpisz całkowitą ilość od 1 do 1000.');return;}
             addToCart({
                 sku: currentProduct.sku,
                 name: currentProduct.name,
@@ -509,14 +511,14 @@
 
             document.getElementById('bundle-items').innerHTML = `
                 <div class="w-12 h-12 bg-surface-soft rounded-lg p-1 flex-shrink-0">
-                    <img src="${currentProduct.image}" class="w-full h-full object-contain mix-blend-multiply">
+                    <img alt="" src="${htmlText(currentProduct.image)}" class="w-full h-full object-contain mix-blend-multiply">
                 </div>
                 <span class="text-steel font-bold">+</span>
                 <div class="w-12 h-12 bg-surface-soft rounded-lg p-1 flex-shrink-0">
-                    <img src="${bundleProduct.image}" class="w-full h-full object-contain mix-blend-multiply">
+                    <img alt="" src="${htmlText(bundleProduct.image)}" class="w-full h-full object-contain mix-blend-multiply">
                 </div>
                 <div class="text-xs text-charcoal flex-1 min-w-0">
-                    <span class="font-bold text-ink-deep block truncate">${bundleProduct.name}</span>
+                    <span class="font-bold text-ink-deep block truncate">${htmlText(bundleProduct.name)}</span>
                     <span class="text-steel">+ ${formatPrice(bundleProduct.price)}</span>
                 </div>
             `;
@@ -550,14 +552,14 @@
                 <div class="bg-canvas border border-hairline-soft rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-panel transition-all group">
                     <div class="aspect-square bg-[#f7f7f7] rounded-xl p-3 flex items-center justify-center mb-3 overflow-hidden">
                         <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="w-full h-full flex items-center justify-center">
-                            <img src="${p.image}" alt="${p.name}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
+                            <img src="${htmlText(p.image)}" alt="${htmlText(p.name)}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
                         </a>
                     </div>
-                    <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep hover:text-primary transition-colors line-clamp-2 mb-1">${p.name}</a>
+                    <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep hover:text-primary transition-colors line-clamp-2 mb-1">${htmlText(p.name)}</a>
                     <span class="text-xs text-steel mb-3 font-mono">SKU: ${p.sku}</span>
                     <div class="flex justify-between items-center mt-auto pt-2 border-t border-hairline-soft/40">
                         <span class="text-body-sm-bold text-ink-deep">${formatPrice(p.price)}</span>
-                        <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-colors" title="Dodaj do koszyka">
+                        <button onclick="addSkuToCart('${p.sku}')" class="w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-colors" title="Dodaj do koszyka">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         </button>
                     </div>

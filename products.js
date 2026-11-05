@@ -632,16 +632,3 @@ let PRODUCTS = [
         }
     }
 ];
-
-// Wczytaj niestandardowe produkty z panelu administratora (jeśli istnieją)
-try {
-    const customData = localStorage.getItem('hdd_custom_products');
-    if (customData) {
-        const parsed = JSON.parse(customData);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-            PRODUCTS = parsed;
-        }
-    }
-} catch(e) {
-    console.warn('Nie udało się wczytać hdd_custom_products:', e);
-}

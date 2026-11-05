@@ -1,0 +1,301 @@
+{
+  "date": "2026-10-02",
+  "runtime": "v24.15.0",
+  "sourceSha256": "ac7898f5803d95976a66d08376d14cc31d0400529c13fb62ab31405d0a5ac689",
+  "counts": {
+    "PASS": 11,
+    "FAIL": 26
+  },
+  "results": [
+    {
+      "name": "Admin auth /api/orders",
+      "status": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Admin auth /api/save",
+      "status": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Wrong admin token rejected",
+      "status": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Server ignores submitted price",
+      "status": "PASS",
+      "actual": {
+        "status": 200,
+        "total": 220
+      }
+    },
+    {
+      "name": "Order file not publicly served",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "containsSyntheticEmail": true
+      }
+    },
+    {
+      "name": "Backend source not publicly served",
+      "status": "FAIL",
+      "actual": 200
+    },
+    {
+      "name": "Dotenv not publicly served",
+      "status": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "Order status limits personal data",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "customerFields": [
+          "name",
+          "email",
+          "phone",
+          "street",
+          "postalCode",
+          "city",
+          "nip"
+        ]
+      }
+    },
+    {
+      "name": "Reject unknown SKU /api/create-manual-order",
+      "status": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Reject invalid quantity /api/create-manual-order -3",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-manual-order 0",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-manual-order 1.5",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-manual-order abc",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-manual-order 1001",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1000
+      }
+    },
+    {
+      "name": "Reject unknown SKU /api/create-checkout-session",
+      "status": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Reject invalid quantity /api/create-checkout-session -3",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-checkout-session 0",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-checkout-session 1.5",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-checkout-session abc",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1
+      }
+    },
+    {
+      "name": "Reject invalid quantity /api/create-checkout-session 1001",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "savedQuantity": 1000
+      }
+    },
+    {
+      "name": "Reject missing customer and locker",
+      "status": "FAIL",
+      "actual": 200
+    },
+    {
+      "name": "Reject unavailable item",
+      "status": "FAIL",
+      "actual": 200
+    },
+    {
+      "name": "Stripe total includes coupon",
+      "status": "FAIL",
+      "actual": {
+        "expected": 200,
+        "stripeLineItems": 220,
+        "discounts": null
+      }
+    },
+    {
+      "name": "Configured webhook rejects unsigned event",
+      "status": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Unpaid Stripe session not marked paid",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "paymentStatus": "PAID"
+      }
+    },
+    {
+      "name": "Webhook preserves totals and customer address",
+      "status": "FAIL",
+      "actual": {
+        "totalFields": [
+          "total",
+          "currency"
+        ],
+        "customerFields": [
+          "name",
+          "email",
+          "phone",
+          "nip",
+          "companyName"
+        ]
+      }
+    },
+    {
+      "name": "Webhook replay has no repeated emails",
+      "status": "FAIL",
+      "actual": {
+        "additionalEmails": 2
+      }
+    },
+    {
+      "name": "Async paid event updates order",
+      "status": "FAIL",
+      "actual": "PENDING_PAYMENT"
+    },
+    {
+      "name": "Disk write failure rejects order",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "success": true
+      }
+    },
+    {
+      "name": "Corrupt database is not overwritten",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "remainingOrders": 1
+      }
+    },
+    {
+      "name": "Customer name escaped in email",
+      "status": "FAIL",
+      "actual": {
+        "rawHtmlPresent": true
+      }
+    },
+    {
+      "name": "Fail closed webhook {\"noSecret\":true}",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "orders": [
+          {
+            "id": "HDD-SYNTHETIC-FORGED",
+            "status": "PAID"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fail closed webhook {\"noStripe\":true,\"noSecret\":true}",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "orders": [
+          {
+            "id": "HDD-SYNTHETIC-FORGED",
+            "status": "PAID"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Unconfigured payment fails closed",
+      "status": "FAIL",
+      "actual": {
+        "status": 200,
+        "isMock": true,
+        "url": "http://127.0.0.1/order-success.html?mock=true&order_id=HDD-1790958666660-8949"
+      }
+    },
+    {
+      "name": "Missing admin secret disables API",
+      "status": "PASS",
+      "actual": 503
+    },
+    {
+      "name": "Gateway error does not mark paid",
+      "status": "PASS",
+      "actual": {
+        "status": 500,
+        "orders": 1,
+        "statuses": [
+          "PENDING_PAYMENT"
+        ]
+      }
+    },
+    {
+      "name": "All local catalog images exist",
+      "status": "PASS",
+      "actual": {
+        "products": 37,
+        "missing": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,435 @@
+{
+  "runtime": "v24.15.0",
+  "browser": "154.0.8037.95",
+  "fonts": "external fonts blocked; system fallback",
+  "checks": [
+    {
+      "name": "Catalog loads 37 products",
+      "status": "PASS",
+      "actual": "Znaleziono 37 produktów"
+    },
+    {
+      "name": "Search by SKU",
+      "status": "PASS",
+      "actual": "Znaleziono 1 produktów"
+    },
+    {
+      "name": "Cart persists reload",
+      "status": "PASS",
+      "actual": [
+        {
+          "sku": "HDD-CH_32",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Quantity updates totals",
+      "status": "PASS",
+      "actual": 386.54
+    },
+    {
+      "name": "Coupon agreement browser/server",
+      "status": "FAIL",
+      "actual": {
+        "browser": 153.27,
+        "server": 203.27
+      }
+    },
+    {
+      "name": "Typed mobile quantity honored",
+      "status": "FAIL",
+      "actual": {
+        "expected": 6,
+        "actual": 2
+      }
+    },
+    {
+      "name": "Checkout total is rendered",
+      "status": "PASS",
+      "actual": "386,54 zł"
+    },
+    {
+      "name": "Checkout sends entered name and address",
+      "status": "FAIL",
+      "actual": {
+        "name": "",
+        "email": "audit@example.invalid",
+        "phone": "600100200",
+        "street": "",
+        "postalCode": "",
+        "city": "Test",
+        "isB2B": false,
+        "nip": "",
+        "companyName": ""
+      }
+    },
+    {
+      "name": "Manual checkout clears cart",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Pending payment not shown as paid",
+      "status": "FAIL",
+      "actual": {
+        "server": "PENDING_PAYMENT",
+        "badge": "OPŁACONE (Stripe / BLIK)"
+      }
+    },
+    {
+      "name": "Electronic checkout clears correct cart key",
+      "status": "FAIL",
+      "actual": {
+        "cartStillPresent": true
+      }
+    },
+    {
+      "name": "Unknown order does not claim payment",
+      "status": "FAIL",
+      "actual": "OPŁACONE (Stripe / BLIK)"
+    },
+    {
+      "name": "Admin escapes customer markup",
+      "status": "PASS",
+      "actual": {
+        "injectedImages": 0
+      }
+    },
+    {
+      "name": "CMS reports failed server save",
+      "status": "FAIL",
+      "actual": "Ustawienia sklepu, nagłówka i stopki zostały pomyślnie zapisane!"
+    },
+    {
+      "name": "Reflow catalog 1440",
+      "status": "PASS",
+      "actual": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow product 1440",
+      "status": "PASS",
+      "actual": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow cart 1440",
+      "status": "PASS",
+      "actual": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow checkout 1440",
+      "status": "PASS",
+      "actual": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow catalog 390",
+      "status": "PASS",
+      "actual": {
+        "width": 390,
+        "scrollWidth": 390,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow product 390",
+      "status": "PASS",
+      "actual": {
+        "width": 390,
+        "scrollWidth": 390,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow cart 390",
+      "status": "PASS",
+      "actual": {
+        "width": 390,
+        "scrollWidth": 390,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow checkout 390",
+      "status": "PASS",
+      "actual": {
+        "width": 390,
+        "scrollWidth": 390,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow catalog 320",
+      "status": "FAIL",
+      "actual": {
+        "width": 320,
+        "scrollWidth": 327,
+        "brokenImages": 0,
+        "overflowElements": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "right": 323
+          },
+          {
+            "tag": "A",
+            "id": "",
+            "right": 323
+          },
+          {
+            "tag": "SPAN",
+            "id": "",
+            "right": 327
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reflow product 320",
+      "status": "PASS",
+      "actual": {
+        "width": 320,
+        "scrollWidth": 320,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow cart 320",
+      "status": "PASS",
+      "actual": {
+        "width": 320,
+        "scrollWidth": 320,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Reflow checkout 320",
+      "status": "PASS",
+      "actual": {
+        "width": 320,
+        "scrollWidth": 320,
+        "brokenImages": 0,
+        "overflowElements": []
+      }
+    },
+    {
+      "name": "Preview gate traps keyboard focus",
+      "status": "FAIL",
+      "actual": [
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "insideGate": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "insideGate": false
+        },
+        {
+          "id": "",
+          "tag": "A",
+          "insideGate": false
+        },
+        {
+          "id": "live-search-input",
+          "tag": "INPUT",
+          "insideGate": false
+        }
+      ]
+    },
+    {
+      "name": "No JS errors during normal flows",
+      "status": "PASS",
+      "actual": []
+    }
+  ],
+  "screens": [
+    {
+      "file": "catalog-1440.png",
+      "page": "catalog",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "product-1440.png",
+      "page": "product",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "cart-1440.png",
+      "page": "cart",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "checkout-1440.png",
+      "page": "checkout",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "catalog-390.png",
+      "page": "catalog",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "product-390.png",
+      "page": "product",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "cart-390.png",
+      "page": "cart",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "checkout-390.png",
+      "page": "checkout",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "catalog-320.png",
+      "page": "catalog",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "width": 320,
+      "scrollWidth": 327,
+      "brokenImages": 0,
+      "overflowElements": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "right": 323
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "right": 323
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "right": 327
+        }
+      ]
+    },
+    {
+      "file": "product-320.png",
+      "page": "product",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "cart-320.png",
+      "page": "cart",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "overflowElements": []
+    },
+    {
+      "file": "checkout-320.png",
+      "page": "checkout",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "overflowElements": []
+    }
+  ],
+  "errors": []
+}

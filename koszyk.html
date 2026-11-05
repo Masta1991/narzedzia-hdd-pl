@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <script src="auth-gate.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twój koszyk - Narzędzia HDD PL</title>
@@ -10,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/tailwind-runtime.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,10 +24,10 @@
                         'on-primary': "#ffffff",
                         'ink-button': "#000000",
                         'on-ink-button': "#ffffff",
-                        success: "#31a24c",
+                        success: "#247a39",
                         attention: "#f2a918",
                         warning: "#f7b928",
-                        critical: "#e41e3f",
+                        critical: "#c71b38",
                         'critical-strong': "#f0284a",
                         canvas: "#ffffff",
                         'surface-soft': "#f1f4f7",
@@ -81,6 +80,8 @@
     <script src="shop-config.js"></script>
     <script src="products.js"></script>
     <script src="cart.js"></script>
+<script src="ui-safety.js"></script>
+<style>button:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:3px solid #d66b14;outline-offset:3px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:400px){nav{gap:8px!important}nav .flex-1{min-width:0}nav input{padding-right:24px!important}nav>a span{font-size:17px!important}} </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
@@ -188,7 +189,7 @@
 
                     <!-- Przycisk przejścia do kasy -->
                     <a href="checkout.html" class="btn-buy-cta w-full text-center">
-                        Przejdź do dostawy i płatności →
+                        Przejdź do zamówienia →
                     </a>
 
                     <a href="index.html" class="btn-ghost w-full block mt-3 text-xs">
@@ -287,25 +288,25 @@
             // 2. Renderowanie Pozycji
             itemsContainer.innerHTML = '';
             cart.forEach(item => {
-                const itemNet = (item.price * item.quantity) / 1.23;
+                const itemNet = (item.price * item.quantity) / (1 + SHOP_CONFIG.vatRate);
                 const row = document.createElement('div');
                 row.className = 'bg-canvas border border-hairline-soft rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 shadow-sm hover:border-hairline transition-all';
                 
                 row.innerHTML = `
                     <div class="w-20 h-20 bg-[#f7f7f7] rounded-xl p-2 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                        <img src="${item.image}" alt="${item.name}" class="max-w-full max-h-full object-contain mix-blend-multiply">
+                        <img src="${htmlText(item.image)}" alt="${htmlText(item.name)}" class="max-w-full max-h-full object-contain mix-blend-multiply">
                     </div>
                     
                     <div class="flex-1 text-center sm:text-left min-w-0">
-                        <a href="pdp.html?sku=${encodeURIComponent(item.sku)}" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors block truncate" title="${item.name}">${item.name}</a>
-                        <p class="text-xs text-steel mt-0.5">SKU: ${item.sku} ${item.thread ? '• ' + item.thread : ''}</p>
+                        <a href="pdp.html?sku=${encodeURIComponent(item.sku)}" class="text-body-md-bold text-ink-deep hover:text-primary transition-colors block truncate" title="${htmlText(item.name)}">${htmlText(item.name)}</a>
+                        <p class="text-xs text-steel mt-0.5">SKU: ${item.sku} ${htmlText(item.thread ? '• ' + item.thread : '')}</p>
                         <p class="text-xs text-charcoal mt-1">${formatPrice(item.price)} brutto / szt.</p>
                     </div>
 
                     <!-- Stepper Ilości -->
                     <div class="flex items-center border border-hairline rounded-xl bg-surface-soft/40 px-1 py-0.5">
                         <button onclick="updateItemQty('${item.sku}', ${item.quantity - 1})" class="w-8 h-8 flex items-center justify-center text-ink-deep hover:bg-canvas rounded-lg transition-colors font-bold text-sm" title="Zmniejsz ilość">−</button>
-                        <input type="number" min="1" value="${item.quantity}" onchange="updateItemQty('${item.sku}', this.value)" class="w-12 text-center bg-transparent text-sm font-bold text-ink-deep focus:outline-none">
+                        <input aria-label="Ilość: ${htmlText(item.name)}" type="number" min="1" value="${item.quantity}" onchange="updateItemQty('${item.sku}', this.value)" class="w-12 text-center bg-transparent text-sm font-bold text-ink-deep focus:outline-none">
                         <button onclick="updateItemQty('${item.sku}', ${item.quantity + 1})" class="w-8 h-8 flex items-center justify-center text-ink-deep hover:bg-canvas rounded-lg transition-colors font-bold text-sm" title="Zwiększ ilość">+</button>
                     </div>
 
@@ -358,7 +359,7 @@
             const couponMsg = document.getElementById('cart-coupon-msg');
             if (appliedCoupon && couponInput && couponMsg) {
                 couponInput.value = appliedCoupon.code;
-                couponMsg.innerHTML = `<span class="text-success">Aktywny kupon: ${appliedCoupon.label}</span>`;
+                couponMsg.innerHTML = `<span class="text-success">Aktywny kupon: ${htmlText(appliedCoupon.label)}</span>`;
                 couponMsg.classList.remove('hidden');
             }
         }
@@ -381,10 +382,10 @@
 
             msg.classList.remove('hidden');
             if (res.success) {
-                msg.innerHTML = `<span class="text-success">${res.coupon.label}</span>`;
+                msg.innerHTML = `<span class="text-success">${htmlText(res.coupon.label)}</span>`;
                 showToast("Zastosowano kod rabatowy!");
             } else {
-                msg.innerHTML = `<span class="text-critical">${res.message}</span>`;
+                msg.innerHTML = `<span class="text-critical">${htmlText(res.message)}</span>`;
             }
             renderCartPage();
         }
@@ -399,13 +400,13 @@
             container.innerHTML = items.map(p => `
                 <div class="bg-canvas border border-hairline-soft rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-panel transition-all group">
                     <div class="aspect-square bg-[#f7f7f7] rounded-xl p-2.5 flex items-center justify-center mb-3 overflow-hidden">
-                        <img src="${p.image}" alt="${p.name}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
+                        <img src="${htmlText(p.image)}" alt="${htmlText(p.name)}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
                     </div>
-                    <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep hover:text-primary transition-colors line-clamp-2 mb-1">${p.name}</a>
+                    <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep hover:text-primary transition-colors line-clamp-2 mb-1">${htmlText(p.name)}</a>
                     <span class="text-xs text-steel mb-3">SKU: ${p.sku}</span>
                     <div class="flex justify-between items-center mt-auto pt-2 border-t border-hairline-soft/40">
                         <span class="text-body-sm-bold text-ink-deep">${formatPrice(p.price)}</span>
-                        <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-colors" title="Dodaj do koszyka">
+                        <button onclick="addSkuToCart('${p.sku}')" class="w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-colors" title="Dodaj do koszyka">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         </button>
                     </div>

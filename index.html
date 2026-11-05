@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <script src="auth-gate.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Narzędzia HDD - Profesjonalny Osprzęt Wiertniczy i Rozwiertaki</title>
@@ -10,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/tailwind-runtime.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,10 +24,10 @@
                         'on-primary': "#ffffff",
                         'ink-button': "#000000",
                         'on-ink-button': "#ffffff",
-                        success: "#31a24c",
+                        success: "#247a39",
                         attention: "#f2a918",
                         warning: "#f7b928",
-                        critical: "#e41e3f",
+                        critical: "#c71b38",
                         'critical-strong': "#f0284a",
                         canvas: "#ffffff",
                         'surface-soft': "#f1f4f7",
@@ -94,6 +93,8 @@
     <script src="shop-config.js"></script>
     <script src="products.js"></script>
     <script src="cart.js"></script>
+<script src="ui-safety.js"></script>
+<style>button:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:3px solid #d66b14;outline-offset:3px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:400px){nav{gap:8px!important}nav .flex-1{min-width:0}nav input{padding-right:24px!important}nav>a span{font-size:17px!important}} </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
@@ -174,7 +175,7 @@
                             
                             <!-- Mobile Kategoria Select -->
                             <div class="block lg:hidden relative min-w-[140px]">
-                                <select id="filter-category-select" class="w-full bg-surface-soft text-ink text-xs font-bold rounded-xl px-3 py-2 border border-hairline appearance-none cursor-pointer focus:outline-none pr-7" onchange="selectCategory(this.value)">
+                                <select id="filter-category-select" aria-label="Kategoria" class="w-full bg-surface-soft text-ink text-xs font-bold rounded-xl px-3 py-2 border border-hairline appearance-none cursor-pointer focus:outline-none pr-7" onchange="selectCategory(this.value)">
                                     <option value="">Wszystkie kategorie</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none text-ink">
@@ -184,7 +185,7 @@
 
                             <!-- Dynamiczny Podtyp Filtr (dla danej kategorii) -->
                             <div id="filter-type-container" class="relative hidden">
-                                <select id="filter-type-select" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
+                                <select id="filter-type-select" aria-label="Typ produktu" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
                                     <option value="">Typ produktu</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none text-ink">
@@ -194,7 +195,7 @@
 
                             <!-- Filtr Średnicy -->
                             <div class="relative">
-                                <select id="filter-diameter-select" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
+                                <select id="filter-diameter-select" aria-label="Średnica" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
                                     <option value="">Średnica / Rozmiar</option>
                                     <option value="male">Do 110 mm (DN32-DN110)</option>
                                     <option value="srednie">150 mm – 300 mm</option>
@@ -207,7 +208,7 @@
 
                             <!-- Filtr Gwintu -->
                             <div class="relative">
-                                <select id="filter-thread-select" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
+                                <select id="filter-thread-select" aria-label="Gwint" class="bg-surface-soft text-ink text-xs font-semibold rounded-xl pl-3 pr-7 py-2 border border-hairline cursor-pointer focus:outline-none appearance-none" onchange="renderProducts()">
                                     <option value="">Typ gwintu</option>
                                     <option value="2 7/8">2 7/8" IF</option>
                                     <option value="2 3/8">2 3/8" API Reg</option>
@@ -230,7 +231,7 @@
                         <!-- Sortowanie po prawej -->
                         <div class="flex items-center gap-2 self-end sm:self-auto">
                             <span class="text-xs text-steel">Sortuj:</span>
-                            <select id="sort-select" class="text-xs font-bold text-ink-deep bg-surface-soft border border-hairline rounded-xl px-3 py-2 focus:outline-none cursor-pointer" onchange="renderProducts()">
+                            <select id="sort-select" aria-label="Sortowanie produktów" class="text-xs font-bold text-ink-deep bg-surface-soft border border-hairline rounded-xl px-3 py-2 focus:outline-none cursor-pointer" onchange="renderProducts()">
                                 <option value="popular">Domyślnie / Polecane</option>
                                 <option value="price-asc">Cena: od najniższej</option>
                                 <option value="price-desc">Cena: od najwyższej</option>
@@ -298,10 +299,6 @@
         </div>
         <div class="max-w-[1600px] mx-auto px-6 lg:px-8 pt-8 border-t border-hairline-soft flex flex-col sm:flex-row items-center justify-between text-xs text-steel gap-4">
             <p class="footer-copyright-text">&copy; 2026 Narzędzia HDD PL. Wszelkie prawa zastrzeżone.</p>
-            <a href="admin.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-surface-soft border border-hairline hover:border-primary hover:text-primary transition-all font-semibold text-charcoal shadow-sm text-xs" title="Zarządzaj ofertami, cenami i sklepem">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                <span>⚙️ Panel Administratora (CMS)</span>
-            </a>
         </div>
     </footer>
 
@@ -381,7 +378,7 @@
                     deskBtn.className = cat.id === currentCategory ? 'sidebar-link-active' : 'sidebar-link';
                     deskBtn.onclick = () => selectCategory(cat.id);
                     deskBtn.innerHTML = `
-                        <span class="text-left flex-1 mr-2">${cat.name}</span>
+                        <span class="text-left flex-1 mr-2">${htmlText(cat.name)}</span>
                         <span class="text-[11px] bg-surface-soft text-steel px-2 py-0.5 rounded-full flex-shrink-0 font-mono">${count}</span>
                     `;
                     desktopList.appendChild(deskBtn);
@@ -414,7 +411,7 @@
 
             if (options && options.length > 0) {
                 container.classList.remove('hidden');
-                select.innerHTML = '<option value="">Dowolny typ</option>' + options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+                select.innerHTML = '<option value="">Dowolny typ</option>' + options.map(o => `<option value="${o.value}">${htmlText(o.label)}</option>`).join('');
             } else {
                 container.classList.add('hidden');
                 select.innerHTML = '<option value="">Dowolny typ</option>';
@@ -528,7 +525,7 @@
                         <p class="text-body-sm text-steel mb-5">Spróbuj zmienić parametry filtrów, wpisać inną frazę lub skontaktuj się z naszym inżynierem.</p>
                         <div class="flex justify-center gap-3">
                             <button onclick="resetAllFilters()" class="btn-buy-cta text-xs py-2 px-5">Wyczyść filtry</button>
-                            <a href="mailto:inzynier@narzedzia-hdd.pl" class="btn-ghost text-xs">Napisz zapytanie do inżyniera</a>
+                            <a href="#" onclick="event.preventDefault();contactShop()" class="btn-ghost text-xs">Napisz zapytanie do inżyniera</a>
                         </div>
                     </div>
                 `;
@@ -541,25 +538,25 @@
 
                 let badgeHTML = '';
                 if (p.badge) {
-                    badgeHTML = `<div class="absolute top-2 left-2 z-10"><span class="${p.badgeClass}">${p.badge}</span></div>`;
+                    badgeHTML = `<div class="absolute top-2 left-2 z-10"><span class="${htmlText(p.badgeClass)}">${htmlText(p.badge)}</span></div>`;
                 }
 
-                const netPrice = p.price / 1.23;
+                const netPrice = p.price / (1 + SHOP_CONFIG.vatRate);
 
                 card.innerHTML = `
                     <div class="aspect-square bg-[#f7f7f7] rounded-xl p-3 flex items-center justify-center mb-3 relative overflow-hidden w-full">
                         <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="w-full h-full flex items-center justify-center">
-                            <img src="${p.image}" alt="${p.name}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                            <img src="${htmlText(p.image)}" alt="${htmlText(p.name)}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
                         </a>
                         ${badgeHTML}
                     </div>
 
                     <div class="flex-1 flex flex-col">
-                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 min-h-[38px] leading-snug flex items-center">${p.name}</a>
+                        <a href="pdp.html?sku=${encodeURIComponent(p.sku)}" class="text-body-sm-bold text-ink-deep mb-1 hover:text-primary transition-colors line-clamp-2 min-h-[38px] leading-snug flex items-center">${htmlText(p.name)}</a>
                         
                         <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-steel mb-3 flex-1">
                             <span class="font-mono">SKU: ${p.sku}</span>
-                            ${p.thread ? `<span class="bg-surface-soft px-1.5 py-0.5 rounded font-semibold text-charcoal">• ${p.thread}</span>` : ''}
+                            ${p.thread ? `<span class="bg-surface-soft px-1.5 py-0.5 rounded font-semibold text-charcoal">• ${htmlText(p.thread)}</span>` : ''}
                         </div>
                         
                         <div class="flex justify-between items-end mt-auto pt-3 border-t border-hairline-soft/60">
@@ -567,7 +564,7 @@
                                 <span class="block text-[16px] font-bold text-ink-deep leading-tight mb-0.5">${formatPrice(p.price)}</span>
                                 <span class="block text-[11px] text-steel">${formatPrice(netPrice)} netto</span>
                             </div>
-                            <button onclick="addToCart({sku: '${p.sku}', name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="w-9 h-9 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-transform active:scale-95 shadow-sm" title="Dodaj do koszyka">
+                            <button onclick="addSkuToCart('${p.sku}')" class="w-9 h-9 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-deep transition-transform active:scale-95 shadow-sm" title="Dodaj do koszyka">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                             </button>
                         </div>
@@ -594,7 +591,7 @@
                 bar.classList.add('flex');
                 chipsContainer.innerHTML = chips.map((c, i) => `
                     <span class="inline-flex items-center gap-1.5 bg-surface-soft border border-hairline text-ink-deep text-xs font-semibold px-2.5 py-1 rounded-full">
-                        ${c.label}
+                        ${htmlText(c.label)}
                         <button onclick="window.activeFiltersCallbacks[${i}]()" class="hover:text-critical font-bold">×</button>
                     </span>
                 `).join('');
